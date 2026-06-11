@@ -1,0 +1,100 @@
+{
+  "hero": {
+    "title": "Design. Marketing. <span class=\"gradient-text\">Resultados.</span>",
+    "description": "A ARKE Estúdio é uma agência criativa especializada em design gráfico, marketing digital e estratégias de crescimento online.",
+    "primaryBtn": { "text": "Nossos Serviços", "link": "#services" },
+    "secondaryBtn": { "text": "Fale Conosco", "link": "#contact" }
+  },
+  "about": {
+    "title": "Quem <span class=\"gradient-text\">Somos</span>",
+    "description": "Nascemos com o propósito de transformar marcas e negócios por meio de comunicação visual de alto impacto, presença digital estratégica e campanhas orientadas a resultados reais.",
+    "features": [
+      { "icon": "zap", "title": "Agilidade", "description": "Estrutura enxuta nos permite ser rápidos, flexíveis e altamente eficientes." },
+      { "icon": "users", "title": "Atenção Personalizada", "description": "Entregamos qualidade de grandes agências com a proximidade de um time dedicado." }
+    ]
+  },
+  "process": {
+    "title": "Como <span class=\"gradient-text\">Trabalhamos</span>",
+    "description": "Nosso processo é simples, objetivo e colaborativo.",
+    "steps": [
+      { "icon": "message-square", "title": "01. Briefing", "description": "Entendemos o negócio, os objetivos e o público do cliente." },
+      { "icon": "target", "title": "02. Estratégia", "description": "Definimos o melhor caminho criativo e estratégico para o projeto." },
+      { "icon": "pen-tool", "title": "03. Criação", "description": "Desenvolvemos as peças, campanhas ou materiais com atenção aos detalhes." },
+      { "icon": "check-circle", "title": "04. Revisão", "description": "O cliente avalia, sugere ajustes e aprovamos juntos." },
+      { "icon": "rocket", "title": "05. Entrega", "description": "Finalizamos e entregamos no prazo, com suporte pós-entrega." }
+    ]
+  },
+  "services": {
+    "title": "Nossos <span class=\"gradient-text\">Serviços</span>",
+    "description": "Portfólio completo para marcas que desejam crescer no ambiente digital e se destacar visualmente.",
+    "items": [
+      {
+        "icon": "pen-tool",
+        "title": "Design Gráfico",
+        "description": "Criação de identidades visuais, logotipos, materiais institucionais, posts, banners e apresentações."
+      },
+      {
+        "icon": "smartphone",
+        "title": "Social Media",
+        "description": "Gestão completa de redes sociais: planejamento de conteúdo, calendário editorial e publicação."
+      },
+      {
+        "icon": "bar-chart-2",
+        "title": "Marketing Digital",
+        "description": "Estratégias de marketing integrado, funil de vendas e campanhas de conteúdo."
+      },
+      {
+        "icon": "mouse-pointer",
+        "title": "Tráfego Pago",
+        "description": "Criação e gestão de campanhas no Google Ads e Meta Ads com foco em conversão e ROI."
+      },
+      {
+        "icon": "star",
+        "title": "Branding e Posicionamento",
+        "description": "Desenvolvimento e reposicionamento de marcas, desde o naming até a voz no mercado."
+      },
+      {
+        "icon": "compass",
+        "title": "Consultoria em Marketing",
+        "description": "Diagnóstico e planejamento estratégico para estruturar ou melhorar ações de comunicação."
+      }
+    ]
+  },
+  "differentials": {
+    "title": "Nossos <span class=\"gradient-text\">Diferenciais</span>",
+    "description": "Por que escolher a ARKE Estúdio como sua parceira de crescimento.",
+    "items": [
+      { "icon": "users", "title": "Atendimento Próximo", "description": "Sem ficar passando de mão em mão." },
+      { "icon": "eye", "title": "Visão Estratégica", "description": "Equipe especializada em design e marketing integrado." },
+      { "icon": "clock", "title": "Entregas Rápidas", "description": "Compromisso com os prazos acordados." },
+      { "icon": "trending-up", "title": "Foco em Resultados", "description": "Soluções concretas, não apenas estética." },
+      { "icon": "message-circle", "title": "Transparência", "description": "Comunicação clara durante todo o processo." },
+      { "icon": "layers", "title": "Flexibilidade", "description": "Atendemos negócios de diferentes portes e segmentos." }
+    ]
+  },
+  "audience": {
+    "title": "Para Quem <span class=\"gradient-text\">Trabalhamos</span>",
+    "description": "Atendemos marcas, empreendedores e empresas que valorizam design de qualidade e marketing inteligente.",
+    "items": [
+      { "title": "Pequenas e Médias Empresas", "description": "Que querem profissionalizar sua comunicação." },
+      { "title": "Empreendedores e Profissionais Liberais", "description": "Que precisam construir ou fortalecer sua marca." },
+      { "title": "Negócios Locais", "description": "Que desejam crescer sua presença digital." },
+      { "title": "Startups e Novos Negócios", "description": "Que precisam criar uma identidade do zero." },
+      { "title": "Empresas Consolidadas", "description": "Que querem renovar seu posicionamento no mercado." }
+    ]
+  },
+  "culture": {
+    "title": "Nossa <span class=\"gradient-text\">Cultura Interna</span>",
+    "description": "Acreditamos que um time pequeno pode fazer um trabalho grande. Valorizamos o ambiente colaborativo e a evolução constante de cada membro. Aqui, todos têm voz ativa nos projetos e respondem diretamente pelos resultados."
+  },
+  "faq": [
+    { "question": "A ARKE trabalha apenas com design digital?", "answer": "Não. Embora nosso foco forte seja no ambiente digital, criamos e enviamos projetos gráficos prontos para impressão (cartões, banners, papelaria), garantindo excelência em ambas as plataformas." },
+    { "question": "Como funciona o serviço de Social Media?", "answer": "Nós cuidamos de tudo: desde o planejamento estratégico e calendário editorial até a criação do design, redação (copy) e publicação. O cliente sempre aprova o material antes de ir ao ar." },
+    { "question": "Vocês atendem clientes de fora da cidade?", "answer": "Com certeza! Como uma agência digital, atendemos empresas e empreendedores de todo o Brasil (e até do exterior) por meio de reuniões online e acompanhamento remoto." },
+    { "question": "Posso contratar apenas a criação de uma logo?", "answer": "Sim. Trabalhamos com projetos pontuais, como a criação de Identidade Visual (logotipo, paleta, manual da marca), bem como contratos mensais para gestão contínua de marketing." }
+  ],
+  "contact": {
+    "whatsappNumber": "5585992629819",
+    "instagram": "https://instagram.com/arkeestudio"
+  }
+}

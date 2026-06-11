@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arke Estúdio | Design, Marketing & Resultados</title>
+    <meta name="description" content="Agência criativa especializada em design gráfico, marketing digital e estratégias de crescimento online.">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Icons (Lucide) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar" id="navbar">
+        <div class="container nav-container">
+            <a href="#" class="logo">
+                <img src="logo-arke.svg" alt="Arke Estúdio" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div class="logo-text-fallback" style="display:none">
+                    <span class="logo-white">ARK</span><span class="logo-blue">E</span>
+                </div>
+            </a>
+            
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menu">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <nav class="nav-links" id="nav-links">
+                <a href="#hero" class="nav-link">Início</a>
+                <a href="#about" class="nav-link">Quem Somos</a>
+                <a href="#services" class="nav-link">Serviços</a>
+                <a href="#process" class="nav-link">Processo</a>
+                <a href="#differentials" class="nav-link">Diferenciais</a>
+                <a href="#faq" class="nav-link">FAQ</a>
+                <a href="#contact" class="btn btn-outline nav-cta">Fale Conosco</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="hero-background">
+                <div class="orb orb-1"></div>
+                <div class="orb orb-2"></div>
+                <div class="orb orb-3"></div>
+            </div>
+            <div class="container hero-content-wrapper">
+                <div class="hero-text-content">
+                    <h1 class="animate-up" id="hero-title">Design. Marketing. <span class="gradient-text">Resultados.</span></h1>
+                    <p class="animate-up delay-1" id="hero-description">A ARKE Estúdio é uma agência criativa especializada em design gráfico, marketing digital e estratégias de crescimento online.</p>
+                    <div class="hero-actions animate-up delay-2">
+                        <a href="#services" class="btn btn-primary" id="hero-btn-primary">Nossos Serviços</a>
+                        <a href="#contact" class="btn btn-secondary" id="hero-btn-secondary">Fale Conosco</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="about section bg-darker">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 id="about-title">Quem <span class="gradient-text">Somos</span></h2>
+                    <p id="about-description">Nascemos com o propósito de transformar marcas e negócios...</p>
+                </div>
+                <div class="about-grid" id="about-features">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="services section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 id="services-title">Nossos <span class="gradient-text">Serviços</span></h2>
+                    <p id="services-description">Portfólio completo para marcas que desejam crescer no ambiente digital.</p>
+                </div>
+
+                <div class="services-grid" id="services-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Process Section -->
+        <section id="process" class="process section bg-darker">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 id="process-title">Como <span class="gradient-text">Trabalhamos</span></h2>
+                    <p id="process-description">Nosso processo é simples, objetivo e colaborativo.</p>
+                </div>
+
+                <div class="process-timeline" id="process-timeline">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Differentials Section -->
+        <section id="differentials" class="differentials section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 id="differentials-title">Nossos <span class="gradient-text">Diferenciais</span></h2>
+                    <p id="differentials-description">Por que escolher a ARKE Estúdio.</p>
+                </div>
+
+                <div class="differentials-grid" id="differentials-grid">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Audience & Culture Section -->
+        <section id="audience-culture" class="audience-culture section bg-darker">
+            <div class="container">
+                <div class="two-column-grid">
+                    <!-- Audience -->
+                    <div class="audience-col reveal">
+                        <h2 id="audience-title">Para Quem <span class="gradient-text">Trabalhamos</span></h2>
+                        <p id="audience-description" class="mb-4 text-muted"></p>
+                        <ul class="audience-list" id="audience-list">
+                            <!-- Populated by JS -->
+                        </ul>
+                    </div>
+                    <!-- Culture -->
+                    <div class="culture-col reveal delay-1">
+                        <div class="culture-box">
+                            <div class="culture-icon"><i data-lucide="heart"></i></div>
+                            <h2 id="culture-title">Nossa <span class="gradient-text">Cultura Interna</span></h2>
+                            <p id="culture-description"></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section id="faq" class="faq section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2>Perguntas <span class="gradient-text">Frequentes</span></h2>
+                    <p>Tire suas dúvidas rapidamente. Caso não encontre a resposta, fale conosco!</p>
+                </div>
+
+                <div class="faq-container reveal" id="faq-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact/CTA Section -->
+        <section id="contact" class="contact section bg-darker">
+            <div class="container">
+                <div class="contact-box reveal">
+                    <h2>Vamos construir algo incrível juntos?</h2>
+                    <p>Entre em contato hoje mesmo e solicite um diagnóstico para o seu negócio.</p>
+                    <a href="https://wa.me/5585992629819" target="_blank" class="btn btn-primary btn-lg" id="whatsapp-btn">
+                        <i data-lucide="message-circle"></i> Falar no WhatsApp
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="#" class="logo">
+                    <img src="logo-arke.svg" alt="Arke Estúdio" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="logo-text-fallback" style="display:none">
+                        <span class="logo-white">ARK</span><span class="logo-blue">E</span>
+                    </div>
+                </a>
+                <p>Design. Marketing. Resultados. A sua parceira ideal em serviços de marketing digital e comunicação de alto impacto.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h3>Links Rápidos</h3>
+                <a href="#hero">Início</a>
+                <a href="#about">Quem Somos</a>
+                <a href="#services">Serviços</a>
+                <a href="#process">Processo</a>
+            </div>
+
+            <div class="footer-social">
+                <h3>Atendimento</h3>
+                <p class="mb-2 text-muted">WhatsApp: (85) 99262-9819</p>
+                <div class="social-icons">
+                    <a href="https://wa.me/5585992629819" aria-label="WhatsApp" target="_blank"><i data-lucide="message-circle"></i></a>
+                    <a href="https://instagram.com/arkeestudio" aria-label="Instagram" target="_blank" id="footer-ig-link"><i data-lucide="instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Arke Estúdio. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
