@@ -624,12 +624,19 @@
             try {
                 const res = await fetch('/api/data', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-admin-password': passCorrect
+                    },
                     body: JSON.stringify(siteData)
                 });
 
                 if (res.ok) {
                     showToast();
+                } else if (res.status === 401) {
+                    alert('Não autorizado. A senha do admin não confere com a configurada no servidor (ADMIN_PASSWORD).');
+                } else {
+                    alert('Não foi possível salvar. Tente novamente.');
                 }
             } catch (err) {
                 alert('Falha na conexão com o servidor.');
