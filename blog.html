@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | Arke Estúdio</title>
+    <meta name="description" content="Ideias, tendências e estratégias de design, branding e marketing digital pela ARKE Estúdio.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <header class="navbar scrolled" id="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo">
+                <img src="logo-arke.svg" alt="Arke Estúdio" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                <div class="logo-text-fallback" style="display:none">
+                    <span class="logo-white">ARK</span><span class="logo-blue">E</span>
+                </div>
+            </a>
+
+            <button class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Abrir menu">
+                <i data-lucide="menu"></i>
+            </button>
+
+            <nav class="nav-links" id="nav-links">
+                <a href="/#about" class="nav-link">Quem Somos</a>
+                <a href="/#services" class="nav-link">Serviços</a>
+                <a href="/blog" class="nav-link">Blog</a>
+                <a href="/#contact" class="btn btn-outline nav-cta">Fale Conosco</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="blog-main">
+        <section class="blog-hero">
+            <div class="container">
+                <h1>Blog <span class="gradient-text">ARKE</span></h1>
+                <p>Ideias, tendências e estratégias de design e marketing para a sua marca crescer.</p>
+            </div>
+        </section>
+
+        <section class="section" style="padding-top: 2rem;">
+            <div class="container">
+                <div class="posts-grid" id="posts-grid"><!-- preenchido via JS --></div>
+                <div class="blog-empty" id="posts-empty" style="display:none">Nenhum post publicado ainda. Volte em breve!</div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <a href="/" class="logo">
+                    <img src="logo-arke.svg" alt="Arke Estúdio" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+                    <div class="logo-text-fallback" style="display:none">
+                        <span class="logo-white">ARK</span><span class="logo-blue">E</span>
+                    </div>
+                </a>
+                <p>Design. Marketing. Resultados. A sua parceira ideal em serviços de marketing digital e comunicação de alto impacto.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Links Rápidos</h3>
+                <a href="/#hero">Início</a>
+                <a href="/#about">Quem Somos</a>
+                <a href="/#services">Serviços</a>
+                <a href="/blog">Blog</a>
+            </div>
+            <div class="footer-social">
+                <h3>Atendimento</h3>
+                <p class="mb-2 text-muted">WhatsApp: (85) 99262-9819</p>
+                <div class="social-icons">
+                    <a href="https://wa.me/5585992629819" aria-label="WhatsApp" target="_blank"><i data-lucide="message-circle"></i></a>
+                    <a href="https://instagram.com/arkeestudio" aria-label="Instagram" target="_blank"><i data-lucide="instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Arke Estúdio. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script>lucide.createIcons();</script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="blog.js"></script>
+</body>
+</html>

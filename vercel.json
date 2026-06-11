@@ -1,11 +1,14 @@
 {
   "version": 2,
   "builds": [
-    { "src": "api/data.js", "use": "@vercel/node" },
+    { "src": "api/*.js", "use": "@vercel/node" },
     { "src": "index.html", "use": "@vercel/static" },
+    { "src": "blog.html", "use": "@vercel/static" },
+    { "src": "post.html", "use": "@vercel/static" },
     { "src": "admin.html", "use": "@vercel/static" },
     { "src": "styles.css", "use": "@vercel/static" },
     { "src": "script.js", "use": "@vercel/static" },
+    { "src": "blog.js", "use": "@vercel/static" },
     { "src": "data.json", "use": "@vercel/static" },
     { "src": "logo-arke.svg", "use": "@vercel/static" },
     { "src": "logo.png", "use": "@vercel/static" },
@@ -14,7 +17,11 @@
     { "src": "sacola.png", "use": "@vercel/static" }
   ],
   "routes": [
+    { "src": "/api/posts", "dest": "/api/posts.js" },
+    { "src": "/api/upload", "dest": "/api/upload.js" },
     { "src": "/api/data", "dest": "/api/data.js" },
+    { "src": "/blog/?", "dest": "/blog.html" },
+    { "src": "/blog/([^/]+)/?", "dest": "/post.html?slug=$1" },
     { "handle": "filesystem" },
     { "src": "/", "dest": "/index.html" }
   ]

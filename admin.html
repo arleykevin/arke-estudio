@@ -6,6 +6,7 @@
     <title>Dashboard Admin | Arke Estúdio</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <link rel="stylesheet" href="styles.css">
     <style>
         :root {
@@ -302,6 +303,25 @@
 
         #toast.show { transform: translateX(0); }
 
+        /* Blog editor */
+        .blog-editor-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .blog-editor-split textarea { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; line-height: 1.6; resize: vertical; min-height: 360px; }
+        .blog-preview { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 1.2rem; overflow: auto; max-height: 440px; color: #d7dae2; line-height: 1.7; }
+        .blog-preview h1, .blog-preview h2, .blog-preview h3 { margin: 0.8rem 0 0.5rem; color: #fff; }
+        .blog-preview a { color: #18ace3; }
+        .blog-preview img { max-width: 100%; border-radius: 8px; }
+        .blog-preview pre { background: rgba(255,255,255,0.05); padding: 0.8rem; border-radius: 8px; overflow: auto; }
+        .blog-preview blockquote { border-left: 3px solid #0583f2; padding-left: 1rem; color: #9499a7; margin: 1rem 0; }
+        .blog-post-item { display: flex; align-items: center; gap: 1rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 1rem 1.25rem; border-radius: var(--radius-lg); transition: var(--transition); }
+        .blog-post-item:hover { border-color: rgba(0,229,255,0.2); }
+        .post-row-cover { width: 84px; height: 56px; border-radius: 8px; object-fit: cover; background: #000; flex-shrink: 0; }
+        .post-row-main { flex: 1; min-width: 0; }
+        .post-row-main h4 { margin: 0 0 0.3rem; font-size: 1.05rem; color: #fff; }
+        .post-status { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
+        .post-status.published { background: rgba(39,201,63,0.15); color: #27c93f; }
+        .post-status.draft { background: rgba(255,194,51,0.15); color: #ffc233; }
+
+        @media (max-width: 900px) { .blog-editor-split { grid-template-columns: 1fr; } }
         @media (max-width: 768px) {
             .sidebar { width: 80px; padding: 2rem 0.5rem; }
             .sidebar-logo span, .nav-item span { display: none; }
@@ -338,10 +358,8 @@
         </a>
         <nav class="nav-menu">
             <div class="nav-item active" onclick="showTab('hero', this)"><i data-lucide="home"></i> <span>Geral / Hero</span></div>
-            <div class="nav-item" onclick="showTab('kits', this)"><i data-lucide="package"></i> <span>Kits Promocionais</span></div>
-            <div class="nav-item" onclick="showTab('portfolio', this)"><i data-lucide="image"></i> <span>Portfólio</span></div>
             <div class="nav-item" onclick="showTab('faq', this)"><i data-lucide="help-circle"></i> <span>FAQ</span></div>
-            <div class="nav-item" onclick="showTab('testimonials', this)"><i data-lucide="message-square"></i> <span>Depoimentos</span></div>
+            <div class="nav-item" onclick="showTab('blog', this)"><i data-lucide="newspaper"></i> <span>Blog</span></div>
             <div style="margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
                 <a href="index.html" target="_blank" class="nav-item"><i data-lucide="external-link"></i> <span>Ver Site Público</span></a>
             </div>
@@ -377,36 +395,6 @@
             </div>
         </div>
 
-        <!-- Section: Kits -->
-        <div id="tab-kits" class="tab-content" style="display:none">
-            <div class="admin-card">
-                <div class="card-header">
-                    <h2><i data-lucide="package" style="vertical-align: middle; margin-right: 10px; color: var(--admin-accent);"></i> Gerenciar Kits</h2>
-                    <span id="kits-count" class="badge">0 itens</span>
-                </div>
-                <div id="kits-list" class="items-container"></div>
-                <button class="add-item-btn" onclick="addKit()">
-                    <i data-lucide="plus-circle" size="32"></i>
-                    <span>Adicionar Novo Kit Promocional</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Section: Portfolio -->
-        <div id="tab-portfolio" class="tab-content" style="display:none">
-            <div class="admin-card">
-                <div class="card-header">
-                    <h2><i data-lucide="image" style="vertical-align: middle; margin-right: 10px; color: var(--admin-accent);"></i> Vitrine de Trabalhos</h2>
-                    <span id="portfolio-count" class="badge">0 itens</span>
-                </div>
-                <div id="portfolio-list" class="items-container"></div>
-                <button class="add-item-btn" onclick="addPortfolio()">
-                    <i data-lucide="plus-circle" size="32"></i>
-                    <span>Adicionar Item ao Portfólio</span>
-                </button>
-            </div>
-        </div>
-
         <!-- Section: FAQ -->
         <div id="tab-faq" class="tab-content" style="display:none">
             <div class="admin-card">
@@ -421,17 +409,66 @@
             </div>
         </div>
 
-        <!-- Section: Testimonials -->
-        <div id="tab-testimonials" class="tab-content" style="display:none">
-            <div class="admin-card">
+        <!-- Section: Blog -->
+        <div id="tab-blog" class="tab-content" style="display:none">
+            <!-- Lista de posts -->
+            <div id="blog-list-view" class="admin-card">
                 <div class="card-header">
-                    <h2><i data-lucide="message-square" style="vertical-align: middle; margin-right: 10px; color: var(--admin-accent);"></i> Depoimentos</h2>
+                    <h2><i data-lucide="newspaper" style="vertical-align: middle; margin-right: 10px; color: var(--admin-accent);"></i> Posts do Blog</h2>
+                    <button class="btn btn-primary" onclick="newPost()"><i data-lucide="plus"></i> Novo Post</button>
                 </div>
-                <div id="testimonials-list" class="items-container"></div>
-                <button class="add-item-btn" onclick="addTestimonial()">
-                    <i data-lucide="plus-circle" size="32"></i>
-                    <span>Novo Feedback de Cliente</span>
-                </button>
+                <div id="blog-list" class="items-container"></div>
+                <div id="blog-empty" class="text-muted" style="display:none; padding: 1rem 0;">Nenhum post ainda. Clique em "Novo Post" para começar.</div>
+            </div>
+
+            <!-- Editor de post -->
+            <div id="blog-editor-view" class="admin-card" style="display:none">
+                <div class="card-header">
+                    <h2><i data-lucide="edit-3" style="vertical-align: middle; margin-right: 10px; color: var(--admin-accent);"></i> <span id="blog-editor-title">Novo Post</span></h2>
+                    <button class="btn btn-secondary" onclick="cancelEdit()"><i data-lucide="arrow-left"></i> Voltar</button>
+                </div>
+                <input type="hidden" id="post-id">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label><i data-lucide="type"></i> Título</label>
+                        <input type="text" id="post-title" oninput="onTitleInput()" placeholder="Título do post">
+                    </div>
+                    <div class="form-group">
+                        <label><i data-lucide="link"></i> Slug (URL)</label>
+                        <input type="text" id="post-slug" oninput="this.dataset.touched=1" placeholder="titulo-do-post">
+                    </div>
+                    <div class="form-group">
+                        <label><i data-lucide="eye"></i> Status</label>
+                        <select id="post-status">
+                            <option value="draft">Rascunho</option>
+                            <option value="published">Publicado</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label><i data-lucide="image"></i> Imagem de capa</label>
+                        <input type="file" id="post-cover-file" accept="image/*" onchange="uploadCover(this)">
+                        <input type="hidden" id="post-cover-url">
+                        <div id="post-cover-status" class="text-muted" style="font-size: .8rem; margin-top: .4rem;"></div>
+                    </div>
+                    <div class="form-group full-width" id="post-cover-prev-wrap" style="display:none">
+                        <img id="post-cover-prev" alt="Capa" style="max-height: 170px; border-radius: 12px; border: 1px solid rgba(255,255,255,.1);">
+                    </div>
+                    <div class="form-group full-width">
+                        <label><i data-lucide="align-left"></i> Resumo (aparece no card)</label>
+                        <textarea id="post-excerpt" rows="2" placeholder="Um resumo curto do post..."></textarea>
+                    </div>
+                    <div class="form-group full-width">
+                        <label><i data-lucide="file-text"></i> Conteúdo (Markdown)</label>
+                        <div class="blog-editor-split">
+                            <textarea id="post-content" rows="16" oninput="updatePreview()" placeholder="# Título&#10;&#10;Escreva em **markdown**. Use ## para subtítulos, - para listas, [texto](link) para links."></textarea>
+                            <div class="blog-preview" id="post-preview"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex; gap:1rem; margin-top:1rem;">
+                    <button class="btn btn-primary btn-lg" onclick="savePost()"><i data-lucide="save"></i> Salvar Post</button>
+                    <button class="btn btn-secondary" onclick="cancelEdit()">Cancelar</button>
+                </div>
             </div>
         </div>
     </main>
@@ -477,72 +514,37 @@
         function showTab(id, el) {
             document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
             document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
-            
+
             document.getElementById('tab-' + id).style.display = 'block';
             el.classList.add('active');
-            
+
+            if (id === 'blog') showBlogList();
             lucide.createIcons();
         }
 
         function renderAll() {
-            // General
-            document.getElementById('hero-title').value = siteData.hero.title;
-            document.getElementById('hero-desc').value = siteData.hero.description;
-            document.getElementById('contact-wa').value = siteData.contact.whatsappNumber;
-
-            // Kits
-            const kitsList = document.getElementById('kits-list');
-            kitsList.innerHTML = '';
-            siteData.kits.items.forEach((kit, i) => {
-                const row = document.createElement('div');
-                row.className = 'item-row';
-                row.innerHTML = `
-                    <div class="item-preview"><img src="${kit.image || 'logo.png'}" id="kit-img-prev-${i}"></div>
-                    <div class="form-grid">
-                        <div class="form-group"><label>Nome do Kit</label><input type="text" oninput="updateKit(${i}, 'title', this.value)" value="${kit.title}"></div>
-                        <div class="form-group"><label>Imagem (URL/PNG)</label><input type="text" oninput="updateKitImage(${i}, this.value)" value="${kit.image}"></div>
-                        <div class="form-group full-width"><label>Resumo</label><input type="text" oninput="updateKit(${i}, 'description', this.value)" value="${kit.description}"></div>
-                    </div>
-                    <div class="item-actions">
-                        <button class="action-btn btn-delete" onclick="removeKit(${i})"><i data-lucide="trash-2"></i></button>
-                    </div>
-                `;
-                kitsList.appendChild(row);
-            });
-            document.getElementById('kits-count').innerText = siteData.kits.items.length + ' itens';
-
-            // Portfolio
-            const portfolioList = document.getElementById('portfolio-list');
-            portfolioList.innerHTML = '';
-            siteData.portfolio.items.forEach((item, i) => {
-                const row = document.createElement('div');
-                row.className = 'item-row';
-                row.innerHTML = `
-                    <div class="item-preview"><img src="${item.image || 'logo.png'}" id="port-img-prev-${i}"></div>
-                    <div class="form-grid">
-                        <div class="form-group"><label>Título</label><input type="text" oninput="updatePortfolio(${i}, 'title', this.value)" value="${item.title}"></div>
-                        <div class="form-group"><label>Imagem</label><input type="text" oninput="updatePortfolioImage(${i}, this.value)" value="${item.image}"></div>
-                        <div class="form-group full-width"><label>Categoria</label><input type="text" oninput="updatePortfolio(${i}, 'category', this.value)" value="${item.category}"></div>
-                    </div>
-                    <div class="item-actions">
-                        <button class="action-btn btn-delete" onclick="removePortfolio(${i})"><i data-lucide="trash-2"></i></button>
-                    </div>
-                `;
-                portfolioList.appendChild(row);
-            });
-            document.getElementById('portfolio-count').innerText = siteData.portfolio.items.length + ' itens';
+            // Geral / Hero
+            if (siteData.hero) {
+                document.getElementById('hero-title').value = siteData.hero.title || '';
+                document.getElementById('hero-desc').value = siteData.hero.description || '';
+            }
+            if (siteData.contact) {
+                document.getElementById('contact-wa').value = siteData.contact.whatsappNumber || '';
+                const insta = document.getElementById('contact-insta');
+                if (insta) insta.value = siteData.contact.instagram || '';
+            }
 
             // FAQ
             const faqList = document.getElementById('faq-list');
             faqList.innerHTML = '';
-            siteData.faq.forEach((item, i) => {
+            (siteData.faq || []).forEach((item, i) => {
                 const row = document.createElement('div');
                 row.className = 'item-row';
                 row.style.gridTemplateColumns = '1fr';
                 row.innerHTML = `
                     <div class="form-grid" style="grid-template-columns: 1fr">
-                        <div class="form-group"><label>Pergunta</label><input type="text" oninput="updateFAQ(${i}, 'question', this.value)" value="${item.question}"></div>
-                        <div class="form-group"><label>Resposta</label><textarea oninput="updateFAQ(${i}, 'answer', this.value)" rows="3">${item.answer}</textarea></div>
+                        <div class="form-group"><label>Pergunta</label><input type="text" oninput="updateFAQ(${i}, 'question', this.value)" value="${escAttr(item.question)}"></div>
+                        <div class="form-group"><label>Resposta</label><textarea oninput="updateFAQ(${i}, 'answer', this.value)" rows="3">${escHtml(item.answer)}</textarea></div>
                     </div>
                     <div class="item-actions">
                         <button class="action-btn btn-delete" onclick="removeFAQ(${i})"><i data-lucide="trash-2"></i></button>
@@ -551,61 +553,15 @@
                 faqList.appendChild(row);
             });
 
-            // Testimonials
-            const testimonialsList = document.getElementById('testimonials-list');
-            testimonialsList.innerHTML = '';
-            siteData.testimonials.items.forEach((item, i) => {
-                const row = document.createElement('div');
-                row.className = 'item-row';
-                row.style.gridTemplateColumns = '1fr';
-                row.innerHTML = `
-                    <div class="form-grid">
-                        <div class="form-group"><label>Nome do Cliente</label><input type="text" oninput="updateTestimonial(${i}, 'name', this.value)" value="${item.name}"></div>
-                        <div class="form-group"><label>Empresa/Cargo</label><input type="text" oninput="updateTestimonial(${i}, 'role', this.value)" value="${item.role}"></div>
-                        <div class="form-group full-width"><label>Relato</label><textarea oninput="updateTestimonial(${i}, 'text', this.value)" rows="3">${item.text}</textarea></div>
-                    </div>
-                    <div class="item-actions">
-                        <button class="action-btn btn-delete" onclick="removeTestimonial(${i})"><i data-lucide="trash-2"></i></button>
-                    </div>
-                `;
-                testimonialsList.appendChild(row);
-            });
-
             lucide.createIcons();
         }
 
-        // Live Image Previews
-        function updateKitImage(i, val) {
-            siteData.kits.items[i].image = val;
-            document.getElementById(`kit-img-prev-${i}`).src = val || 'logo.png';
-        }
-        function updatePortfolioImage(i, val) {
-            siteData.portfolio.items[i].image = val;
-            document.getElementById(`port-img-prev-${i}`).src = val || 'logo.png';
-        }
-
-        // Update Handlers
-        function updateKit(i, k, v) { siteData.kits.items[i][k] = v; }
-        function addKit() { 
-            siteData.kits.items.push({ title: "Novo Kit", description: "Descrição...", image: "caneca.png", features: ["Item 1"], whatsappText: "Olá..." });
-            renderAll();
-        }
-        function removeKit(i) { siteData.kits.items.splice(i, 1); renderAll(); }
-
-        function updatePortfolio(i, k, v) { siteData.portfolio.items[i][k] = v; }
-        function addPortfolio() { 
-            siteData.portfolio.items.push({ title: "Novo Trabalho", category: "Sublimação", image: "caneca.png" });
-            renderAll();
-        }
-        function removePortfolio(i) { siteData.portfolio.items.splice(i, 1); renderAll(); }
-
         function updateFAQ(i, k, v) { siteData.faq[i][k] = v; }
-        function addFAQ() { siteData.faq.push({ question: "Nova Pergunta?", answer: "Resposta..." }); renderAll(); }
+        function addFAQ() { if (!siteData.faq) siteData.faq = []; siteData.faq.push({ question: "Nova Pergunta?", answer: "Resposta..." }); renderAll(); }
         function removeFAQ(i) { siteData.faq.splice(i, 1); renderAll(); }
 
-        function updateTestimonial(i, k, v) { siteData.testimonials.items[i][k] = v; }
-        function addTestimonial() { siteData.testimonials.items.push({ name: "Cliente", role: "Arke", text: "...", stars: 5 }); renderAll(); }
-        function removeTestimonial(i) { siteData.testimonials.items.splice(i, 1); renderAll(); }
+        function escHtml(s){ return String(s == null ? '' : s).replace(/[&<>]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;' }[c])); }
+        function escAttr(s){ return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
         async function saveData() {
             const btn = document.getElementById('save-btn');
@@ -617,9 +573,13 @@
             lucide.createIcons();
 
             // Collect static fields
+            if (!siteData.hero) siteData.hero = {};
+            if (!siteData.contact) siteData.contact = {};
             siteData.hero.title = document.getElementById('hero-title').value;
             siteData.hero.description = document.getElementById('hero-desc').value;
             siteData.contact.whatsappNumber = document.getElementById('contact-wa').value;
+            const instaEl = document.getElementById('contact-insta');
+            if (instaEl) siteData.contact.instagram = instaEl.value;
 
             try {
                 const res = await fetch('/api/data', {
@@ -652,6 +612,194 @@
             const toast = document.getElementById('toast');
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        /* ===================== Blog ===================== */
+        let editingId = null;
+
+        function authHeaders(json) {
+            const h = { 'x-admin-password': passCorrect };
+            if (json) h['Content-Type'] = 'application/json';
+            return h;
+        }
+
+        function slugify(s) {
+            return String(s).toLowerCase().trim()
+                .normalize('NFD').replace(/[̀-ͯ]/g, '')
+                .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+        }
+
+        function showBlogList() {
+            document.getElementById('blog-editor-view').style.display = 'none';
+            document.getElementById('blog-list-view').style.display = 'block';
+            loadPosts();
+        }
+
+        async function loadPosts() {
+            const list = document.getElementById('blog-list');
+            const empty = document.getElementById('blog-empty');
+            try {
+                const res = await fetch('/api/posts?all=1', { headers: authHeaders() });
+                if (!res.ok) throw new Error();
+                const posts = await res.json();
+                if (!posts.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
+                empty.style.display = 'none';
+                list.innerHTML = posts.map(p => `
+                    <div class="blog-post-item">
+                        <img class="post-row-cover" src="${p.cover_url || 'logo-arke.svg'}" onerror="this.src='logo-arke.svg'">
+                        <div class="post-row-main">
+                            <h4>${escHtml(p.title)}</h4>
+                            <div style="display:flex; gap:.6rem; align-items:center; flex-wrap:wrap;">
+                                <span class="post-status ${p.status}">${p.status === 'published' ? 'Publicado' : 'Rascunho'}</span>
+                                <span class="text-muted" style="font-size:.82rem;">/blog/${escHtml(p.slug)}</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:.5rem;">
+                            <button class="action-btn" style="background:rgba(0,229,255,.1);color:#18ace3" title="Editar" onclick="editPost('${p.slug}')"><i data-lucide="edit-2"></i></button>
+                            <button class="action-btn btn-delete" title="Excluir" onclick="confirmDeletePost('${p.id}','${escAttr(p.title)}')"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    </div>`).join('');
+                lucide.createIcons();
+            } catch (e) {
+                list.innerHTML = '<p class="text-muted">Não foi possível carregar os posts.</p>';
+            }
+        }
+
+        function newPost() {
+            editingId = null;
+            document.getElementById('blog-editor-title').textContent = 'Novo Post';
+            document.getElementById('post-id').value = '';
+            document.getElementById('post-title').value = '';
+            const slugEl = document.getElementById('post-slug');
+            slugEl.value = ''; delete slugEl.dataset.touched;
+            document.getElementById('post-status').value = 'draft';
+            document.getElementById('post-excerpt').value = '';
+            document.getElementById('post-content').value = '';
+            document.getElementById('post-cover-url').value = '';
+            document.getElementById('post-cover-status').textContent = '';
+            setCoverPreview('');
+            updatePreview();
+            document.getElementById('blog-list-view').style.display = 'none';
+            document.getElementById('blog-editor-view').style.display = 'block';
+            lucide.createIcons();
+        }
+
+        async function editPost(slug) {
+            try {
+                const res = await fetch('/api/posts?slug=' + encodeURIComponent(slug), { headers: authHeaders() });
+                if (!res.ok) throw new Error();
+                const p = await res.json();
+                editingId = p.id;
+                document.getElementById('blog-editor-title').textContent = 'Editar Post';
+                document.getElementById('post-id').value = p.id;
+                document.getElementById('post-title').value = p.title || '';
+                const slugEl = document.getElementById('post-slug');
+                slugEl.value = p.slug || ''; slugEl.dataset.touched = '1';
+                document.getElementById('post-status').value = p.status || 'draft';
+                document.getElementById('post-excerpt').value = p.excerpt || '';
+                document.getElementById('post-content').value = p.content || '';
+                document.getElementById('post-cover-url').value = p.cover_url || '';
+                document.getElementById('post-cover-status').textContent = '';
+                setCoverPreview(p.cover_url || '');
+                updatePreview();
+                document.getElementById('blog-list-view').style.display = 'none';
+                document.getElementById('blog-editor-view').style.display = 'block';
+                lucide.createIcons();
+            } catch (e) { alert('Erro ao carregar o post.'); }
+        }
+
+        function cancelEdit() { showBlogList(); }
+
+        function onTitleInput() {
+            const slugEl = document.getElementById('post-slug');
+            if (!editingId && !slugEl.dataset.touched) {
+                slugEl.value = slugify(document.getElementById('post-title').value);
+            }
+        }
+
+        function setCoverPreview(url) {
+            const wrap = document.getElementById('post-cover-prev-wrap');
+            const img = document.getElementById('post-cover-prev');
+            if (url) { img.src = url; wrap.style.display = 'block'; }
+            else { img.removeAttribute('src'); wrap.style.display = 'none'; }
+        }
+
+        function updatePreview() {
+            const md = document.getElementById('post-content').value || '';
+            document.getElementById('post-preview').innerHTML = window.marked ? marked.parse(md) : escHtml(md);
+        }
+
+        function downscaleImage(file, maxW, quality) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                const img = new Image();
+                reader.onload = () => { img.src = reader.result; };
+                reader.onerror = reject;
+                img.onload = () => {
+                    const scale = Math.min(1, maxW / img.width);
+                    const w = Math.round(img.width * scale);
+                    const h = Math.round(img.height * scale);
+                    const canvas = document.createElement('canvas');
+                    canvas.width = w; canvas.height = h;
+                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+                    resolve(canvas.toDataURL('image/jpeg', quality));
+                };
+                img.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function uploadCover(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            const statusEl = document.getElementById('post-cover-status');
+            statusEl.textContent = 'Otimizando e enviando...';
+            try {
+                const dataUrl = await downscaleImage(file, 1600, 0.85);
+                const res = await fetch('/api/upload', {
+                    method: 'POST', headers: authHeaders(true),
+                    body: JSON.stringify({ filename: file.name, dataUrl })
+                });
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || '');
+                document.getElementById('post-cover-url').value = data.url;
+                setCoverPreview(data.url);
+                statusEl.textContent = 'Imagem enviada ✓';
+            } catch (e) {
+                statusEl.textContent = 'Falha ao enviar a imagem.';
+            } finally { input.value = ''; }
+        }
+
+        async function savePost() {
+            const title = document.getElementById('post-title').value.trim();
+            let slug = document.getElementById('post-slug').value.trim();
+            if (!title) { alert('Informe o título do post.'); return; }
+            if (!slug) { slug = slugify(title); document.getElementById('post-slug').value = slug; }
+
+            const payload = {
+                id: editingId || undefined,
+                title, slug,
+                status: document.getElementById('post-status').value,
+                excerpt: document.getElementById('post-excerpt').value,
+                content: document.getElementById('post-content').value,
+                cover_url: document.getElementById('post-cover-url').value
+            };
+            try {
+                const res = await fetch('/api/posts', { method: 'POST', headers: authHeaders(true), body: JSON.stringify(payload) });
+                const data = await res.json();
+                if (!res.ok) { alert(data.error || 'Erro ao salvar o post.'); return; }
+                showToast();
+                showBlogList();
+            } catch (e) { alert('Falha na conexão com o servidor.'); }
+        }
+
+        async function confirmDeletePost(id, title) {
+            if (!confirm('Excluir o post "' + title + '"? Esta ação não pode ser desfeita.')) return;
+            try {
+                const res = await fetch('/api/posts?id=' + encodeURIComponent(id), { method: 'DELETE', headers: authHeaders() });
+                if (!res.ok) { alert('Erro ao excluir o post.'); return; }
+                loadPosts();
+            } catch (e) { alert('Falha na conexão com o servidor.'); }
         }
     </script>
 </body>
