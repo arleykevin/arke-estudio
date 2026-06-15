@@ -15,6 +15,17 @@
             --admin-surface: rgba(20, 20, 25, 0.8);
             --admin-accent: #00e5ff;
             --admin-primary: #0070f3;
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 20px;
+            --radius-full: 999px;
+            --border-glass: 1px solid rgba(255, 255, 255, 0.08);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --color-text-muted: #9499a7;
+            --color-secondary: #eceef3;
+            --color-white: #ffffff;
+            --font-secondary: 'Inter', sans-serif;
+            --font-primary: 'Outfit', sans-serif;
         }
 
         body { 
@@ -23,6 +34,19 @@
             display: flex; 
             min-height: 100vh;
             font-family: var(--font-secondary);
+            color: var(--color-secondary);
+        }
+
+        /* Ambient background glow */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: 
+                radial-gradient(800px circle at 80% 20%, rgba(0, 229, 255, 0.05), transparent 50%),
+                radial-gradient(600px circle at 20% 80%, rgba(0, 112, 243, 0.05), transparent 50%);
+            pointer-events: none;
         }
 
         /* Sidebar Styles */
@@ -41,6 +65,7 @@
         .sidebar-logo {
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 10px;
             margin-bottom: 3rem;
             text-decoration: none;
@@ -64,6 +89,7 @@
             cursor: pointer;
             transition: var(--transition);
             border: 1px solid transparent;
+            position: relative;
         }
 
         .nav-item:hover {
@@ -72,9 +98,22 @@
         }
 
         .nav-item.active {
-            background: rgba(0, 112, 243, 0.1);
+            background: rgba(0, 229, 255, 0.05);
             color: var(--admin-accent);
-            border-color: rgba(0, 229, 255, 0.2);
+            border-color: rgba(0, 229, 255, 0.15);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.05) inset;
+        }
+        
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 20%;
+            height: 60%;
+            width: 3px;
+            background: var(--admin-accent);
+            border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+            box-shadow: 0 0 10px var(--admin-accent);
         }
 
         /* Main Content */
@@ -82,7 +121,7 @@
             flex: 1;
             margin-left: 260px;
             padding: 3rem;
-            max-width: 1100px;
+            max-width: 1200px;
         }
 
         .admin-card {
@@ -93,6 +132,7 @@
             backdrop-filter: blur(20px);
             box-shadow: 0 20px 50px rgba(0,0,0,0.3);
             animation: fadeIn 0.5s ease-out;
+            margin-bottom: 2rem;
         }
 
         @keyframes fadeIn {
@@ -106,7 +146,84 @@
             align-items: center;
             margin-bottom: 2rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 1rem;
+            padding-bottom: 1.2rem;
+        }
+        
+        .card-header h2 {
+            font-family: var(--font-primary);
+            font-size: 1.6rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            padding: 1.25rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            transition: var(--transition);
+        }
+
+        .stat-card:hover {
+            border-color: rgba(0, 229, 255, 0.2);
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateY(-2px);
+        }
+
+        .stat-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            background: rgba(0, 229, 255, 0.08);
+            color: var(--admin-accent);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .stat-card:nth-child(2) .stat-icon {
+            background: rgba(39, 201, 63, 0.08);
+            color: #27c93f;
+        }
+        
+        .stat-card:nth-child(3) .stat-icon {
+            background: rgba(255, 194, 51, 0.08);
+            color: #ffc233;
+        }
+
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .stat-info h3 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.2;
+            font-family: var(--font-primary);
+        }
+
+        .stat-info p {
+            margin: 0.2rem 0 0;
+            font-size: 0.82rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         /* Form Controls */
@@ -126,7 +243,7 @@
             margin-bottom: 0.75rem; 
             color: var(--color-secondary); 
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -139,17 +256,50 @@
             border-radius: var(--radius-md); 
             color: white; 
             font-family: inherit;
+            font-size: 0.95rem;
             transition: var(--transition);
         }
 
-        input:focus, textarea:focus {
+        input:focus, textarea:focus, select:focus {
             border-color: var(--admin-accent);
             background: rgba(0, 0, 0, 0.5);
             outline: none;
             box-shadow: 0 0 15px rgba(0, 229, 255, 0.1);
         }
 
-        /* Items Management */
+        /* Slug input styling with lock button */
+        .slug-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .slug-container input {
+            padding-right: 3rem;
+        }
+
+        .slug-lock-btn {
+            position: absolute;
+            right: 12px;
+            background: transparent;
+            border: none;
+            color: var(--color-text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6px;
+            border-radius: 6px;
+            z-index: 10;
+        }
+
+        .slug-lock-btn:hover {
+            color: var(--admin-accent);
+            background: rgba(255,255,255,0.05);
+        }
+
+        /* Items Management (FAQ) */
         .items-container {
             display: flex;
             flex-direction: column;
@@ -164,31 +314,13 @@
             position: relative;
             transition: var(--transition);
             display: grid;
-            grid-template-columns: 120px 1fr;
+            grid-template-columns: 1fr;
             gap: 2rem;
         }
 
         .item-row:hover {
             border-color: rgba(0, 229, 255, 0.2);
             background: rgba(255, 255, 255, 0.04);
-        }
-
-        .item-preview {
-            width: 120px;
-            height: 120px;
-            border-radius: var(--radius-md);
-            background: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .item-preview img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
         }
 
         .item-actions {
@@ -212,7 +344,7 @@
         }
 
         .btn-delete { background: rgba(255, 77, 77, 0.1); color: #ff4d4d; }
-        .btn-delete:hover { background: #ff4d4d; color: white; }
+        .btn-delete:hover { background: #ff4d4d; color: white; box-shadow: 0 0 10px rgba(255, 77, 77, 0.3); }
 
         .add-item-btn {
             background: transparent;
@@ -232,7 +364,7 @@
         .add-item-btn:hover {
             border-color: var(--admin-accent);
             color: var(--admin-accent);
-            background: rgba(0, 229, 255, 0.05);
+            background: rgba(0, 229, 255, 0.03);
         }
 
         /* Save Bar */
@@ -247,14 +379,15 @@
         }
 
         .save-indicator {
-            background: rgba(10, 10, 12, 0.8);
-            padding: 0.5rem 1.5rem;
+            background: rgba(10, 10, 12, 0.9);
+            padding: 0.6rem 1.5rem;
             border-radius: var(--radius-full);
             font-size: 0.85rem;
             color: var(--admin-accent);
             opacity: 0;
             transition: var(--transition);
             border: var(--border-glass);
+            backdrop-filter: blur(10px);
         }
 
         .save-indicator.active { opacity: 1; }
@@ -269,6 +402,7 @@
             align-items: center; 
             justify-content: center;
             background: radial-gradient(circle at center, #1a1a24 0%, #050508 100%);
+            transition: opacity 0.5s ease;
         }
 
         .login-box {
@@ -292,54 +426,473 @@
             background: #00c853;
             color: white;
             border-radius: var(--radius-md);
-            transform: translateX(200%);
+            transform: translateY(-200%);
             transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-            z-index: 1000;
+            z-index: 2200;
             display: flex;
             align-items: center;
             gap: 10px;
             box-shadow: 0 10px 30px rgba(0, 200, 83, 0.3);
+            font-weight: 500;
         }
 
-        #toast.show { transform: translateX(0); }
+        #toast.show { transform: translateY(0); }
+        #toast.error { background: #ff4d4d; box-shadow: 0 10px 30px rgba(255, 77, 77, 0.3); }
 
-        /* Blog editor */
-        .blog-editor-split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-        .blog-editor-split textarea { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; line-height: 1.6; resize: vertical; min-height: 360px; }
-        .blog-preview { background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--radius-md); padding: 1.2rem; overflow: auto; max-height: 440px; color: #d7dae2; line-height: 1.7; }
-        .blog-preview h1, .blog-preview h2, .blog-preview h3 { margin: 0.8rem 0 0.5rem; color: #fff; }
-        .blog-preview a { color: #18ace3; }
-        .blog-preview img { max-width: 100%; border-radius: 8px; }
-        .blog-preview pre { background: rgba(255,255,255,0.05); padding: 0.8rem; border-radius: 8px; overflow: auto; }
-        .blog-preview blockquote { border-left: 3px solid #0583f2; padding-left: 1rem; color: #9499a7; margin: 1rem 0; }
-        .blog-post-item { display: flex; align-items: center; gap: 1rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 1rem 1.25rem; border-radius: var(--radius-lg); transition: var(--transition); }
-        .blog-post-item:hover { border-color: rgba(0,229,255,0.2); }
-        .post-row-cover { width: 84px; height: 56px; border-radius: 8px; object-fit: cover; background: #000; flex-shrink: 0; }
+        /* Markdown Toolbar */
+        .markdown-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.2rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: none;
+            padding: 0.5rem;
+            border-top-left-radius: var(--radius-md);
+            border-top-right-radius: var(--radius-md);
+            align-items: center;
+        }
+        
+        .toolbar-btn {
+            background: transparent;
+            border: none;
+            color: var(--color-text-muted);
+            width: 34px;
+            height: 34px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        
+        .toolbar-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--admin-accent);
+        }
+
+        .toolbar-separator {
+            width: 1px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 0.3rem;
+        }
+
+        /* Blog Editor & Preview Split */
+        .blog-editor-split { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 1rem; 
+        }
+
+        .blog-editor-split textarea { 
+            font-family: ui-monospace, SFMono-Regular, Menlo, monospace; 
+            line-height: 1.6; 
+            resize: vertical; 
+            min-height: 400px; 
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+        }
+
+        .blog-preview { 
+            background: rgba(0,0,0,0.3); 
+            border: 1px solid rgba(255,255,255,0.1); 
+            border-radius: var(--radius-md); 
+            padding: 1.5rem; 
+            overflow: auto; 
+            max-height: 485px; 
+            color: #d7dae2; 
+            line-height: 1.75; 
+        }
+
+        .blog-preview h1, .blog-preview h2, .blog-preview h3, .blog-preview h4 { 
+            margin: 1.5rem 0 0.8rem; 
+            color: #fff; 
+            font-family: var(--font-primary);
+        }
+        .blog-preview h1 { font-size: 1.8rem; }
+        .blog-preview h2 { font-size: 1.4rem; }
+        .blog-preview h3 { font-size: 1.2rem; }
+        .blog-preview p { margin-bottom: 1rem; }
+        .blog-preview a { color: var(--admin-accent); text-decoration: underline; }
+        .blog-preview img { max-width: 100%; border-radius: 8px; margin: 1rem 0; }
+        .blog-preview pre { background: rgba(255,255,255,0.05); padding: 1rem; border-radius: 8px; overflow: auto; margin: 1rem 0; }
+        .blog-preview code { font-family: ui-monospace, SFMono-Regular, monospace; font-size: 0.9em; background: rgba(255,255,255,0.1); padding: 0.15rem 0.3rem; border-radius: 4px; }
+        .blog-preview pre code { background: none; padding: 0; }
+        .blog-preview blockquote { border-left: 3px solid var(--admin-accent); padding-left: 1.2rem; color: #9499a7; margin: 1.5rem 0; font-style: italic; }
+        .blog-preview ul, .blog-preview ol { margin: 0 0 1rem 1.5rem; }
+        .blog-preview li { margin-bottom: 0.4rem; }
+
+        /* Drag & Drop Cover Upload */
+        .cover-upload-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-md);
+            padding: 2.2rem;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .cover-upload-zone.dragover {
+            border-color: var(--admin-accent);
+            background: rgba(0, 229, 255, 0.05);
+            color: var(--color-white);
+        }
+
+        .cover-upload-zone input[type="file"] {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0;
+            cursor: pointer;
+            z-index: 5;
+        }
+
+        .cover-upload-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.6rem;
+            color: var(--color-text-muted);
+            pointer-events: none;
+        }
+
+        .cover-upload-content i {
+            color: var(--admin-accent);
+            transition: transform 0.3s ease;
+        }
+
+        .cover-upload-zone:hover .cover-upload-content i {
+            transform: translateY(-4px);
+        }
+
+        .cover-preview-container {
+            position: relative;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 1rem;
+            max-height: 220px;
+        }
+
+        .cover-preview-container img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .remove-cover-btn {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: rgba(255, 77, 77, 0.9);
+            border: none;
+            color: white;
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            z-index: 10;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+
+        .remove-cover-btn:hover {
+            background: #ff4d4d;
+            transform: scale(1.1);
+        }
+
+        /* Reading stats */
+        .editor-stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+            font-size: 0.82rem;
+            color: var(--color-text-muted);
+        }
+
+        .editor-stat-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        /* Markdown Guide */
+        .markdown-guide {
+            margin-top: 1.5rem;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+        }
+
+        .guide-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--admin-accent);
+            user-select: none;
+        }
+
+        .guide-content {
+            margin-top: 0.8rem;
+            display: none;
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding-top: 0.8rem;
+        }
+
+        .guide-content.active {
+            display: block;
+        }
+
+        .guide-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem 1.5rem;
+        }
+        
+        .guide-item code {
+            background: rgba(255,255,255,0.05);
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+            color: var(--admin-accent);
+        }
+
+        /* Custom Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(5, 5, 8, 0.85);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: var(--admin-sidebar);
+            border: var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 2.5rem;
+            max-width: 450px;
+            width: 90%;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+            transform: scale(0.9);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            text-align: center;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1);
+        }
+
+        .modal-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: rgba(255, 77, 77, 0.1);
+            color: #ff4d4d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .modal-box h3 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            margin: 0 0 0.8rem;
+        }
+
+        .modal-box p {
+            color: var(--color-text-muted);
+            margin: 0 0 2rem;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        /* Post Item Rows */
+        .blog-post-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 1.5rem; 
+            background: rgba(255,255,255,0.01); 
+            border: 1px solid rgba(255,255,255,0.04); 
+            padding: 1.25rem 1.5rem; 
+            border-radius: var(--radius-lg); 
+            transition: var(--transition); 
+        }
+
+        .blog-post-item:hover { 
+            border-color: rgba(0,229,255,0.15); 
+            background: rgba(255,255,255,0.03);
+            transform: translateY(-2px);
+        }
+
+        .post-row-cover { 
+            width: 90px; 
+            height: 60px; 
+            border-radius: 8px; 
+            object-fit: cover; 
+            background: #000; 
+            flex-shrink: 0; 
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
         .post-row-main { flex: 1; min-width: 0; }
-        .post-row-main h4 { margin: 0 0 0.3rem; font-size: 1.05rem; color: #fff; }
-        .post-status { font-size: 0.72rem; padding: 0.15rem 0.6rem; border-radius: 999px; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 600; }
-        .post-status.published { background: rgba(39,201,63,0.15); color: #27c93f; }
-        .post-status.draft { background: rgba(255,194,51,0.15); color: #ffc233; }
 
-        @media (max-width: 900px) { .blog-editor-split { grid-template-columns: 1fr; } }
+        .post-row-main h4 { 
+            margin: 0 0 0.4rem; 
+            font-size: 1.1rem; 
+            color: #fff; 
+            font-family: var(--font-primary);
+            font-weight: 600;
+        }
+
+        .post-status { 
+            font-size: 0.72rem; 
+            padding: 0.15rem 0.6rem; 
+            border-radius: 999px; 
+            text-transform: uppercase; 
+            letter-spacing: 0.05em; 
+            font-weight: 600; 
+        }
+
+        .post-status.published { background: rgba(39,201,63,0.12); color: #27c93f; border: 1px solid rgba(39,201,63,0.2); }
+        .post-status.draft { background: rgba(255,194,51,0.12); color: #ffc233; border: 1px solid rgba(255,194,51,0.2); }
+
+        /* General button text fonts */
+        .btn {
+            font-family: var(--font-primary);
+        }
+
+        @media (max-width: 1000px) { 
+            .blog-editor-split { grid-template-columns: 1fr; } 
+            .blog-preview { max-height: 350px; }
+        }
+
         @media (max-width: 768px) {
             .sidebar { width: 80px; padding: 2rem 0.5rem; }
             .sidebar-logo span, .nav-item span { display: none; }
             .main-content { margin-left: 80px; padding: 1.5rem; }
             .form-grid { grid-template-columns: 1fr; }
             .item-row { grid-template-columns: 1fr; }
-            .item-preview { width: 100%; height: 150px; }
+            .stats-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Filter Bar */
+        .filter-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            background: rgba(255, 255, 255, 0.01);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            align-items: center;
+        }
+
+        .filter-search-wrap {
+            flex: 1;
+            min-width: 240px;
+            position: relative;
+        }
+
+        .filter-search-wrap input {
+            padding-left: 2.5rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .filter-search-wrap i {
+            position: absolute;
+            left: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 18px;
+            height: 18px;
+            color: var(--color-text-muted);
+            pointer-events: none;
+        }
+        
+        .filter-date-group {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-width: 320px;
+        }
+        
+        .filter-date-group input {
+            padding: 0.75rem;
+            font-size: 0.9rem;
+            font-family: inherit;
+        }
+        
+        .filter-status-select {
+            width: 140px;
+            min-width: 120px;
+        }
+        
+        .filter-status-select select {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
         }
     </style>
 </head>
 <body>
 
     <!-- Toast Notification -->
-    <div id="toast"><i data-lucide="check-circle"></i> Alterações salvas com sucesso!</div>
+    <div id="toast">Alterações salvas com sucesso!</div>
 
+    <!-- Custom Confirm Modal -->
+    <div id="confirm-modal" class="modal-overlay">
+        <div class="modal-box">
+            <div class="modal-icon"><i data-lucide="alert-triangle"></i></div>
+            <h3 id="confirm-title">Confirmar Ação</h3>
+            <p id="confirm-message">Você tem certeza que deseja realizar esta operação?</p>
+            <div class="modal-buttons">
+                <button id="confirm-cancel" class="btn btn-secondary">Cancelar</button>
+                <button id="confirm-ok" class="btn btn-primary" style="background:#ff4d4d; border-color:#ff4d4d; box-shadow: 0 8px 20px -8px rgba(255,77,77,0.6);">Confirmar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login overlay -->
     <div id="login-overlay">
         <div class="login-box">
-            <img src="logo-arke.svg" alt="Arke" style="height: 56px; margin-bottom: 2rem;">
+            <img src="logo-arke.svg" alt="Arke" style="height: 56px; margin-bottom: 2rem; margin-left: auto; margin-right: auto;">
             <h2 style="font-family: var(--font-primary); font-size: 2rem; margin-bottom: 1rem;">Admin Access</h2>
             <p style="margin-bottom: 2.5rem; color: var(--color-text-muted);">Entre com sua senha para gerenciar o estúdio.</p>
             <div class="form-group">
@@ -371,25 +924,44 @@
         <div id="tab-hero" class="tab-content active">
             <div class="admin-card">
                 <div class="card-header">
-                    <h2><i data-lucide="layout" style="vertical-align: middle; margin-right: 10px; color: var(--admin-accent);"></i> Configurações Gerais</h2>
+                    <h2><i data-lucide="layout" style="color: var(--admin-accent);"></i> Configurações Gerais</h2>
                     <span class="text-muted">Ajuste os textos principais e contatos</span>
                 </div>
+                
+                <!-- Stats Grid (Hero) -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i data-lucide="shield-check"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-status">Conectado</h3>
+                            <p>Status do Servidor</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i data-lucide="refresh-cw"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-last-sync">-</h3>
+                            <p>Última Sincronização</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-grid">
                     <div class="form-group full-width">
                         <label><i data-lucide="type"></i> Título da Hero (HTML permitido)</label>
-                        <input type="text" id="hero-title" placeholder="Ex: Imagine. Crie. Transforme.">
+                        <input type="text" id="hero-title" oninput="markGeneralUnsaved()" placeholder="Ex: Imagine. Crie. Transforme.">
                     </div>
                     <div class="form-group full-width">
                         <label><i data-lucide="align-left"></i> Descrição da Hero</label>
-                        <textarea id="hero-desc" rows="4" placeholder="Descreva brevemente sua empresa..."></textarea>
+                        <textarea id="hero-desc" oninput="markGeneralUnsaved()" rows="4" placeholder="Descreva brevemente sua empresa..."></textarea>
                     </div>
                     <div class="form-group">
                         <label><i data-lucide="phone"></i> WhatsApp de Contato</label>
-                        <input type="text" id="contact-wa" placeholder="5585999999999">
+                        <input type="text" id="contact-wa" oninput="markGeneralUnsaved()" placeholder="5585999999999">
                     </div>
                     <div class="form-group">
                         <label><i data-lucide="link"></i> Instagram (Link)</label>
-                        <input type="text" id="contact-insta" placeholder="https://instagram.com/perfil">
+                        <input type="text" id="contact-insta" oninput="markGeneralUnsaved()" placeholder="https://instagram.com/perfil">
                     </div>
                 </div>
             </div>
@@ -399,8 +971,20 @@
         <div id="tab-faq" class="tab-content" style="display:none">
             <div class="admin-card">
                 <div class="card-header">
-                    <h2><i data-lucide="help-circle" style="vertical-align: middle; margin-right: 10px; color: var(--admin-accent);"></i> Central de Dúvidas</h2>
+                    <h2><i data-lucide="help-circle" style="color: var(--admin-accent);"></i> Central de Dúvidas</h2>
                 </div>
+
+                <!-- Stats Grid (FAQ) -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i data-lucide="help-circle"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-faq-count">0</h3>
+                            <p>Perguntas Cadastradas</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div id="faq-list" class="items-container"></div>
                 <button class="add-item-btn" onclick="addFAQ()">
                     <i data-lucide="plus-circle" size="32"></i>
@@ -414,9 +998,56 @@
             <!-- Lista de posts -->
             <div id="blog-list-view" class="admin-card">
                 <div class="card-header">
-                    <h2><i data-lucide="newspaper" style="vertical-align: middle; margin-right: 10px; color: var(--admin-accent);"></i> Posts do Blog</h2>
+                    <h2><i data-lucide="newspaper" style="color: var(--admin-accent);"></i> Posts do Blog</h2>
                     <button class="btn btn-primary" onclick="newPost()"><i data-lucide="plus"></i> Novo Post</button>
                 </div>
+
+                <!-- Stats Grid (Blog) -->
+                <div class="stats-grid" id="blog-stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i data-lucide="files"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-blog-total">0</h3>
+                            <p>Total de Posts</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i data-lucide="check-circle-2"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-blog-published">0</h3>
+                            <p>Publicados</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i data-lucide="file-warning"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-blog-drafts">0</h3>
+                            <p>Rascunhos</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Filters Bar -->
+                <div class="filter-bar">
+                    <div class="filter-search-wrap">
+                        <input type="text" id="filter-search" oninput="applyFilters()" placeholder="Buscar por título ou slug...">
+                        <i data-lucide="search"></i>
+                    </div>
+                    <div class="filter-status-select">
+                        <select id="filter-status" onchange="applyFilters()">
+                            <option value="all">Todos os Status</option>
+                            <option value="published">Publicados</option>
+                            <option value="draft">Rascunhos</option>
+                        </select>
+                    </div>
+                    <div class="filter-date-group">
+                        <input type="date" id="filter-date-start" onchange="applyFilters()" title="Data Inicial">
+                        <span class="text-muted">até</span>
+                        <input type="date" id="filter-date-end" onchange="applyFilters()" title="Data Final">
+                        <button onclick="clearFilters()" class="btn btn-secondary" style="padding:0.75rem 1rem; height:43px;" title="Limpar Filtros"><i data-lucide="x"></i></button>
+                    </div>
+                </div>
+
                 <div id="blog-list" class="items-container"></div>
                 <div id="blog-empty" class="text-muted" style="display:none; padding: 1rem 0;">Nenhum post ainda. Clique em "Novo Post" para começar.</div>
             </div>
@@ -424,7 +1055,7 @@
             <!-- Editor de post -->
             <div id="blog-editor-view" class="admin-card" style="display:none">
                 <div class="card-header">
-                    <h2><i data-lucide="edit-3" style="vertical-align: middle; margin-right: 10px; color: var(--admin-accent);"></i> <span id="blog-editor-title">Novo Post</span></h2>
+                    <h2><i data-lucide="edit-3" style="color: var(--admin-accent);"></i> <span id="blog-editor-title">Novo Post</span></h2>
                     <button class="btn btn-secondary" onclick="cancelEdit()"><i data-lucide="arrow-left"></i> Voltar</button>
                 </div>
                 <input type="hidden" id="post-id">
@@ -435,37 +1066,96 @@
                     </div>
                     <div class="form-group">
                         <label><i data-lucide="link"></i> Slug (URL)</label>
-                        <input type="text" id="post-slug" oninput="this.dataset.touched=1" placeholder="titulo-do-post">
+                        <div class="slug-container">
+                            <input type="text" id="post-slug" oninput="onSlugManualInput()" placeholder="titulo-do-post">
+                            <button id="slug-lock-btn" class="slug-lock-btn" onclick="toggleSlugLock()" title="Desvincular do Título">
+                                <i data-lucide="link-2"></i>
+                            </button>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label><i data-lucide="eye"></i> Status</label>
-                        <select id="post-status">
+                        <select id="post-status" onchange="markUnsaved()">
                             <option value="draft">Rascunho</option>
                             <option value="published">Publicado</option>
                         </select>
                     </div>
                     <div class="form-group">
+                        <label><i data-lucide="calendar"></i> Data de Publicação</label>
+                        <input type="datetime-local" id="post-published-at" onchange="markUnsaved()">
+                    </div>
+                    <div class="form-group">
                         <label><i data-lucide="image"></i> Imagem de capa</label>
-                        <input type="file" id="post-cover-file" accept="image/*" onchange="uploadCover(this)">
+                        <div class="cover-upload-zone" id="cover-dropzone">
+                            <input type="file" id="post-cover-file" accept="image/*" onchange="uploadCover(this)">
+                            <div class="cover-upload-content">
+                                <i data-lucide="upload-cloud" size="32"></i>
+                                <span style="font-weight: 600; color: #fff;">Arraste a imagem de capa aqui</span>
+                                <span>ou clique para selecionar</span>
+                                <span style="font-size: 0.75rem; color: var(--color-text-muted);">WEBP, JPG, PNG (máx. 4MB)</span>
+                            </div>
+                        </div>
                         <input type="hidden" id="post-cover-url">
                         <div id="post-cover-status" class="text-muted" style="font-size: .8rem; margin-top: .4rem;"></div>
                     </div>
+                    
                     <div class="form-group full-width" id="post-cover-prev-wrap" style="display:none">
-                        <img id="post-cover-prev" alt="Capa" style="max-height: 170px; border-radius: 12px; border: 1px solid rgba(255,255,255,.1);">
+                        <label>Pré-visualização da Capa</label>
+                        <div class="cover-preview-container">
+                            <img id="post-cover-prev" alt="Capa">
+                            <button class="remove-cover-btn" onclick="removeCover()" title="Remover Capa"><i data-lucide="trash-2"></i></button>
+                        </div>
                     </div>
+
                     <div class="form-group full-width">
                         <label><i data-lucide="align-left"></i> Resumo (aparece no card)</label>
-                        <textarea id="post-excerpt" rows="2" placeholder="Um resumo curto do post..."></textarea>
+                        <textarea id="post-excerpt" oninput="markUnsaved()" rows="2" placeholder="Um resumo curto do post..."></textarea>
                     </div>
                     <div class="form-group full-width">
                         <label><i data-lucide="file-text"></i> Conteúdo (Markdown)</label>
+                        <div class="markdown-toolbar">
+                            <button type="button" class="toolbar-btn" onclick="insertMarkdown('bold')" title="Negrito"><i data-lucide="bold"></i></button>
+                            <button type="button" class="toolbar-btn" onclick="insertMarkdown('italic')" title="Itálico"><i data-lucide="italic"></i></button>
+                            <button type="button" class="toolbar-btn" onclick="insertMarkdown('heading')" title="Título"><i data-lucide="heading"></i></button>
+                            <span class="toolbar-separator"></span>
+                            <button type="button" class="toolbar-btn" onclick="insertMarkdown('link')" title="Inserir Link"><i data-lucide="link"></i></button>
+                            <button type="button" class="toolbar-btn" onclick="insertMarkdown('image')" title="Inserir Imagem"><i data-lucide="image"></i></button>
+                            <span class="toolbar-separator"></span>
+                            <button type="button" class="toolbar-btn" onclick="insertMarkdown('list')" title="Lista"><i data-lucide="list"></i></button>
+                            <button type="button" class="toolbar-btn" onclick="insertMarkdown('quote')" title="Citação"><i data-lucide="quote"></i></button>
+                            <button type="button" class="toolbar-btn" onclick="insertMarkdown('code')" title="Código"><i data-lucide="code"></i></button>
+                        </div>
                         <div class="blog-editor-split">
-                            <textarea id="post-content" rows="16" oninput="updatePreview()" placeholder="# Título&#10;&#10;Escreva em **markdown**. Use ## para subtítulos, - para listas, [texto](link) para links."></textarea>
+                            <textarea id="post-content" rows="16" oninput="onContentInput()" placeholder="# Título&#10;&#10;Escreva em **markdown**. Use ## para subtítulos, - para listas, [texto](link) para links."></textarea>
                             <div class="blog-preview" id="post-preview"></div>
+                        </div>
+                        <div class="editor-stats">
+                            <div class="editor-stat-item"><i data-lucide="file-text" size="14"></i> <span id="word-count">0</span> palavras</div>
+                            <div class="editor-stat-item"><i data-lucide="clock" size="14"></i> <span id="reading-time">0</span> min de leitura</div>
+                        </div>
+                        
+                        <!-- Markdown Guide -->
+                        <div class="markdown-guide">
+                            <div class="guide-header" onclick="toggleGuide()">
+                                <span><i data-lucide="help-circle" style="vertical-align:middle;margin-right:4px;"></i> Guia Rápido de Markdown</span>
+                                <i data-lucide="chevron-down" id="guide-chevron" style="transition:transform 0.3s; width:16px; height:16px;"></i>
+                            </div>
+                            <div class="guide-content" id="guide-content">
+                                <div class="guide-grid">
+                                    <div class="guide-item"><code># Título 1</code> ou <code>## Título 2</code> para títulos</div>
+                                    <div class="guide-item"><code>**texto**</code> para negrito</div>
+                                    <div class="guide-item"><code>*texto*</code> para itálico</div>
+                                    <div class="guide-item"><code>[texto](url)</code> para links externos</div>
+                                    <div class="guide-item"><code>![legenda](url)</code> para imagens</div>
+                                    <div class="guide-item"><code>- Item 1</code> para listas com marcadores</div>
+                                    <div class="guide-item"><code>> Citação</code> para blocos de destaque</div>
+                                    <div class="guide-item"><code>`código`</code> para termos em linha de código</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div style="display:flex; gap:1rem; margin-top:1rem;">
+                <div style="display:flex; gap:1rem; margin-top:1.5rem;">
                     <button class="btn btn-primary btn-lg" onclick="savePost()"><i data-lucide="save"></i> Salvar Post</button>
                     <button class="btn btn-secondary" onclick="cancelEdit()">Cancelar</button>
                 </div>
@@ -482,14 +1172,72 @@
 
     <script>
         let siteData = {};
+        let allPosts = [];
         let adminPassword = sessionStorage.getItem('admin_password') || '';
+        let postEditorUnsaved = false;
+        let generalUnsaved = false;
+        let slugAutoSync = true;
+        let editingId = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             if (adminPassword) {
                 document.getElementById('admin-pass').value = adminPassword;
                 checkPass();
             }
+            
+            // Unsaved changes beforeunload warning
+            window.addEventListener('beforeunload', (e) => {
+                if (postEditorUnsaved || generalUnsaved) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            });
         });
+
+        // Custom Confirm Modal using Promises
+        function showConfirm(title, message) {
+            return new Promise((resolve) => {
+                const modal = document.getElementById('confirm-modal');
+                const titleEl = document.getElementById('confirm-title');
+                const msgEl = document.getElementById('confirm-message');
+                const okBtn = document.getElementById('confirm-ok');
+                const cancelBtn = document.getElementById('confirm-cancel');
+                
+                titleEl.textContent = title;
+                msgEl.textContent = message;
+                modal.classList.add('active');
+                
+                const cleanup = (value) => {
+                    modal.classList.remove('active');
+                    okBtn.onclick = null;
+                    cancelBtn.onclick = null;
+                    resolve(value);
+                };
+                
+                okBtn.onclick = () => cleanup(true);
+                cancelBtn.onclick = () => cleanup(false);
+            });
+        }
+
+        function markUnsaved() {
+            postEditorUnsaved = true;
+        }
+
+        function markGeneralUnsaved() {
+            generalUnsaved = true;
+            const floatBtn = document.getElementById('save-btn');
+            if (floatBtn) {
+                floatBtn.style.boxShadow = '0 0 20px rgba(0, 229, 255, 0.4)';
+            }
+        }
+
+        function clearGeneralUnsaved() {
+            generalUnsaved = false;
+            const floatBtn = document.getElementById('save-btn');
+            if (floatBtn) {
+                floatBtn.style.boxShadow = '';
+            }
+        }
 
         function handleResponse(res) {
             if (res.status === 401) {
@@ -514,7 +1262,6 @@
             if (window.lucide) lucide.createIcons();
 
             try {
-                // Testa a senha contra o endpoint /api/posts?all=1 que requer login
                 const res = await fetch('/api/posts?all=1', {
                     headers: { 'x-admin-password': pass }
                 });
@@ -548,13 +1295,24 @@
                 const res = await fetch('/api/data');
                 siteData = await res.json();
                 renderAll();
-                lucide.createIcons();
+                initDragAndDrop();
+                updateSyncTime();
+                if (window.lucide) lucide.createIcons();
             } catch (err) {
-                console.error('Erro ao conectar com o servidor');
+                console.error('Erro ao conectar com o servidor', err);
             }
         }
 
-        function showTab(id, el) {
+        async function showTab(id, el) {
+            if (postEditorUnsaved) {
+                const leave = await showConfirm(
+                    'Alterações não salvas', 
+                    'Você possui alterações não salvas no editor do post. Deseja sair e descartar as alterações?'
+                );
+                if (!leave) return;
+                postEditorUnsaved = false;
+            }
+
             document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
             document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
 
@@ -562,7 +1320,14 @@
             el.classList.add('active');
 
             if (id === 'blog') showBlogList();
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function updateSyncTime() {
+            const syncEl = document.getElementById('stat-last-sync');
+            if (syncEl) {
+                syncEl.textContent = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            }
         }
 
         function renderAll() {
@@ -583,29 +1348,56 @@
             (siteData.faq || []).forEach((item, i) => {
                 const row = document.createElement('div');
                 row.className = 'item-row';
-                row.style.gridTemplateColumns = '1fr';
                 row.innerHTML = `
                     <div class="form-grid" style="grid-template-columns: 1fr">
-                        <div class="form-group"><label>Pergunta</label><input type="text" oninput="updateFAQ(${i}, 'question', this.value)" value="${escAttr(item.question)}"></div>
-                        <div class="form-group"><label>Resposta</label><textarea oninput="updateFAQ(${i}, 'answer', this.value)" rows="3">${escHtml(item.answer)}</textarea></div>
+                        <div class="form-group">
+                            <label>Pergunta</label>
+                            <input type="text" oninput="updateFAQ(${i}, 'question', this.value); markGeneralUnsaved()" value="${escAttr(item.question)}">
+                        </div>
+                        <div class="form-group">
+                            <label>Resposta</label>
+                            <textarea oninput="updateFAQ(${i}, 'answer', this.value); markGeneralUnsaved()" rows="3">${escHtml(item.answer)}</textarea>
+                        </div>
                     </div>
                     <div class="item-actions">
-                        <button class="action-btn btn-delete" onclick="removeFAQ(${i})"><i data-lucide="trash-2"></i></button>
+                        <button class="action-btn btn-delete" onclick="removeFAQ(${i})" title="Remover Pergunta"><i data-lucide="trash-2"></i></button>
                     </div>
                 `;
                 faqList.appendChild(row);
             });
 
-            lucide.createIcons();
+            // FAQ Stats
+            const faqCountEl = document.getElementById('stat-faq-count');
+            if (faqCountEl) faqCountEl.textContent = (siteData.faq || []).length;
+
+            if (window.lucide) lucide.createIcons();
         }
 
-        function updateFAQ(i, k, v) { siteData.faq[i][k] = v; }
-        function addFAQ() { if (!siteData.faq) siteData.faq = []; siteData.faq.push({ question: "Nova Pergunta?", answer: "Resposta..." }); renderAll(); }
-        function removeFAQ(i) { siteData.faq.splice(i, 1); renderAll(); }
+        function updateFAQ(i, k, v) { 
+            siteData.faq[i][k] = v; 
+        }
 
-        // Sanitização contra HTML Injection em atributos/conteúdo no admin panel
-        function escHtml(s){ return String(s == null ? '' : s).replace(/[&<>]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;' }[c])); }
-        function escAttr(s){ return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
+        function addFAQ() { 
+            if (!siteData.faq) siteData.faq = []; 
+            siteData.faq.push({ question: "Nova Pergunta?", answer: "Resposta..." }); 
+            renderAll(); 
+            markGeneralUnsaved();
+        }
+
+        async function removeFAQ(i) { 
+            const confirmed = await showConfirm('Remover Pergunta', 'Deseja realmente excluir esta pergunta do FAQ?');
+            if (!confirmed) return;
+            siteData.faq.splice(i, 1); 
+            renderAll(); 
+            markGeneralUnsaved();
+        }
+
+        function escHtml(s){ 
+            return String(s == null ? '' : s).replace(/[&<>]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;' }[c])); 
+        }
+        function escAttr(s){ 
+            return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/</g, '&lt;'); 
+        }
 
         async function saveData() {
             const btn = document.getElementById('save-btn');
@@ -614,9 +1406,8 @@
             btn.disabled = true;
             btn.innerHTML = '<i data-lucide="loader" class="spin"></i> Salvando...';
             status.classList.add('active');
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
 
-            // Collect static fields
             if (!siteData.hero) siteData.hero = {};
             if (!siteData.contact) siteData.contact = {};
             siteData.hero.title = document.getElementById('hero-title').value;
@@ -635,31 +1426,44 @@
                 handleResponse(res);
 
                 if (res.ok) {
-                    showToast();
+                    showToast('Alterações salvas com sucesso!');
+                    clearGeneralUnsaved();
+                    updateSyncTime();
                 } else {
-                    alert('Não foi possível salvar. Tente novamente.');
+                    showToast('Erro ao salvar as alterações.', true);
                 }
             } catch (err) {
                 if (err.message !== 'Não autorizado') {
-                    alert('Falha na conexão com o servidor.');
+                    showToast('Falha na conexão com o servidor.', true);
                 }
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i data-lucide="save"></i> Salvar Alterações';
                 status.classList.remove('active');
-                lucide.createIcons();
+                if (window.lucide) lucide.createIcons();
             }
         }
 
-        function showToast() {
+        function showToast(message, isError = false) {
             const toast = document.getElementById('toast');
+            toast.textContent = message;
+            
+            const icon = document.createElement('i');
+            icon.setAttribute('data-lucide', isError ? 'alert-circle' : 'check-circle');
+            toast.prepend(icon);
+            if (window.lucide) lucide.createIcons();
+            
+            if (isError) {
+                toast.classList.add('error');
+            } else {
+                toast.classList.remove('error');
+            }
+            
             toast.classList.add('show');
             setTimeout(() => toast.classList.remove('show'), 3000);
         }
 
         /* ===================== Blog ===================== */
-        let editingId = null;
-
         function authHeaders(json) {
             const h = { 'x-admin-password': adminPassword };
             if (json) h['Content-Type'] = 'application/json';
@@ -678,6 +1482,15 @@
             loadPosts();
         }
 
+        function fmtDate(iso) {
+            if (!iso) return '';
+            try {
+                return new Date(iso).toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+            } catch (e) {
+                return '';
+            }
+        }
+
         async function loadPosts() {
             const list = document.getElementById('blog-list');
             const empty = document.getElementById('blog-empty');
@@ -685,25 +1498,17 @@
                 const res = await fetch('/api/posts?all=1', { headers: authHeaders() });
                 handleResponse(res);
                 if (!res.ok) throw new Error();
-                const posts = await res.json();
-                if (!posts.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
-                empty.style.display = 'none';
-                list.innerHTML = posts.map(p => `
-                    <div class="blog-post-item">
-                        <img class="post-row-cover" src="${p.cover_url || 'logo-arke.svg'}" onerror="this.src='logo-arke.svg'">
-                        <div class="post-row-main">
-                             <h4>${escHtml(p.title)}</h4>
-                             <div style="display:flex; gap:.6rem; align-items:center; flex-wrap:wrap;">
-                                 <span class="post-status ${p.status}">${p.status === 'published' ? 'Publicado' : 'Rascunho'}</span>
-                                 <span class="text-muted" style="font-size:.82rem;">/blog/${escHtml(p.slug)}</span>
-                             </div>
-                        </div>
-                        <div style="display:flex; gap:.5rem;">
-                             <button class="action-btn" style="background:rgba(0,229,255,.1);color:#18ace3" title="Editar" onclick="editPost('${p.slug}')"><i data-lucide="edit-2"></i></button>
-                             <button class="action-btn btn-delete" title="Excluir" onclick="confirmDeletePost('${p.id}','${escAttr(p.title)}')"><i data-lucide="trash-2"></i></button>
-                        </div>
-                    </div>`).join('');
-                lucide.createIcons();
+                allPosts = await res.json();
+                
+                // Update stats grid
+                const totalEl = document.getElementById('stat-blog-total');
+                const publishedEl = document.getElementById('stat-blog-published');
+                const draftsEl = document.getElementById('stat-blog-drafts');
+                if (totalEl) totalEl.textContent = allPosts.length;
+                if (publishedEl) publishedEl.textContent = allPosts.filter(p => p.status === 'published').length;
+                if (draftsEl) draftsEl.textContent = allPosts.filter(p => p.status === 'draft').length;
+
+                applyFilters();
             } catch (e) {
                 if (e.message !== 'Não autorizado') {
                     list.innerHTML = '<p class="text-muted">Não foi possível carregar os posts.</p>';
@@ -711,23 +1516,117 @@
             }
         }
 
+        function applyFilters() {
+            const searchQuery = document.getElementById('filter-search').value.toLowerCase().trim();
+            const statusFilter = document.getElementById('filter-status').value;
+            const dateStart = document.getElementById('filter-date-start').value;
+            const dateEnd = document.getElementById('filter-date-end').value;
+            
+            const list = document.getElementById('blog-list');
+            const empty = document.getElementById('blog-empty');
+            
+            let filtered = allPosts;
+            
+            // 1. Text Search
+            if (searchQuery) {
+                filtered = filtered.filter(p => 
+                    (p.title || '').toLowerCase().includes(searchQuery) ||
+                    (p.slug || '').toLowerCase().includes(searchQuery)
+                );
+            }
+            
+            // 2. Status Filter
+            if (statusFilter !== 'all') {
+                filtered = filtered.filter(p => p.status === statusFilter);
+            }
+            
+            // 3. Date Filters
+            if (dateStart) {
+                const startMs = new Date(dateStart + 'T00:00:00').getTime();
+                filtered = filtered.filter(p => {
+                    if (!p.published_at) return false;
+                    return new Date(p.published_at).getTime() >= startMs;
+                });
+            }
+            
+            if (dateEnd) {
+                const endMs = new Date(dateEnd + 'T23:59:59').getTime();
+                filtered = filtered.filter(p => {
+                    if (!p.published_at) return false;
+                    return new Date(p.published_at).getTime() <= endMs;
+                });
+            }
+            
+            // Render filtered posts
+            if (!filtered.length) {
+                list.innerHTML = '';
+                empty.style.display = 'block';
+                empty.textContent = 'Nenhum post corresponde aos filtros aplicados.';
+                return;
+            }
+            
+            empty.style.display = 'none';
+            list.innerHTML = filtered.map(p => `
+                <div class="blog-post-item">
+                    <img class="post-row-cover" src="${p.cover_url || 'logo-arke.svg'}" onerror="this.src='logo-arke.svg'">
+                    <div class="post-row-main">
+                         <h4>${escHtml(p.title)}</h4>
+                         <div style="display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap; margin-top:0.25rem;">
+                             <span class="post-status ${p.status}">${p.status === 'published' ? 'Publicado' : 'Rascunho'}</span>
+                             <span class="text-muted" style="font-size:.82rem; display:flex; align-items:center; gap:4px;">
+                                 <i data-lucide="link" style="width:12px; height:12px;"></i> /blog/${escHtml(p.slug)}
+                             </span>
+                             ${p.published_at ? `
+                             <span class="text-muted" style="font-size:.82rem; display:flex; align-items:center; gap:4px;">
+                                 <i data-lucide="calendar" style="width:12px; height:12px;"></i> ${fmtDate(p.published_at)}
+                             </span>` : ''}
+                         </div>
+                    </div>
+                    <div style="display:flex; gap:.5rem;">
+                         <button class="action-btn" style="background:rgba(0,229,255,.1);color:#18ace3" title="Editar" onclick="editPost('${p.slug}')"><i data-lucide="edit-2"></i></button>
+                         <button class="action-btn btn-delete" title="Excluir" onclick="confirmDeletePost('${p.id}','${escAttr(p.title)}')"><i data-lucide="trash-2"></i></button>
+                    </div>
+                </div>`).join('');
+                
+            if (window.lucide) lucide.createIcons();
+        }
+
+        function clearFilters() {
+            document.getElementById('filter-search').value = '';
+            document.getElementById('filter-status').value = 'all';
+            document.getElementById('filter-date-start').value = '';
+            document.getElementById('filter-date-end').value = '';
+            applyFilters();
+        }
+
         function newPost() {
             editingId = null;
+            postEditorUnsaved = false;
+            slugAutoSync = true;
+            
+            const lockBtn = document.getElementById('slug-lock-btn');
+            if (lockBtn) {
+                lockBtn.innerHTML = '<i data-lucide="link-2"></i>';
+                lockBtn.title = "Desvincular do Título";
+            }
+
             document.getElementById('blog-editor-title').textContent = 'Novo Post';
             document.getElementById('post-id').value = '';
             document.getElementById('post-title').value = '';
-            const slugEl = document.getElementById('post-slug');
-            slugEl.value = ''; delete slugEl.dataset.touched;
+            document.getElementById('post-slug').value = '';
             document.getElementById('post-status').value = 'draft';
             document.getElementById('post-excerpt').value = '';
             document.getElementById('post-content').value = '';
             document.getElementById('post-cover-url').value = '';
             document.getElementById('post-cover-status').textContent = '';
+            document.getElementById('post-published-at').value = new Date().toLocaleString('sv-SE').substring(0, 16).replace(' ', 'T');
             setCoverPreview('');
             updatePreview();
+            onContentInput();
+            
             document.getElementById('blog-list-view').style.display = 'none';
             document.getElementById('blog-editor-view').style.display = 'block';
-            lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
         }
 
         async function editPost(slug) {
@@ -737,21 +1636,38 @@
                 if (!res.ok) throw new Error();
                 const p = await res.json();
                 editingId = p.id;
+                postEditorUnsaved = false;
+                slugAutoSync = false;
+
+                const lockBtn = document.getElementById('slug-lock-btn');
+                if (lockBtn) {
+                    lockBtn.innerHTML = '<i data-lucide="link-2-off"></i>';
+                    lockBtn.title = "Vincular ao Título";
+                }
+
                 document.getElementById('blog-editor-title').textContent = 'Editar Post';
                 document.getElementById('post-id').value = p.id;
                 document.getElementById('post-title').value = p.title || '';
-                const slugEl = document.getElementById('post-slug');
-                slugEl.value = p.slug || ''; slugEl.dataset.touched = '1';
+                document.getElementById('post-slug').value = p.slug || '';
                 document.getElementById('post-status').value = p.status || 'draft';
                 document.getElementById('post-excerpt').value = p.excerpt || '';
                 document.getElementById('post-content').value = p.content || '';
                 document.getElementById('post-cover-url').value = p.cover_url || '';
                 document.getElementById('post-cover-status').textContent = '';
+                
+                let localDate = '';
+                if (p.published_at) {
+                    localDate = new Date(p.published_at).toLocaleString('sv-SE').substring(0, 16).replace(' ', 'T');
+                }
+                document.getElementById('post-published-at').value = localDate;
+                
                 setCoverPreview(p.cover_url || '');
                 updatePreview();
+                onContentInput();
+                
                 document.getElementById('blog-list-view').style.display = 'none';
                 document.getElementById('blog-editor-view').style.display = 'block';
-                lucide.createIcons();
+                if (window.lucide) lucide.createIcons();
             } catch (e) {
                 if (e.message !== 'Não autorizado') {
                     alert('Erro ao carregar o post.');
@@ -759,25 +1675,159 @@
             }
         }
 
-        function cancelEdit() { showBlogList(); }
+        async function cancelEdit() { 
+            if (postEditorUnsaved) {
+                const discard = await showConfirm(
+                    'Descartar alterações', 
+                    'Deseja realmente descartar as alterações deste post?'
+                );
+                if (!discard) return;
+                postEditorUnsaved = false;
+            }
+            showBlogList(); 
+        }
 
         function onTitleInput() {
-            const slugEl = document.getElementById('post-slug');
-            if (!editingId && !slugEl.dataset.touched) {
-                slugEl.value = slugify(document.getElementById('post-title').value);
+            if (slugAutoSync) {
+                document.getElementById('post-slug').value = slugify(document.getElementById('post-title').value);
             }
+            markUnsaved();
+        }
+
+        function onSlugManualInput() {
+            slugAutoSync = false;
+            const lockBtn = document.getElementById('slug-lock-btn');
+            if (lockBtn) {
+                lockBtn.innerHTML = '<i data-lucide="link-2-off"></i>';
+                lockBtn.title = "Vincular ao Título";
+                if (window.lucide) lucide.createIcons();
+            }
+            markUnsaved();
+        }
+
+        function toggleSlugLock() {
+            slugAutoSync = !slugAutoSync;
+            const lockBtn = document.getElementById('slug-lock-btn');
+            if (slugAutoSync) {
+                lockBtn.innerHTML = '<i data-lucide="link-2"></i>';
+                lockBtn.title = "Desvincular do Título";
+                document.getElementById('post-slug').value = slugify(document.getElementById('post-title').value);
+            } else {
+                lockBtn.innerHTML = '<i data-lucide="link-2-off"></i>';
+                lockBtn.title = "Vincular ao Título";
+            }
+            if (window.lucide) lucide.createIcons();
+            markUnsaved();
         }
 
         function setCoverPreview(url) {
             const wrap = document.getElementById('post-cover-prev-wrap');
             const img = document.getElementById('post-cover-prev');
-            if (url) { img.src = url; wrap.style.display = 'block'; }
-            else { img.removeAttribute('src'); wrap.style.display = 'none'; }
+            if (url) { 
+                img.src = url; 
+                wrap.style.display = 'block'; 
+            } else { 
+                img.removeAttribute('src'); 
+                wrap.style.display = 'none'; 
+            }
+        }
+
+        function removeCover() {
+            document.getElementById('post-cover-url').value = '';
+            setCoverPreview('');
+            document.getElementById('post-cover-status').textContent = '';
+            markUnsaved();
         }
 
         function updatePreview() {
             const md = document.getElementById('post-content').value || '';
             document.getElementById('post-preview').innerHTML = window.marked ? marked.parse(md) : escHtml(md);
+        }
+
+        function onContentInput() {
+            updatePreview();
+            const text = document.getElementById('post-content').value || '';
+            
+            // Contagem de palavras
+            const words = text.trim() === '' ? 0 : text.trim().split(/\s+/).length;
+            document.getElementById('word-count').textContent = words;
+            
+            // Tempo de leitura estimado (média de 200 palavras por minuto)
+            const minutes = Math.max(1, Math.ceil(words / 200));
+            document.getElementById('reading-time').textContent = text.trim() === '' ? 0 : minutes;
+            
+            markUnsaved();
+        }
+
+        function toggleGuide() {
+            const guide = document.getElementById('guide-content');
+            const chevron = document.getElementById('guide-chevron');
+            guide.classList.toggle('active');
+            if (guide.classList.contains('active')) {
+                chevron.style.transform = 'rotate(180deg)';
+            } else {
+                chevron.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function insertMarkdown(type) {
+            const textarea = document.getElementById('post-content');
+            const start = textarea.selectionStart;
+            const end = textarea.selectionEnd;
+            const text = textarea.value;
+            const selected = text.substring(start, end);
+            
+            let insert = '';
+            let cursorOffset = 0;
+            let selectionLength = 0;
+            
+            switch (type) {
+                case 'bold':
+                    insert = `**${selected || 'texto'}**`;
+                    cursorOffset = 2;
+                    selectionLength = (selected || 'texto').length;
+                    break;
+                case 'italic':
+                    insert = `*${selected || 'texto'}*`;
+                    cursorOffset = 1;
+                    selectionLength = (selected || 'texto').length;
+                    break;
+                case 'heading':
+                    insert = `\n## ${selected || 'Título'}`;
+                    cursorOffset = 4;
+                    selectionLength = (selected || 'Título').length;
+                    break;
+                case 'link':
+                    insert = `[${selected || 'link'}](https://example.com)`;
+                    cursorOffset = 1;
+                    selectionLength = (selected || 'link').length;
+                    break;
+                case 'image':
+                    insert = `![${selected || 'legenda'}](${document.getElementById('post-cover-url').value || 'url-da-imagem'})`;
+                    cursorOffset = 2;
+                    selectionLength = (selected || 'legenda').length;
+                    break;
+                case 'list':
+                    insert = `\n- ${selected || 'item'}`;
+                    cursorOffset = 3;
+                    selectionLength = (selected || 'item').length;
+                    break;
+                case 'quote':
+                    insert = `\n> ${selected || 'citação'}`;
+                    cursorOffset = 3;
+                    selectionLength = (selected || 'citação').length;
+                    break;
+                case 'code':
+                    insert = `\n\`\`\`javascript\n${selected || 'código'}\n\`\`\`\n`;
+                    cursorOffset = 15;
+                    selectionLength = (selected || 'código').length;
+                    break;
+            }
+            
+            textarea.value = text.substring(0, start) + insert + text.substring(end);
+            textarea.focus();
+            textarea.setSelectionRange(start + cursorOffset, start + cursorOffset + selectionLength);
+            onContentInput();
         }
 
         function downscaleImage(file, maxW, quality) {
@@ -800,6 +1850,37 @@
             });
         }
 
+        function initDragAndDrop() {
+            const dropzone = document.getElementById('cover-dropzone');
+            if (!dropzone) return;
+            
+            ['dragenter', 'dragover'].forEach(eventName => {
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.add('dragover');
+                }, false);
+            });
+            
+            ['dragleave', 'drop'].forEach(eventName => {
+                dropzone.addEventListener(eventName, (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    dropzone.classList.remove('dragover');
+                }, false);
+            });
+            
+            dropzone.addEventListener('drop', (e) => {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                if (files && files[0]) {
+                    const fileInput = document.getElementById('post-cover-file');
+                    fileInput.files = files;
+                    uploadCover(fileInput);
+                }
+            }, false);
+        }
+
         async function uploadCover(input) {
             const file = input.files && input.files[0];
             if (!file) return;
@@ -817,6 +1898,7 @@
                 document.getElementById('post-cover-url').value = data.url;
                 setCoverPreview(data.url);
                 statusEl.textContent = 'Imagem enviada ✓';
+                markUnsaved();
             } catch (e) {
                 if (e.message !== 'Não autorizado') {
                     statusEl.textContent = 'Falha ao enviar a imagem.';
@@ -827,8 +1909,16 @@
         async function savePost() {
             const title = document.getElementById('post-title').value.trim();
             let slug = document.getElementById('post-slug').value.trim();
-            if (!title) { alert('Informe o título do post.'); return; }
-            if (!slug) { slug = slugify(title); document.getElementById('post-slug').value = slug; }
+            if (!title) { 
+                showToast('Informe o título do post.', true); 
+                return; 
+            }
+            if (!slug) { 
+                slug = slugify(title); 
+                document.getElementById('post-slug').value = slug; 
+            }
+
+            const publishedAtVal = document.getElementById('post-published-at').value;
 
             const payload = {
                 id: editingId || undefined,
@@ -836,32 +1926,54 @@
                 status: document.getElementById('post-status').value,
                 excerpt: document.getElementById('post-excerpt').value,
                 content: document.getElementById('post-content').value,
-                cover_url: document.getElementById('post-cover-url').value
+                cover_url: document.getElementById('post-cover-url').value,
+                published_at: publishedAtVal ? new Date(publishedAtVal).toISOString() : null
             };
+            
             try {
-                const res = await fetch('/api/posts', { method: 'POST', headers: authHeaders(true), body: JSON.stringify(payload) });
+                const res = await fetch('/api/posts', { 
+                    method: 'POST', 
+                    headers: authHeaders(true), 
+                    body: JSON.stringify(payload) 
+                });
                 handleResponse(res);
                 const data = await res.json();
-                if (!res.ok) { alert(data.error || 'Erro ao salvar o post.'); return; }
-                showToast();
+                if (!res.ok) { 
+                    showToast(data.error || 'Erro ao salvar o post.', true); 
+                    return; 
+                }
+                showToast('Post salvo com sucesso!');
+                postEditorUnsaved = false;
                 showBlogList();
             } catch (e) {
                 if (e.message !== 'Não autorizado') {
-                    alert('Falha na conexão com o servidor.');
+                    showToast('Falha na conexão com o servidor.', true);
                 }
             }
         }
 
         async function confirmDeletePost(id, title) {
-            if (!confirm('Excluir o post "' + title + '"? Esta ação não pode ser desfeita.')) return;
+            const confirmed = await showConfirm(
+                'Excluir Post', 
+                `Deseja realmente excluir o post "${title}"? Esta ação não pode ser desfeita.`
+            );
+            if (!confirmed) return;
+            
             try {
-                const res = await fetch('/api/posts?id=' + encodeURIComponent(id), { method: 'DELETE', headers: authHeaders() });
+                const res = await fetch('/api/posts?id=' + encodeURIComponent(id), { 
+                    method: 'DELETE', 
+                    headers: authHeaders() 
+                });
                 handleResponse(res);
-                if (!res.ok) { alert('Erro ao excluir o post.'); return; }
+                if (!res.ok) { 
+                    showToast('Erro ao excluir o post.', true); 
+                    return; 
+                }
+                showToast('Post excluído com sucesso!');
                 loadPosts();
             } catch (e) {
                 if (e.message !== 'Não autorizado') {
-                    alert('Falha na conexão com o servidor.');
+                    showToast('Falha na conexão com o servidor.', true);
                 }
             }
         }
