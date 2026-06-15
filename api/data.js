@@ -8,6 +8,7 @@
 
 const fallback = require('../data.json');
 const { getContent, saveContent } = require('../lib/store');
+const { isAuthed } = require('../lib/auth');
 
 module.exports = async (req, res) => {
     if (req.method === 'GET') {
@@ -22,8 +23,7 @@ module.exports = async (req, res) => {
     }
 
     if (req.method === 'POST') {
-        const provided = req.headers['x-admin-password'];
-        if (!process.env.ADMIN_PASSWORD || provided !== process.env.ADMIN_PASSWORD) {
+        if (!isAuthed(req)) {
             return res.status(401).json({ error: 'Não autorizado.' });
         }
         try {

@@ -15,7 +15,36 @@ const PORT = process.env.PORT || 8080;
 
 app.use(cors());
 app.use(express.json({ limit: '6mb' }));
-app.use(express.static(__dirname));
+// Whitelist de arquivos estáticos públicos permitidos.
+// Evita expor códigos de backend (server.js), variáveis (.env) e segredos.
+const allowedStaticFiles = [
+    '/styles.css',
+    '/script.js',
+    '/blog.js',
+    '/data.json',
+    '/logo-arke.svg',
+    '/logo.png',
+    '/blusa.png',
+    '/caneca.png',
+    '/sacola.png',
+    '/favicon.ico'
+];
+
+app.use((req, res, next) => {
+    // Rota raiz serve a index
+    if (req.path === '/' || req.path === '/index.html') {
+        return res.sendFile(path.join(__dirname, 'index.html'));
+    }
+    // Rota do painel administrativo
+    if (req.path === '/admin' || req.path === '/admin.html') {
+        return res.sendFile(path.join(__dirname, 'admin.html'));
+    }
+    // Servir apenas se o arquivo solicitado estiver explicitamente na whitelist
+    if (allowedStaticFiles.includes(req.path)) {
+        return res.sendFile(path.join(__dirname, req.path));
+    }
+    next();
+});
 
 // Blog: reaproveita as mesmas funções serverless da Vercel.
 app.all('/api/posts', require('./api/posts'));

@@ -343,7 +343,7 @@
             <h2 style="font-family: var(--font-primary); font-size: 2rem; margin-bottom: 1rem;">Admin Access</h2>
             <p style="margin-bottom: 2.5rem; color: var(--color-text-muted);">Entre com sua senha para gerenciar o estúdio.</p>
             <div class="form-group">
-                <input type="password" id="admin-pass" placeholder="••••••••" style="text-align: center; font-size: 1.5rem; letter-spacing: 5px; padding: 1.25rem;">
+                <input type="password" id="admin-pass" onkeydown="if(event.key === 'Enter') checkPass()" placeholder="••••••••" style="text-align: center; font-size: 1.5rem; letter-spacing: 5px; padding: 1.25rem;">
             </div>
             <button onclick="checkPass()" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 1rem;">
                 Acessar Dashboard <i data-lucide="arrow-right"></i>
@@ -482,21 +482,64 @@
 
     <script>
         let siteData = {};
-        const passCorrect = 'arke2026';
+        let adminPassword = sessionStorage.getItem('admin_password') || '';
 
-        // Auto-login during development (REMOVE FOR PRODUCTION)
-        // setTimeout(() => { document.getElementById('admin-pass').value = passCorrect; checkPass(); }, 500);
+        document.addEventListener('DOMContentLoaded', () => {
+            if (adminPassword) {
+                document.getElementById('admin-pass').value = adminPassword;
+                checkPass();
+            }
+        });
 
-        function checkPass() {
+        function handleResponse(res) {
+            if (res.status === 401) {
+                alert('Sua sessão expirou ou a senha inserida é incorreta.');
+                sessionStorage.removeItem('admin_password');
+                adminPassword = '';
+                document.getElementById('admin-pass').value = '';
+                document.getElementById('login-overlay').style.opacity = '1';
+                document.getElementById('login-overlay').style.display = 'flex';
+                throw new Error('Não autorizado');
+            }
+            return res;
+        }
+
+        async function checkPass() {
             const pass = document.getElementById('admin-pass').value;
-            if (pass === passCorrect) {
-                document.getElementById('login-overlay').style.opacity = '0';
-                setTimeout(() => {
-                    document.getElementById('login-overlay').style.display = 'none';
-                    init();
-                }, 500);
-            } else {
-                alert('Acesso negado. Senha incorreta.');
+            const btn = document.querySelector('#login-overlay button') || { disabled: false };
+            const originalText = btn.innerHTML || '';
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i data-lucide="loader" class="spin"></i> Verificando...';
+            if (window.lucide) lucide.createIcons();
+
+            try {
+                // Testa a senha contra o endpoint /api/posts?all=1 que requer login
+                const res = await fetch('/api/posts?all=1', {
+                    headers: { 'x-admin-password': pass }
+                });
+
+                if (res.ok) {
+                    adminPassword = pass;
+                    sessionStorage.setItem('admin_password', pass);
+                    document.getElementById('login-overlay').style.opacity = '0';
+                    setTimeout(() => {
+                        document.getElementById('login-overlay').style.display = 'none';
+                        init();
+                    }, 500);
+                } else if (res.status === 401) {
+                    alert('Acesso negado. Senha incorreta.');
+                    sessionStorage.removeItem('admin_password');
+                } else {
+                    alert('Não foi possível verificar a senha. Erro no servidor.');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Falha na conexão com o servidor.');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+                if (window.lucide) lucide.createIcons();
             }
         }
 
@@ -560,6 +603,7 @@
         function addFAQ() { if (!siteData.faq) siteData.faq = []; siteData.faq.push({ question: "Nova Pergunta?", answer: "Resposta..." }); renderAll(); }
         function removeFAQ(i) { siteData.faq.splice(i, 1); renderAll(); }
 
+        // Sanitização contra HTML Injection em atributos/conteúdo no admin panel
         function escHtml(s){ return String(s == null ? '' : s).replace(/[&<>]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;' }[c])); }
         function escAttr(s){ return String(s == null ? '' : s).replace(/"/g, '&quot;').replace(/</g, '&lt;'); }
 
@@ -584,22 +628,21 @@
             try {
                 const res = await fetch('/api/data', {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-admin-password': passCorrect
-                    },
+                    headers: authHeaders(true),
                     body: JSON.stringify(siteData)
                 });
 
+                handleResponse(res);
+
                 if (res.ok) {
                     showToast();
-                } else if (res.status === 401) {
-                    alert('Não autorizado. A senha do admin não confere com a configurada no servidor (ADMIN_PASSWORD).');
                 } else {
                     alert('Não foi possível salvar. Tente novamente.');
                 }
             } catch (err) {
-                alert('Falha na conexão com o servidor.');
+                if (err.message !== 'Não autorizado') {
+                    alert('Falha na conexão com o servidor.');
+                }
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i data-lucide="save"></i> Salvar Alterações';
@@ -618,7 +661,7 @@
         let editingId = null;
 
         function authHeaders(json) {
-            const h = { 'x-admin-password': passCorrect };
+            const h = { 'x-admin-password': adminPassword };
             if (json) h['Content-Type'] = 'application/json';
             return h;
         }
@@ -640,6 +683,7 @@
             const empty = document.getElementById('blog-empty');
             try {
                 const res = await fetch('/api/posts?all=1', { headers: authHeaders() });
+                handleResponse(res);
                 if (!res.ok) throw new Error();
                 const posts = await res.json();
                 if (!posts.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
@@ -648,20 +692,22 @@
                     <div class="blog-post-item">
                         <img class="post-row-cover" src="${p.cover_url || 'logo-arke.svg'}" onerror="this.src='logo-arke.svg'">
                         <div class="post-row-main">
-                            <h4>${escHtml(p.title)}</h4>
-                            <div style="display:flex; gap:.6rem; align-items:center; flex-wrap:wrap;">
-                                <span class="post-status ${p.status}">${p.status === 'published' ? 'Publicado' : 'Rascunho'}</span>
-                                <span class="text-muted" style="font-size:.82rem;">/blog/${escHtml(p.slug)}</span>
-                            </div>
+                             <h4>${escHtml(p.title)}</h4>
+                             <div style="display:flex; gap:.6rem; align-items:center; flex-wrap:wrap;">
+                                 <span class="post-status ${p.status}">${p.status === 'published' ? 'Publicado' : 'Rascunho'}</span>
+                                 <span class="text-muted" style="font-size:.82rem;">/blog/${escHtml(p.slug)}</span>
+                             </div>
                         </div>
                         <div style="display:flex; gap:.5rem;">
-                            <button class="action-btn" style="background:rgba(0,229,255,.1);color:#18ace3" title="Editar" onclick="editPost('${p.slug}')"><i data-lucide="edit-2"></i></button>
-                            <button class="action-btn btn-delete" title="Excluir" onclick="confirmDeletePost('${p.id}','${escAttr(p.title)}')"><i data-lucide="trash-2"></i></button>
+                             <button class="action-btn" style="background:rgba(0,229,255,.1);color:#18ace3" title="Editar" onclick="editPost('${p.slug}')"><i data-lucide="edit-2"></i></button>
+                             <button class="action-btn btn-delete" title="Excluir" onclick="confirmDeletePost('${p.id}','${escAttr(p.title)}')"><i data-lucide="trash-2"></i></button>
                         </div>
                     </div>`).join('');
                 lucide.createIcons();
             } catch (e) {
-                list.innerHTML = '<p class="text-muted">Não foi possível carregar os posts.</p>';
+                if (e.message !== 'Não autorizado') {
+                    list.innerHTML = '<p class="text-muted">Não foi possível carregar os posts.</p>';
+                }
             }
         }
 
@@ -687,6 +733,7 @@
         async function editPost(slug) {
             try {
                 const res = await fetch('/api/posts?slug=' + encodeURIComponent(slug), { headers: authHeaders() });
+                handleResponse(res);
                 if (!res.ok) throw new Error();
                 const p = await res.json();
                 editingId = p.id;
@@ -705,7 +752,11 @@
                 document.getElementById('blog-list-view').style.display = 'none';
                 document.getElementById('blog-editor-view').style.display = 'block';
                 lucide.createIcons();
-            } catch (e) { alert('Erro ao carregar o post.'); }
+            } catch (e) {
+                if (e.message !== 'Não autorizado') {
+                    alert('Erro ao carregar o post.');
+                }
+            }
         }
 
         function cancelEdit() { showBlogList(); }
@@ -760,13 +811,16 @@
                     method: 'POST', headers: authHeaders(true),
                     body: JSON.stringify({ filename: file.name, dataUrl })
                 });
+                handleResponse(res);
                 const data = await res.json();
                 if (!res.ok) throw new Error(data.error || '');
                 document.getElementById('post-cover-url').value = data.url;
                 setCoverPreview(data.url);
                 statusEl.textContent = 'Imagem enviada ✓';
             } catch (e) {
-                statusEl.textContent = 'Falha ao enviar a imagem.';
+                if (e.message !== 'Não autorizado') {
+                    statusEl.textContent = 'Falha ao enviar a imagem.';
+                }
             } finally { input.value = ''; }
         }
 
@@ -786,20 +840,30 @@
             };
             try {
                 const res = await fetch('/api/posts', { method: 'POST', headers: authHeaders(true), body: JSON.stringify(payload) });
+                handleResponse(res);
                 const data = await res.json();
                 if (!res.ok) { alert(data.error || 'Erro ao salvar o post.'); return; }
                 showToast();
                 showBlogList();
-            } catch (e) { alert('Falha na conexão com o servidor.'); }
+            } catch (e) {
+                if (e.message !== 'Não autorizado') {
+                    alert('Falha na conexão com o servidor.');
+                }
+            }
         }
 
         async function confirmDeletePost(id, title) {
             if (!confirm('Excluir o post "' + title + '"? Esta ação não pode ser desfeita.')) return;
             try {
                 const res = await fetch('/api/posts?id=' + encodeURIComponent(id), { method: 'DELETE', headers: authHeaders() });
+                handleResponse(res);
                 if (!res.ok) { alert('Erro ao excluir o post.'); return; }
                 loadPosts();
-            } catch (e) { alert('Falha na conexão com o servidor.'); }
+            } catch (e) {
+                if (e.message !== 'Não autorizado') {
+                    alert('Falha na conexão com o servidor.');
+                }
+            }
         }
     </script>
 </body>
