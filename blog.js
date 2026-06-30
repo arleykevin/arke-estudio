@@ -19,7 +19,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const article = document.getElementById('post');
     if (grid) renderList(grid);
     if (article) renderPost(article);
+
+    // WhatsApp floating button dynamic link
+    async function loadWhatsappNumber() {
+        try {
+            let data;
+            try {
+                const response = await fetch('/api/data');
+                if (response.ok) data = await response.json();
+            } catch (e) {
+                const resFile = await fetch('/data.json');
+                data = await resFile.json();
+            }
+            if (data && data.contact) {
+                const floatWa = document.getElementById('floating-whatsapp');
+                if (floatWa) {
+                    floatWa.href = `https://wa.me/${data.contact.whatsappNumber}`;
+                }
+            }
+        } catch (err) {
+            console.log('Error loading WhatsApp number:', err);
+        }
+    }
+    loadWhatsappNumber();
 });
+
+let allBlogPosts = [];
+let activeCategory = 'all';
+let searchQuery = '';
 
 function fmtDate(iso) {
     if (!iso) return '';
@@ -46,52 +73,116 @@ async function renderList(grid) {
             return;
         }
         
-        let html = '';
-        posts.forEach((p, index) => {
-            html += `
-            <a class="post-card" href="/blog/${encodeURIComponent(p.slug)}">
-                <div class="post-card-cover">
-                    ${p.cover_url
-                        ? `<img src="${escapeHtml(p.cover_url)}" alt="${escapeHtml(p.title)}" loading="lazy">`
-                        : `<div class="post-card-noimg"><i data-lucide="image"></i></div>`}
-                </div>
-                <div class="post-card-body">
-                    <span class="post-card-date">${fmtDate(p.published_at)}</span>
-                    <h3>${escapeHtml(p.title)}</h3>
-                    <p>${escapeHtml(p.excerpt || '')}</p>
-                    <span class="post-card-link">Ler mais <i data-lucide="arrow-right"></i></span>
-                </div>
-            </a>`;
-
-            // Inserir card de anúncio AdSense após o 3º post (index 2)
-            if (index === 2) {
-                html += `
-                <div class="post-card adsense-card" style="padding: 1.5rem; justify-content: center; align-items: center; min-height: 380px; background: rgba(255, 255, 255, 0.01);">
-                    <ins class="adsbygoogle"
-                         style="display:block; width: 100%; height: 100%;"
-                         data-ad-format="fluid"
-                         data-ad-layout-key="-gw-3+1f-3d+2z"
-                         data-ad-client="ca-pub-3118280438605658"
-                         data-ad-slot="YOUR_IN_FEED_SLOT_ID_HERE"></ins>
-                </div>`;
-            }
-        });
+        allBlogPosts = posts;
         
-        grid.innerHTML = html;
-        lucide.createIcons();
-
-        // Inicializar anúncios dinâmicos no feed se houver posts suficientes
-        if (posts.length > 2) {
-            try {
-                (window.adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (e) {
-                console.error("AdSense In-Feed Error:", e);
-            }
+        // Configurar busca e filtros
+        const searchInput = document.getElementById('blog-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                applyBlogFilters(grid, empty);
+            });
         }
+        
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                activeCategory = btn.getAttribute('data-category');
+                applyBlogFilters(grid, empty);
+            });
+        });
+
+        applyBlogFilters(grid, empty);
     } catch (e) {
         if (empty) {
             empty.textContent = 'Não foi possível carregar os posts.';
             empty.style.display = 'block';
+        }
+    }
+}
+
+function removeAccents(str) {
+    return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+}
+
+function applyBlogFilters(grid, empty) {
+    let filtered = allBlogPosts;
+    
+    // Filtro por categoria
+    if (activeCategory !== 'all') {
+        filtered = filtered.filter(p => {
+            const cat = (p.category || 'Geral').toLowerCase().trim();
+            const act = activeCategory.toLowerCase().trim();
+            return cat === act;
+        });
+    }
+    
+    // Filtro por busca
+    if (searchQuery) {
+        const queryNorm = removeAccents(searchQuery);
+        filtered = filtered.filter(p => {
+            const title = removeAccents((p.title || '').toLowerCase());
+            const excerpt = removeAccents((p.excerpt || '').toLowerCase());
+            return title.includes(queryNorm) || excerpt.includes(queryNorm);
+        });
+    }
+    
+    if (filtered.length === 0) {
+        grid.innerHTML = '';
+        if (empty) {
+            empty.textContent = 'Nenhum post encontrado para os filtros selecionados.';
+            empty.style.display = 'block';
+        }
+        return;
+    }
+    
+    if (empty) empty.style.display = 'none';
+    
+    let html = '';
+    filtered.forEach((p, index) => {
+        html += `
+        <a class="post-card" href="/blog/${encodeURIComponent(p.slug)}">
+            <div class="post-card-cover">
+                ${p.cover_url
+                    ? `<img src="${escapeHtml(p.cover_url)}" alt="${escapeHtml(p.title)}" loading="lazy">`
+                    : `<div class="post-card-noimg"><i data-lucide="image"></i></div>`}
+            </div>
+            <div class="post-card-body">
+                <div style="display: flex; gap: 0.55rem; align-items: center; margin-bottom: 0.6rem; flex-wrap: wrap;">
+                    <span class="post-card-category">${escapeHtml(p.category || 'Geral')}</span>
+                    <span class="post-card-date" style="margin: 0">${fmtDate(p.published_at)}</span>
+                </div>
+                <h3>${escapeHtml(p.title)}</h3>
+                <p>${escapeHtml(p.excerpt || '')}</p>
+                <span class="post-card-link">Ler mais <i data-lucide="arrow-right"></i></span>
+            </div>
+        </a>`;
+
+        // Inserir card de anúncio AdSense após o 3º post (index 2)
+        if (index === 2) {
+            html += `
+            <div class="post-card adsense-card" style="padding: 1.5rem; justify-content: center; align-items: center; min-height: 380px; background: rgba(255, 255, 255, 0.01);">
+                <ins class="adsbygoogle"
+                     style="display:block; width: 100%; height: 100%;"
+                     data-ad-format="fluid"
+                     data-ad-layout-key="-gw-3+1f-3d+2z"
+                     data-ad-client="ca-pub-3118280438605658"
+                     data-ad-slot="YOUR_IN_FEED_SLOT_ID_HERE"></ins>
+            </div>`;
+        }
+    });
+    
+    grid.innerHTML = html;
+    lucide.createIcons();
+
+    // Inicializar anúncios dinâmicos no feed se houver posts suficientes
+    if (filtered.length > 2) {
+        try {
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+            console.error("AdSense In-Feed Error:", e);
         }
     }
 }

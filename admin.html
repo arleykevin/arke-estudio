@@ -911,7 +911,10 @@
         </a>
         <nav class="nav-menu">
             <div class="nav-item active" onclick="showTab('hero', this)"><i data-lucide="home"></i> <span>Geral / Hero</span></div>
+            <div class="nav-item" onclick="showTab('portfolio', this)"><i data-lucide="folder-git-2"></i> <span>Portfólio</span></div>
+            <div class="nav-item" onclick="showTab('testimonials', this)"><i data-lucide="message-square"></i> <span>Depoimentos</span></div>
             <div class="nav-item" onclick="showTab('faq', this)"><i data-lucide="help-circle"></i> <span>FAQ</span></div>
+            <div class="nav-item" onclick="showTab('simulator', this)"><i data-lucide="calculator"></i> <span>Simulador</span></div>
             <div class="nav-item" onclick="showTab('blog', this)"><i data-lucide="newspaper"></i> <span>Blog</span></div>
             <div style="margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 1rem;">
                 <a href="index.html" target="_blank" class="nav-item"><i data-lucide="external-link"></i> <span>Ver Site Público</span></a>
@@ -967,6 +970,58 @@
             </div>
         </div>
 
+        <!-- Section: Portfólio -->
+        <div id="tab-portfolio" class="tab-content" style="display:none">
+            <div class="admin-card">
+                <div class="card-header">
+                    <h2><i data-lucide="folder-git-2" style="color: var(--admin-accent);"></i> Portfólio de Cases</h2>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i data-lucide="folder-git-2"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-portfolio-count">0</h3>
+                            <p>Projetos Cadastrados</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="portfolio-list" class="items-container"></div>
+                <button class="add-item-btn" onclick="addPortfolioItem()">
+                    <i data-lucide="plus-circle" size="32"></i>
+                    <span>Novo Case / Projeto</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Section: Depoimentos -->
+        <div id="tab-testimonials" class="tab-content" style="display:none">
+            <div class="admin-card">
+                <div class="card-header">
+                    <h2><i data-lucide="message-square" style="color: var(--admin-accent);"></i> Depoimentos de Clientes</h2>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i data-lucide="message-square"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-testimonials-count">0</h3>
+                            <p>Depoimentos Cadastrados</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="testimonials-list" class="items-container"></div>
+                <button class="add-item-btn" onclick="addTestimonialItem()">
+                    <i data-lucide="plus-circle" size="32"></i>
+                    <span>Novo Depoimento</span>
+                </button>
+            </div>
+        </div>
+
         <!-- Section: FAQ -->
         <div id="tab-faq" class="tab-content" style="display:none">
             <div class="admin-card">
@@ -989,6 +1044,32 @@
                 <button class="add-item-btn" onclick="addFAQ()">
                     <i data-lucide="plus-circle" size="32"></i>
                     <span>Nova Pergunta Frequente</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Section: Simulador -->
+        <div id="tab-simulator" class="tab-content" style="display:none">
+            <div class="admin-card">
+                <div class="card-header">
+                    <h2><i data-lucide="calculator" style="color: var(--admin-accent);"></i> Simulador de Orçamento</h2>
+                </div>
+
+                <!-- Stats Grid (Simulator) -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i data-lucide="calculator"></i></div>
+                        <div class="stat-info">
+                            <h3 id="stat-simulator-count">0</h3>
+                            <p>Serviços no Simulador</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="simulator-list" class="items-container"></div>
+                <button class="add-item-btn" onclick="addSimulatorItem()">
+                    <i data-lucide="plus-circle" size="32"></i>
+                    <span>Novo Serviço no Simulador</span>
                 </button>
             </div>
         </div>
@@ -1040,6 +1121,16 @@
                             <option value="draft">Rascunhos</option>
                         </select>
                     </div>
+                    <div class="filter-status-select">
+                        <select id="filter-category" onchange="applyFilters()">
+                            <option value="all">Todas as Categorias</option>
+                            <option value="Geral">Geral</option>
+                            <option value="Design">Design</option>
+                            <option value="Marketing Digital">Marketing Digital</option>
+                            <option value="Branding">Branding</option>
+                            <option value="Tecnologia">Tecnologia</option>
+                        </select>
+                    </div>
                     <div class="filter-date-group">
                         <input type="date" id="filter-date-start" onchange="applyFilters()" title="Data Inicial">
                         <span class="text-muted">até</span>
@@ -1085,6 +1176,16 @@
                         <input type="datetime-local" id="post-published-at" onchange="markUnsaved()">
                     </div>
                     <div class="form-group">
+                        <label><i data-lucide="tag"></i> Categoria</label>
+                        <select id="post-category" onchange="markUnsaved()">
+                            <option value="Geral">Geral</option>
+                            <option value="Design">Design</option>
+                            <option value="Marketing Digital">Marketing Digital</option>
+                            <option value="Branding">Branding</option>
+                            <option value="Tecnologia">Tecnologia</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label><i data-lucide="image"></i> Imagem de capa</label>
                         <div class="cover-upload-zone" id="cover-dropzone">
                             <input type="file" id="post-cover-file" accept="image/*" onchange="uploadCover(this)">
@@ -1119,7 +1220,9 @@
                             <button type="button" class="toolbar-btn" onclick="insertMarkdown('heading')" title="Título"><i data-lucide="heading"></i></button>
                             <span class="toolbar-separator"></span>
                             <button type="button" class="toolbar-btn" onclick="insertMarkdown('link')" title="Inserir Link"><i data-lucide="link"></i></button>
-                            <button type="button" class="toolbar-btn" onclick="insertMarkdown('image')" title="Inserir Imagem"><i data-lucide="image"></i></button>
+                            <button type="button" class="toolbar-btn" onclick="insertMarkdown('image')" title="Inserir Link de Imagem"><i data-lucide="image"></i></button>
+                            <button type="button" class="toolbar-btn" onclick="triggerContentImageUpload()" title="Fazer Upload de Imagem"><i data-lucide="upload-cloud"></i></button>
+                            <input type="file" id="post-content-image-file" accept="image/*" style="display:none;" onchange="uploadContentImage(this)">
                             <span class="toolbar-separator"></span>
                             <button type="button" class="toolbar-btn" onclick="insertMarkdown('list')" title="Lista"><i data-lucide="list"></i></button>
                             <button type="button" class="toolbar-btn" onclick="insertMarkdown('quote')" title="Citação"><i data-lucide="quote"></i></button>
@@ -1370,20 +1473,311 @@
             const faqCountEl = document.getElementById('stat-faq-count');
             if (faqCountEl) faqCountEl.textContent = (siteData.faq || []).length;
 
+            // Portfólio
+            const portList = document.getElementById('portfolio-list');
+            if (portList) {
+                portList.innerHTML = '';
+                if (!siteData.portfolio) siteData.portfolio = { title: "Nosso Portfólio", description: "Alguns projetos...", items: [] };
+                if (!siteData.portfolio.items) siteData.portfolio.items = [];
+
+                // Editar título e descrição da seção
+                const headerRow = document.createElement('div');
+                headerRow.className = 'item-row';
+                headerRow.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                headerRow.style.marginBottom = '2rem';
+                headerRow.style.paddingBottom = '1.5rem';
+                headerRow.innerHTML = `
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Título da Seção de Portfólio (HTML permitido)</label>
+                            <input type="text" oninput="siteData.portfolio.title = this.value; markGeneralUnsaved()" value="${escAttr(siteData.portfolio.title || '')}">
+                        </div>
+                        <div class="form-group">
+                            <label>Descrição da Seção</label>
+                            <input type="text" oninput="siteData.portfolio.description = this.value; markGeneralUnsaved()" value="${escAttr(siteData.portfolio.description || '')}">
+                        </div>
+                    </div>
+                `;
+                portList.appendChild(headerRow);
+
+                siteData.portfolio.items.forEach((item, i) => {
+                    const row = document.createElement('div');
+                    row.className = 'item-row';
+                    row.innerHTML = `
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Título do Projeto</label>
+                                <input type="text" oninput="updatePortfolio(${i}, 'title', this.value); markGeneralUnsaved()" value="${escAttr(item.title)}">
+                            </div>
+                            <div class="form-group">
+                                <label>Categoria</label>
+                                <select onchange="updatePortfolio(${i}, 'category', this.value); markGeneralUnsaved()" style="background: var(--bg-darker); color: var(--text-main); border: 1px solid var(--border-strong); padding: 0.75rem 1rem; border-radius: var(--radius-md); font-family: inherit; font-size: inherit; width: 100%;">
+                                    <option value="Design Gráfico" ${item.category === 'Design Gráfico' ? 'selected' : ''}>Design Gráfico</option>
+                                    <option value="Branding" ${item.category === 'Branding' ? 'selected' : ''}>Branding</option>
+                                    <option value="Marketing Digital" ${item.category === 'Marketing Digital' ? 'selected' : ''}>Marketing Digital</option>
+                                    <option value="Tecnologia" ${item.category === 'Tecnologia' ? 'selected' : ''}>Tecnologia</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Imagem (Nome do arquivo ou URL)</label>
+                                <div style="display:flex; gap:0.5rem; width:100%;">
+                                    <input type="text" id="portfolio-img-${i}" oninput="updatePortfolio(${i}, 'image', this.value); markGeneralUnsaved()" value="${escAttr(item.image)}" style="flex:1;">
+                                    <button class="btn btn-secondary" style="padding:0 0.75rem; border-radius:var(--radius-md);" onclick="triggerPortfolioImageUpload(${i})"><i data-lucide="upload"></i></button>
+                                    <input type="file" id="portfolio-file-${i}" accept="image/*" style="display:none;" onchange="uploadPortfolioImage(${i}, this)">
+                                </div>
+                            </div>
+                            <div class="form-group full-width" style="grid-column: 1 / -1;">
+                                <label>Descrição Curta do Case</label>
+                                <textarea oninput="updatePortfolio(${i}, 'description', this.value); markGeneralUnsaved()" rows="2">${escHtml(item.description)}</textarea>
+                            </div>
+                            <div class="form-group" style="grid-column: 1 / span 1;">
+                                <label>O Desafio (Detalhamento)</label>
+                                <textarea oninput="updatePortfolio(${i}, 'challenge', this.value); markGeneralUnsaved()" rows="3" placeholder="Descreva o desafio enfrentado...">${escHtml(item.challenge || '')}</textarea>
+                            </div>
+                            <div class="form-group" style="grid-column: 2 / span 1;">
+                                <label>A Solução (Detalhamento)</label>
+                                <textarea oninput="updatePortfolio(${i}, 'solution', this.value); markGeneralUnsaved()" rows="3" placeholder="Descreva a solução desenvolvida...">${escHtml(item.solution || '')}</textarea>
+                            </div>
+                            <div class="form-group" style="grid-column: 3 / span 1;">
+                                <label>O Resultado (Detalhamento)</label>
+                                <textarea oninput="updatePortfolio(${i}, 'results', this.value); markGeneralUnsaved()" rows="3" placeholder="Descreva os resultados obtidos...">${escHtml(item.results || '')}</textarea>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="action-btn btn-delete" onclick="removePortfolioItem(${i})" title="Remover Projeto"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    `;
+                    portList.appendChild(row);
+                });
+
+                const portCountEl = document.getElementById('stat-portfolio-count');
+                if (portCountEl) portCountEl.textContent = siteData.portfolio.items.length;
+            }
+
+            // Depoimentos
+            const testList = document.getElementById('testimonials-list');
+            if (testList) {
+                testList.innerHTML = '';
+                if (!siteData.testimonials) siteData.testimonials = { title: "Depoimentos", description: "O que dizem...", items: [] };
+                if (!siteData.testimonials.items) siteData.testimonials.items = [];
+
+                // Editar título e descrição da seção
+                const headerRow = document.createElement('div');
+                headerRow.className = 'item-row';
+                headerRow.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                headerRow.style.marginBottom = '2rem';
+                headerRow.style.paddingBottom = '1.5rem';
+                headerRow.innerHTML = `
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Título da Seção de Depoimentos (HTML permitido)</label>
+                            <input type="text" oninput="siteData.testimonials.title = this.value; markGeneralUnsaved()" value="${escAttr(siteData.testimonials.title || '')}">
+                        </div>
+                        <div class="form-group">
+                            <label>Descrição da Seção</label>
+                            <input type="text" oninput="siteData.testimonials.description = this.value; markGeneralUnsaved()" value="${escAttr(siteData.testimonials.description || '')}">
+                        </div>
+                    </div>
+                `;
+                testList.appendChild(headerRow);
+
+                siteData.testimonials.items.forEach((item, i) => {
+                    const row = document.createElement('div');
+                    row.className = 'item-row';
+                    row.innerHTML = `
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nome do Cliente</label>
+                                <input type="text" oninput="updateTestimonial(${i}, 'name', this.value); markGeneralUnsaved()" value="${escAttr(item.name)}">
+                            </div>
+                            <div class="form-group">
+                                <label>Cargo / Empresa</label>
+                                <input type="text" oninput="updateTestimonial(${i}, 'role', this.value); markGeneralUnsaved()" value="${escAttr(item.role)}">
+                            </div>
+                            <div class="form-group full-width" style="grid-column: 1 / -1;">
+                                <label>Depoimento</label>
+                                <textarea oninput="updateTestimonial(${i}, 'content', this.value); markGeneralUnsaved()" rows="3">${escHtml(item.content)}</textarea>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="action-btn btn-delete" onclick="removeTestimonialItem(${i})" title="Remover Depoimento"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    `;
+                    testList.appendChild(row);
+                });
+
+                const testCountEl = document.getElementById('stat-testimonials-count');
+                if (testCountEl) testCountEl.textContent = siteData.testimonials.items.length;
+            }
+
+            // Simulator
+            const simList = document.getElementById('simulator-list');
+            if (simList) {
+                simList.innerHTML = '';
+                if (!siteData.simulator) siteData.simulator = { title: "Simulador de Orçamento", description: "Selecione as soluções...", items: [] };
+                if (!siteData.simulator.items) siteData.simulator.items = [];
+
+                // Editar título e descrição da seção
+                const headerRow = document.createElement('div');
+                headerRow.className = 'item-row';
+                headerRow.style.borderBottom = '1px solid rgba(255,255,255,0.05)';
+                headerRow.style.marginBottom = '2rem';
+                headerRow.style.paddingBottom = '1.5rem';
+                headerRow.innerHTML = `
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Título da Seção de Simulador (HTML permitido)</label>
+                            <input type="text" oninput="siteData.simulator.title = this.value; markGeneralUnsaved()" value="${escAttr(siteData.simulator.title || '')}">
+                        </div>
+                        <div class="form-group">
+                            <label>Descrição da Seção</label>
+                            <input type="text" oninput="siteData.simulator.description = this.value; markGeneralUnsaved()" value="${escAttr(siteData.simulator.description || '')}">
+                        </div>
+                    </div>
+                `;
+                simList.appendChild(headerRow);
+
+                siteData.simulator.items.forEach((item, i) => {
+                    const row = document.createElement('div');
+                    row.className = 'item-row';
+                    row.innerHTML = `
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Nome do Serviço</label>
+                                <input type="text" oninput="updateSimulatorItem(${i}, 'name', this.value); markGeneralUnsaved()" value="${escAttr(item.name)}">
+                            </div>
+                            <div class="form-group">
+                                <label>Preço Base (R$)</label>
+                                <input type="number" oninput="updateSimulatorItem(${i}, 'price', parseFloat(this.value) || 0); markGeneralUnsaved()" value="${item.price}">
+                            </div>
+                            <div class="form-group">
+                                <label>Tipo de Investimento</label>
+                                <select onchange="updateSimulatorItem(${i}, 'type', this.value); markGeneralUnsaved()" style="background: var(--bg-darker); color: var(--text-main); border: 1px solid var(--border-strong); padding: 0.75rem 1rem; border-radius: var(--radius-md); font-family: inherit; font-size: inherit; width: 100%;">
+                                    <option value="single" ${item.type === 'single' ? 'selected' : ''}>Único (Pontual)</option>
+                                    <option value="monthly" ${item.type === 'monthly' ? 'selected' : ''}>Mensal (Contrato)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Ícone (Lucide)</label>
+                                <input type="text" oninput="updateSimulatorItem(${i}, 'icon', this.value); markGeneralUnsaved()" value="${escAttr(item.icon || 'palette')}">
+                            </div>
+                            <div class="form-group full-width" style="grid-column: span 2;">
+                                <label>Descrição Curta do Serviço</label>
+                                <input type="text" oninput="updateSimulatorItem(${i}, 'description', this.value); markGeneralUnsaved()" value="${escAttr(item.description || '')}">
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button class="action-btn btn-delete" onclick="removeSimulatorItem(${i})" title="Remover Serviço"><i data-lucide="trash-2"></i></button>
+                        </div>
+                    `;
+                    simList.appendChild(row);
+                });
+
+                const simCountEl = document.getElementById('stat-simulator-count');
+                if (simCountEl) simCountEl.textContent = siteData.simulator.items.length;
+            }
+
             if (window.lucide) lucide.createIcons();
+        }
+
+        function updatePortfolio(i, k, v) {
+            siteData.portfolio.items[i][k] = v;
+        }
+        function updateSimulatorItem(i, k, v) {
+            if (!siteData.simulator) siteData.simulator = { items: [] };
+            if (!siteData.simulator.items) siteData.simulator.items = [];
+            siteData.simulator.items[i][k] = v;
+        }
+        function addSimulatorItem() {
+            if (!siteData.simulator) siteData.simulator = { items: [] };
+            if (!siteData.simulator.items) siteData.simulator.items = [];
+            siteData.simulator.items.push({ name: 'Novo Serviço', price: 1000, type: 'single', icon: 'palette', description: 'Descrição do serviço...' });
+            renderAll();
+            markGeneralUnsaved();
+        }
+        async function removeSimulatorItem(i) {
+            const confirmed = await showConfirm('Remover Serviço', 'Tem certeza que deseja remover este serviço do simulador?');
+            if (confirmed) {
+                siteData.simulator.items.splice(i, 1);
+                renderAll();
+                markGeneralUnsaved();
+            }
+        }
+        function addPortfolioItem() {
+            if (!siteData.portfolio) siteData.portfolio = { items: [] };
+            if (!siteData.portfolio.items) siteData.portfolio.items = [];
+            siteData.portfolio.items.push({ title: 'Novo Projeto', category: 'Design Gráfico', image: 'logo-arke.svg', description: 'Descrição do case...' });
+            renderAll();
+            markGeneralUnsaved();
+        }
+        async function removePortfolioItem(i) {
+            const confirmed = await showConfirm('Remover Projeto', 'Deseja realmente excluir este projeto do portfólio?');
+            if (!confirmed) return;
+            siteData.portfolio.items.splice(i, 1);
+            renderAll();
+            markGeneralUnsaved();
+        }
+        function triggerPortfolioImageUpload(i) {
+            document.getElementById(`portfolio-file-${i}`).click();
+        }
+        async function uploadPortfolioImage(i, input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            showToast('Enviando imagem...', false);
+            try {
+                const dataUrl = await downscaleImage(file, 1600, 0.85);
+                const res = await fetch('/api/upload', {
+                    method: 'POST',
+                    headers: authHeaders(true),
+                    body: JSON.stringify({ filename: file.name, dataUrl })
+                });
+                handleResponse(res);
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || '');
+                
+                siteData.portfolio.items[i].image = data.url;
+                document.getElementById(`portfolio-img-${i}`).value = data.url;
+                markGeneralUnsaved();
+                showToast('Imagem do projeto atualizada! ✓');
+            } catch (e) {
+                console.error(e);
+                if (e.message !== 'Não autorizado') {
+                    showToast('Falha ao enviar imagem do projeto.', true);
+                }
+            } finally {
+                input.value = '';
+            }
+        }
+
+        function updateTestimonial(i, k, v) {
+            siteData.testimonials.items[i][k] = v;
+        }
+        function addTestimonialItem() {
+            if (!siteData.testimonials) siteData.testimonials = { items: [] };
+            if (!siteData.testimonials.items) siteData.testimonials.items = [];
+            siteData.testimonials.items.push({ name: 'Nome do Cliente', role: 'Cargo, Empresa', content: 'Depoimento do cliente...' });
+            renderAll();
+            markGeneralUnsaved();
+        }
+        async function removeTestimonialItem(i) {
+            const confirmed = await showConfirm('Remover Depoimento', 'Deseja realmente excluir este depoimento?');
+            if (!confirmed) return;
+            siteData.testimonials.items.splice(i, 1);
+            renderAll();
+            markGeneralUnsaved();
         }
 
         function updateFAQ(i, k, v) { 
             siteData.faq[i][k] = v; 
         }
-
+ 
         function addFAQ() { 
             if (!siteData.faq) siteData.faq = []; 
             siteData.faq.push({ question: "Nova Pergunta?", answer: "Resposta..." }); 
             renderAll(); 
             markGeneralUnsaved();
         }
-
+ 
         async function removeFAQ(i) { 
             const confirmed = await showConfirm('Remover Pergunta', 'Deseja realmente excluir esta pergunta do FAQ?');
             if (!confirmed) return;
@@ -1517,13 +1911,13 @@
         }
 
         function applyFilters() {
-            const searchQuery = document.getElementById('filter-search').value.toLowerCase().trim();
-            const statusFilter = document.getElementById('filter-status').value;
-            const dateStart = document.getElementById('filter-date-start').value;
-            const dateEnd = document.getElementById('filter-date-end').value;
-            
             const list = document.getElementById('blog-list');
             const empty = document.getElementById('blog-empty');
+            const searchQuery = document.getElementById('filter-search').value.toLowerCase().trim();
+            const statusFilter = document.getElementById('filter-status').value;
+            const categoryFilter = document.getElementById('filter-category').value;
+            const dateStart = document.getElementById('filter-date-start').value;
+            const dateEnd = document.getElementById('filter-date-end').value;
             
             let filtered = allPosts;
             
@@ -1539,8 +1933,13 @@
             if (statusFilter !== 'all') {
                 filtered = filtered.filter(p => p.status === statusFilter);
             }
+
+            // 3. Category Filter
+            if (categoryFilter !== 'all') {
+                filtered = filtered.filter(p => (p.category || 'Geral') === categoryFilter);
+            }
             
-            // 3. Date Filters
+            // 4. Date Filters
             if (dateStart) {
                 const startMs = new Date(dateStart + 'T00:00:00').getTime();
                 filtered = filtered.filter(p => {
@@ -1573,6 +1972,7 @@
                          <h4>${escHtml(p.title)}</h4>
                          <div style="display:flex; gap:1.2rem; align-items:center; flex-wrap:wrap; margin-top:0.25rem;">
                              <span class="post-status ${p.status}">${p.status === 'published' ? 'Publicado' : 'Rascunho'}</span>
+                             <span class="text-muted" style="font-size:.82rem; font-weight:600; text-transform:uppercase; letter-spacing:0.04em; background:rgba(255,255,255,0.04); padding:0.15rem 0.5rem; border-radius:4px; border:1px solid rgba(255,255,255,0.06);">${escHtml(p.category || 'Geral')}</span>
                              <span class="text-muted" style="font-size:.82rem; display:flex; align-items:center; gap:4px;">
                                  <i data-lucide="link" style="width:12px; height:12px;"></i> /blog/${escHtml(p.slug)}
                              </span>
@@ -1594,6 +1994,7 @@
         function clearFilters() {
             document.getElementById('filter-search').value = '';
             document.getElementById('filter-status').value = 'all';
+            document.getElementById('filter-category').value = 'all';
             document.getElementById('filter-date-start').value = '';
             document.getElementById('filter-date-end').value = '';
             applyFilters();
@@ -1606,7 +2007,7 @@
             
             const lockBtn = document.getElementById('slug-lock-btn');
             if (lockBtn) {
-                lockBtn.innerHTML = '<i data-lucide="link-2"></i>';
+                lockBtn.innerHTML = '<i data-lucide="link"></i>';
                 lockBtn.title = "Desvincular do Título";
             }
 
@@ -1615,6 +2016,7 @@
             document.getElementById('post-title').value = '';
             document.getElementById('post-slug').value = '';
             document.getElementById('post-status').value = 'draft';
+            document.getElementById('post-category').value = 'Geral';
             document.getElementById('post-excerpt').value = '';
             document.getElementById('post-content').value = '';
             document.getElementById('post-cover-url').value = '';
@@ -1650,6 +2052,7 @@
                 document.getElementById('post-title').value = p.title || '';
                 document.getElementById('post-slug').value = p.slug || '';
                 document.getElementById('post-status').value = p.status || 'draft';
+                document.getElementById('post-category').value = p.category || 'Geral';
                 document.getElementById('post-excerpt').value = p.excerpt || '';
                 document.getElementById('post-content').value = p.content || '';
                 document.getElementById('post-cover-url').value = p.cover_url || '';
@@ -1924,6 +2327,7 @@
                 id: editingId || undefined,
                 title, slug,
                 status: document.getElementById('post-status').value,
+                category: document.getElementById('post-category').value,
                 excerpt: document.getElementById('post-excerpt').value,
                 content: document.getElementById('post-content').value,
                 cover_url: document.getElementById('post-cover-url').value,
@@ -1949,6 +2353,50 @@
                 if (e.message !== 'Não autorizado') {
                     showToast('Falha na conexão com o servidor.', true);
                 }
+            }
+        }
+
+        function triggerContentImageUpload() {
+            document.getElementById('post-content-image-file').click();
+        }
+
+        async function uploadContentImage(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            
+            showToast('Enviando imagem...', false);
+            
+            try {
+                const dataUrl = await downscaleImage(file, 1600, 0.85);
+                const res = await fetch('/api/upload', {
+                    method: 'POST', headers: authHeaders(true),
+                    body: JSON.stringify({ filename: file.name, dataUrl })
+                });
+                handleResponse(res);
+                const data = await res.json();
+                if (!res.ok) throw new Error(data.error || '');
+                
+                const textarea = document.getElementById('post-content');
+                const start = textarea.selectionStart;
+                const end = textarea.selectionEnd;
+                const text = textarea.value;
+                
+                const imageName = file.name.split('.')[0].replace(/[^a-zA-Z0-9]/g, ' ');
+                const markdownImage = `\n![${imageName}](${data.url})\n`;
+                
+                textarea.value = text.substring(0, start) + markdownImage + text.substring(end);
+                textarea.focus();
+                textarea.selectionStart = textarea.selectionEnd = start + markdownImage.length;
+                
+                onContentInput();
+                showToast('Imagem inserida! ✓');
+            } catch (e) {
+                console.error(e);
+                if (e.message !== 'Não autorizado') {
+                    showToast('Falha ao enviar imagem do conteúdo.', true);
+                }
+            } finally {
+                input.value = '';
             }
         }
 

@@ -22,6 +22,7 @@ function normalize(body) {
         excerpt: body.excerpt || '',
         cover_url: body.cover_url || '',
         content: body.content || '',
+        category: String(body.category || 'Geral').trim(),
         status,
         published_at,
     };

@@ -47,6 +47,7 @@
                 <a href="#hero" class="nav-link">Início</a>
                 <a href="#about" class="nav-link">Quem Somos</a>
                 <a href="#services" class="nav-link">Serviços</a>
+                <a href="/portfolio" class="nav-link">Portfólio</a>
                 <a href="#process" class="nav-link">Processo</a>
                 <a href="#differentials" class="nav-link">Diferenciais</a>
                 <a href="#faq" class="nav-link">FAQ</a>
@@ -103,6 +104,22 @@
             </div>
         </section>
 
+        <!-- Portfolio Section -->
+        <section id="portfolio" class="portfolio section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 id="portfolio-title">Nosso <span class="gradient-text">Portfólio</span></h2>
+                    <p id="portfolio-description">Alguns dos projetos recentes que desenvolvemos para nossos clientes.</p>
+                </div>
+                <div class="portfolio-grid" id="portfolio-grid">
+                    <!-- Populated by JS -->
+                </div>
+                <div style="margin-top: 3rem; text-align: center;">
+                    <a href="/portfolio" class="btn">Ver Portfólio Completo</a>
+                </div>
+            </div>
+        </section>
+
         <!-- Process Section -->
         <section id="process" class="process section bg-darker">
             <div class="container">
@@ -111,8 +128,73 @@
                     <p id="process-description">Nosso processo é simples, objetivo e colaborativo.</p>
                 </div>
 
-                <div class="process-timeline" id="process-timeline">
+                <div class="process-tabs" id="process-tabs">
                     <!-- Populated by JS -->
+                </div>
+                <div class="process-card-wrapper" id="process-card-container">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Simulator Section -->
+        <section id="simulator" class="simulator section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 id="simulator-title">Simulador de <span class="gradient-text">Orçamento</span></h2>
+                    <p id="simulator-description">Selecione as soluções que deseja para o seu negócio e veja uma estimativa na hora.</p>
+                </div>
+
+                <div class="simulator-wrapper">
+                    <div class="simulator-left">
+                        <h3>1. Selecione os Serviços</h3>
+                        <div class="simulator-items-grid" id="simulator-items-grid">
+                            <!-- Populated by JS -->
+                        </div>
+                        
+                        <div class="simulator-media-budget" id="media-budget-group" style="display:none; margin-top: 2rem;">
+                            <div style="display:flex; justify-content:space-between; margin-bottom: 0.8rem;">
+                                <h3>2. Verba de Anúncios Mensal</h3>
+                                <span class="media-value" id="media-budget-val">R$ 1.500</span>
+                            </div>
+                            <p class="text-muted" style="margin-bottom: 1.2rem;">Verba paga diretamente ao Google/Facebook para veiculação dos anúncios.</p>
+                            <input type="range" id="media-budget-slider" min="500" max="10000" step="500" value="1500" style="width: 100%;">
+                        </div>
+                    </div>
+
+                    <div class="simulator-right">
+                        <div class="summary-card">
+                            <h3>Resumo do Investimento</h3>
+                            
+                            <div class="summary-line">
+                                <span>Serviços Pontuais:</span>
+                                <strong id="val-once">R$ 0</strong>
+                            </div>
+                            <div class="summary-line">
+                                <span>Mensalidade da Agência:</span>
+                                <strong id="val-monthly">R$ 0</strong>
+                            </div>
+                            <div class="summary-line" id="summary-media-line" style="display:none;">
+                                <span>Verba de Mídia (Anúncios):</span>
+                                <strong id="val-media">R$ 0</strong>
+                            </div>
+                            
+                            <div class="summary-total">
+                                <div>
+                                    <span>Investimento Único</span>
+                                    <h4 id="total-once">R$ 0</h4>
+                                </div>
+                                <div style="border-left: 1px solid rgba(255,255,255,0.1); padding-left: 1.5rem;">
+                                    <span>Investimento Mensal</span>
+                                    <h4 id="total-monthly">R$ 0</h4>
+                                </div>
+                            </div>
+
+                            <button class="btn btn-primary" id="simulator-whatsapp-btn" style="width: 100%; margin-top: 1.5rem; justify-content: center; display: flex; align-items: center; gap: 0.5rem;">
+                                <i data-lucide="message-circle"></i> Solicitar Orçamento no WhatsApp
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -151,6 +233,19 @@
                             <p id="culture-description"></p>
                         </div>
                     </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section id="testimonials" class="testimonials section">
+            <div class="container">
+                <div class="section-header reveal">
+                    <h2 id="testimonials-title">O que dizem nossos <span class="gradient-text">Clientes</span></h2>
+                    <p id="testimonials-description">A satisfação de quem trabalha conosco é nosso maior combustível.</p>
+                </div>
+                <div class="testimonials-grid" id="testimonials-grid">
+                    <!-- Populated by JS -->
                 </div>
             </div>
         </section>
@@ -201,6 +296,7 @@
                 <a href="#hero">Início</a>
                 <a href="#about">Quem Somos</a>
                 <a href="#services">Serviços</a>
+                <a href="/portfolio">Portfólio</a>
                 <a href="#process">Processo</a>
             </div>
 
@@ -218,10 +314,26 @@
         </div>
     </footer>
 
+    <!-- Case Study Modal -->
+    <div class="project-modal" id="project-modal" style="display:none;">
+        <div class="project-modal-overlay" onclick="closeProjectModal()"></div>
+        <div class="project-modal-content">
+            <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
+            <div class="project-modal-body" id="project-modal-body">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
     <!-- Initialize Icons -->
     <script>
         lucide.createIcons();
     </script>
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/5585992629819" target="_blank" class="floating-whatsapp" id="floating-whatsapp" aria-label="Falar no WhatsApp">
+        <i data-lucide="message-circle"></i>
+    </a>
+
     <script src="script.js"></script>
 </body>
 </html>

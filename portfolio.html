@@ -15,8 +15,8 @@
          crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | Arke Estúdio</title>
-    <meta name="description" content="Ideias, tendências e estratégias de design, branding e marketing digital pela ARKE Estúdio.">
+    <title>Portfólio & Clientes | Arke Estúdio</title>
+    <meta name="description" content="Casos de sucesso, identidades visuais e tráfego pago da ARKE Estúdio. Veja o que dizem nossos clientes.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
@@ -25,6 +25,7 @@
 </head>
 <body>
 
+    <!-- Header / Navbar -->
     <header class="navbar scrolled" id="navbar">
         <div class="container nav-container">
             <a href="/" class="logo">
@@ -48,50 +49,51 @@
         </div>
     </header>
 
-    <main class="blog-main">
+    <main class="portfolio-main" style="padding-top: 6rem;">
+        <!-- Portfolio Hero -->
         <section class="blog-hero">
             <div class="container">
-                <h1><span class="gradient-text">Blog</span></h1>
-                <p>Ideias, tendências e estratégias de design e marketing para a sua marca crescer.</p>
+                <h1>Portfólio & <span class="gradient-text">Clientes</span></h1>
+                <p>Nossas entregas criativas e o depoimento de quem cresce junto com a ARKE Estúdio.</p>
             </div>
         </section>
 
+        <!-- Projects Grid Section -->
         <section class="section" style="padding-top: 2rem;">
             <div class="container">
-                <!-- Google AdSense - Topo do Blog (Leaderboard) -->
-                <div class="adsense-top" style="margin-bottom: 2.5rem; text-align: center; overflow: hidden; min-height: 90px; background: rgba(255, 255, 255, 0.02); border-radius: 8px;">
-                    <ins class="adsbygoogle"
-                         style="display:block"
-                         data-ad-client="ca-pub-3118280438605658"
-                         data-ad-slot="YOUR_TOP_BANNER_SLOT_ID_HERE"
-                         data-ad-format="auto"
-                         data-full-width-responsive="true"></ins>
-                    <script>
-                         (adsbygoogle = window.adsbygoogle || []).push({});
-                    </script>
-                </div>
-
-                <!-- Search & Filters -->
-                <div class="blog-controls-wrapper">
-                    <div class="blog-search-box">
-                        <i data-lucide="search" class="search-icon"></i>
-                        <input type="text" id="blog-search" placeholder="Pesquisar artigos...">
-                    </div>
-                    <div class="blog-filters" id="blog-filters">
-                        <button class="filter-btn active" data-category="all">Todos</button>
-                        <button class="filter-btn" data-category="Design">Design</button>
-                        <button class="filter-btn" data-category="Marketing Digital">Marketing Digital</button>
+                <!-- Filters -->
+                <div class="blog-controls-wrapper" style="margin-bottom: 2.5rem; justify-content: center;">
+                    <div class="blog-filters" id="portfolio-filters">
+                        <button class="filter-btn active" data-category="all">Todos os Cases</button>
+                        <button class="filter-btn" data-category="Design Gráfico">Design Gráfico</button>
                         <button class="filter-btn" data-category="Branding">Branding</button>
+                        <button class="filter-btn" data-category="Marketing Digital">Marketing Digital</button>
                         <button class="filter-btn" data-category="Tecnologia">Tecnologia</button>
                     </div>
                 </div>
 
-                <div class="posts-grid" id="posts-grid"><!-- preenchido via JS --></div>
-                <div class="blog-empty" id="posts-empty" style="display:none">Nenhum post publicado ainda. Volte em breve!</div>
+                <div class="portfolio-grid" id="portfolio-grid">
+                    <!-- Populated by JS -->
+                </div>
+                <div class="blog-empty" id="portfolio-empty" style="display:none">Nenhum projeto cadastrado nesta categoria.</div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="section bg-darker">
+            <div class="container">
+                <div class="section-header">
+                    <h2 id="testimonials-title">O que dizem nossos <span class="gradient-text">Clientes</span></h2>
+                    <p id="testimonials-description">A voz de quem confia e alcança resultados reais com nossa parceria.</p>
+                </div>
+                <div class="testimonials-grid" id="testimonials-grid">
+                    <!-- Populated by JS -->
+                </div>
             </div>
         </section>
     </main>
 
+    <!-- Footer -->
     <footer>
         <div class="container footer-content">
             <div class="footer-brand">
@@ -130,8 +132,18 @@
         <i data-lucide="message-circle"></i>
     </a>
 
+    <!-- Case Study Modal -->
+    <div class="project-modal" id="project-modal" style="display:none;">
+        <div class="project-modal-overlay" onclick="closeProjectModal()"></div>
+        <div class="project-modal-content">
+            <button class="project-modal-close" onclick="closeProjectModal()">&times;</button>
+            <div class="project-modal-body" id="project-modal-body">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+
     <script>lucide.createIcons();</script>
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="/blog.js"></script>
+    <script src="/portfolio.js"></script>
 </body>
 </html>

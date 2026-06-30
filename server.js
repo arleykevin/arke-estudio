@@ -21,6 +21,7 @@ const allowedStaticFiles = [
     '/styles.css',
     '/script.js',
     '/blog.js',
+    '/portfolio.js',
     '/data.json',
     '/logo-arke.svg',
     '/logo.png',
@@ -77,6 +78,7 @@ app.post('/api/data', async (req, res) => {
 // URLs amigáveis do blog (espelham os rewrites do vercel.json).
 app.get('/blog', (req, res) => res.sendFile(path.join(__dirname, 'blog.html')));
 app.get('/blog/:slug', (req, res) => res.sendFile(path.join(__dirname, 'post.html')));
+app.get('/portfolio', (req, res) => res.sendFile(path.join(__dirname, 'portfolio.html')));
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);

@@ -1,3 +1,253 @@
 {
-  "x": 1
+  "faq": [
+    {
+      "answer": "Não. Embora nosso foco forte seja no ambiente digital, criamos e enviamos projetos gráficos prontos para impressão (cartões, banners, papelaria), garantindo excelência em ambas as plataformas.",
+      "question": "A ARKE trabalha apenas com design digital?"
+    },
+    {
+      "answer": "Nós cuidamos de tudo: desde o planejamento estratégico e calendário editorial até a criação do design, redação (copy) e publicação. O cliente sempre aprova o material antes de ir ao ar.",
+      "question": "Como funciona o serviço de Social Media?"
+    },
+    {
+      "answer": "Com certeza! Como uma agência digital, atendemos empresas e empreendedores de todo o Brasil (e até do exterior) por meio de reuniões online e acompanhamento remoto.",
+      "question": "Vocês atendem clientes de fora da cidade?"
+    },
+    {
+      "answer": "Sim. Trabalhamos com projetos pontuais, como a criação de Identidade Visual (logotipo, paleta, manual da marca), bem como contratos mensais para gestão contínua de marketing.",
+      "question": "Posso contratar apenas a criação de uma logo?"
+    }
+  ],
+  "hero": {
+    "title": "Design. Marketing. <span class=\"gradient-text\">Resultados.</span>",
+    "primaryBtn": {
+      "link": "#services",
+      "text": "Nossos Serviços"
+    },
+    "description": "A ARKE Estúdio é uma agência criativa especializada em design gráfico, marketing digital e estratégias de crescimento online.",
+    "secondaryBtn": {
+      "link": "#contact",
+      "text": "Fale Conosco"
+    }
+  },
+  "about": {
+    "title": "Quem <span class=\"gradient-text\">Somos</span>",
+    "features": [
+      {
+        "icon": "zap",
+        "title": "Agilidade",
+        "description": "Estrutura enxuta nos permite ser rápidos, flexíveis e altamente eficientes."
+      },
+      {
+        "icon": "users",
+        "title": "Atenção Personalizada",
+        "description": "Entregamos qualidade de grandes agências com a proximidade de um time dedicado."
+      }
+    ],
+    "description": "Nascemos com o propósito de transformar marcas e negócios por meio de comunicação visual de alto impacto, presença digital estratégica e campanhas orientadas a resultados reais."
+  },
+  "contact": {
+    "instagram": "https://instagram.com/arkeestudio",
+    "whatsappNumber": "5585992629819"
+  },
+  "culture": {
+    "title": "Nossa <span class=\"gradient-text\">Cultura Interna</span>",
+    "description": "Acreditamos que um time pequeno pode fazer um trabalho grande. Valorizamos o ambiente colaborativo e a evolução constante de cada membro. Aqui, todos têm voz ativa nos projetos e respondem diretamente pelos resultados."
+  },
+  "process": {
+    "steps": [
+      {
+        "icon": "message-square",
+        "title": "01. Briefing",
+        "description": "Entendemos o negócio, os objetivos e o público do cliente."
+      },
+      {
+        "icon": "target",
+        "title": "02. Estratégia",
+        "description": "Definimos o melhor caminho criativo e estratégico para o projeto."
+      },
+      {
+        "icon": "pen-tool",
+        "title": "03. Criação",
+        "description": "Desenvolvemos as peças, campanhas ou materiais com atenção aos detalhes."
+      },
+      {
+        "icon": "check-circle",
+        "title": "04. Revisão",
+        "description": "O cliente avalia, sugere ajustes e aprovamos juntos."
+      },
+      {
+        "icon": "rocket",
+        "title": "05. Entrega",
+        "description": "Finalizamos e entregamos no prazo, com suporte pós-entrega."
+      }
+    ],
+    "title": "Como <span class=\"gradient-text\">Trabalhamos</span>",
+    "description": "Nosso processo é simples, objetivo e colaborativo."
+  },
+  "audience": {
+    "items": [
+      {
+        "title": "Pequenas e Médias Empresas",
+        "description": "Que querem profissionalizar sua comunicação."
+      },
+      {
+        "title": "Empreendedores e Profissionais Liberais",
+        "description": "Que precisam construir ou fortalecer sua marca."
+      },
+      {
+        "title": "Negócios Locais",
+        "description": "Que desejam crescer sua presença digital."
+      },
+      {
+        "title": "Startups e Novos Negócios",
+        "description": "Que precisam criar uma identidade do zero."
+      },
+      {
+        "title": "Empresas Consolidadas",
+        "description": "Que querem renovar seu posicionamento no mercado."
+      }
+    ],
+    "title": "Para Quem <span class=\"gradient-text\">Trabalhamos</span>",
+    "description": "Atendemos marcas, empreendedores e empresas que valorizam design de qualidade e marketing inteligente."
+  },
+  "services": {
+    "items": [
+      {
+        "icon": "pen-tool",
+        "title": "Design Gráfico",
+        "description": "Criação de identidades visuais, logotipos, materiais institucionais, posts, banners e apresentações."
+      },
+      {
+        "icon": "smartphone",
+        "title": "Social Media",
+        "description": "Gestão completa de redes sociais: planejamento de conteúdo, calendário editorial e publicação."
+      },
+      {
+        "icon": "bar-chart-2",
+        "title": "Marketing Digital",
+        "description": "Estratégias de marketing integrado, funil de vendas e campanhas de conteúdo."
+      },
+      {
+        "icon": "mouse-pointer",
+        "title": "Tráfego Pago",
+        "description": "Criação e gestão de campanhas no Google Ads e Meta Ads com foco em conversão e ROI."
+      },
+      {
+        "icon": "star",
+        "title": "Branding e Posicionamento",
+        "description": "Desenvolvimento e reposicionamento de marcas, desde o naming até a voz no mercado."
+      },
+      {
+        "icon": "compass",
+        "title": "Consultoria em Marketing",
+        "description": "Diagnóstico e planejamento estratégico para estruturar ou melhorar ações de comunicação."
+      }
+    ],
+    "title": "Nossos <span class=\"gradient-text\">Serviços</span>",
+    "description": "Portfólio completo para marcas que desejam crescer no ambiente digital e se destacar visualmente."
+  },
+  "differentials": {
+    "items": [
+      {
+        "icon": "users",
+        "title": "Atendimento Próximo",
+        "description": "Sem ficar passando de mão em mão."
+      },
+      {
+        "icon": "eye",
+        "title": "Visão Estratégica",
+        "description": "Equipe especializada em design e marketing integrado."
+      },
+      {
+        "icon": "clock",
+        "title": "Entregas Rápidas",
+        "description": "Compromisso com os prazos acordados."
+      },
+      {
+        "icon": "trending-up",
+        "title": "Foco em Resultados",
+        "description": "Soluções concretas, não apenas estética."
+      },
+      {
+        "icon": "message-circle",
+        "title": "Transparência",
+        "description": "Comunicação clara durante todo o processo."
+      },
+      {
+        "icon": "layers",
+        "title": "Flexibilidade",
+        "description": "Atendemos negócios de diferentes portes e segmentos."
+      }
+    ],
+    "title": "Nossos <span class=\"gradient-text\">Diferenciais</span>",
+    "description": "Por que escolher a ARKE Estúdio como sua parceira de crescimento."
+  },
+  "portfolio": {
+    "title": "Nosso <span class=\"gradient-text\">Portfólio</span>",
+    "description": "Alguns dos projetos recentes que desenvolvemos para nossos clientes.",
+    "items": [
+      {
+        "title": "Identidade Visual — Arke Vestuário",
+        "category": "Branding",
+        "image": "blusa.png",
+        "description": "Redesenho completo da identidade visual e material promocional corporativo.",
+        "challenge": "A marca precisava unificar sua identidade visual para atrair clientes corporativos de maior poder aquisitivo.",
+        "solution": "Criamos uma identidade minimalista com paleta de cores sóbrias e um enxoval completo de papelaria corporativa.",
+        "results": "Aumento de 35% no fechamento de contratos corporativos no primeiro trimestre pós-lançamento."
+      },
+      {
+        "title": "Criação de Canecas Personalizadas",
+        "category": "Design Gráfico",
+        "image": "caneca.png",
+        "description": "Design de produto e embalagem com foco na marca e experiência.",
+        "challenge": "Desenvolver uma linha de produtos promocionais que gerasse conexão emocional com a comunidade de desenvolvedores.",
+        "solution": "Design gráfico conceitual impresso em canecas premium, destacando piadas internas de código e tipografia moderna.",
+        "results": "Estoque inicial esgotado em menos de 48 horas de divulgação orgânica."
+      },
+      {
+        "title": "Campanha de Tráfego — Sacolas de Compra",
+        "category": "Marketing Digital",
+        "image": "sacola.png",
+        "description": "Estratégia de tráfego pago e produção de criativos de alta conversão.",
+        "challenge": "Aumentar as vendas de embalagens personalizadas de papel craft por meio de canais digitais de atacado.",
+        "solution": "Criação de anúncios em formato reels demonstrando a resistência do material combinados com tráfego focado em WhatsApp.",
+        "results": "Redução de 40% no custo por lead qualificado (CPL) e 180 novos clientes recorrentes conquistados."
+      }
+    ]
+  },
+  "testimonials": {
+    "title": "O que dizem nossos <span class=\"gradient-text\">Clientes</span>",
+    "description": "A satisfação de quem trabalha conosco é nosso maior combustível.",
+    "items": [
+      {
+        "name": "Mariana Souza",
+        "role": "CEO, E-commerce X",
+        "content": "A ARKE Estúdio transformou nossa presença online. O aumento no tráfego pago e as vendas foram imediatos após as novas campanhas.",
+        "avatar": ""
+      },
+      {
+        "name": "Roberto Costa",
+        "role": "Fundador, Costa Advocacia",
+        "content": "Excelente atendimento e profissionalismo. A nova identidade visual corporativa transmite exatamente a seriedade que precisávamos.",
+        "avatar": ""
+      },
+      {
+        "name": "Aline Mendes",
+        "role": "Diretora de Marketing, TechStart",
+        "content": "Entrega rápida, design de alto nível e total flexibilidade. Um parceiro indispensável para o nosso de marketing.",
+        "avatar": ""
+      }
+    ]
+  },
+  "simulator": {
+    "title": "Simulador de <span class=\"gradient-text\">Orçamento</span>",
+    "description": "Selecione as soluções que deseja para o seu negócio e veja uma estimativa na hora.",
+    "items": [
+      { "name": "Branding & Logotipo", "price": 1500, "type": "single", "icon": "palette", "description": "Criação de logotipo, manual de identidade e paleta de cores." },
+      { "name": "Landing Page de Alta Conversão", "price": 1800, "type": "single", "icon": "layout", "description": "Página única otimizada para capturar leads e gerar vendas." },
+      { "name": "Website Institucional Completo", "price": 3200, "type": "single", "icon": "globe", "description": "Site institucional completo com múltiplas páginas." },
+      { "name": "Gestão de Tráfego Pago (Mensal)", "price": 1200, "type": "monthly", "icon": "trending-up", "description": "Criação e otimização de anúncios no Meta Ads e Google Ads." },
+      { "name": "Gestão de Redes Sociais (Mensal)", "price": 1000, "type": "monthly", "icon": "instagram", "description": "Planejamento, design e redação para Instagram e Facebook." }
+    ]
+  }
 }
