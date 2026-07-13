@@ -1,0 +1,1477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apresentação Comercial | ARKE Estúdio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- Icons (Lucide) -->
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    
+    <style>
+        /* ==========================================================================
+           ARKE Estúdio — Design System & Custom Presentation Theme
+           ========================================================================== */
+        :root {
+            --bg: #090a0f;
+            --bg-alt: #0e0f16;
+            --surface: #14161f;
+            --surface-2: #191c27;
+            --border: rgba(255, 255, 255, 0.07);
+            --border-strong: rgba(255, 255, 255, 0.13);
+            --text: #eceef3;
+            --text-muted: #9499a7;
+            --white: #ffffff;
+            
+            --brand: #0583f2;
+            --brand-deep: #1535c0;
+            --brand-teal: #18ace3;
+            --accent: #ffc233;
+            
+            --gradient: linear-gradient(120deg, #18ace3 0%, #0583f2 48%, #1535c0 100%);
+            --gradient-soft: linear-gradient(120deg, rgba(24, 172, 227, 0.12), rgba(21, 53, 192, 0.12));
+            --gradient-glow: radial-gradient(circle at center, rgba(5, 131, 242, 0.15) 0%, transparent 70%);
+
+            --font-display: 'Gilroy', 'Outfit', sans-serif;
+            --font-body: 'Gilroy', 'Inter', sans-serif;
+            
+            --r-sm: 10px;
+            --r-md: 16px;
+            --r-lg: 24px;
+            --r-full: 999px;
+            
+            --ease: cubic-bezier(0.25, 1, 0.5, 1);
+            --t: 0.4s var(--ease);
+        }
+
+        /* Light Theme overrides (useful for PDF export or reader mode toggle) */
+        body.light-theme {
+            --bg: #f8fafc;
+            --bg-alt: #f1f5f9;
+            --surface: #ffffff;
+            --surface-2: #e2e8f0;
+            --border: rgba(0, 0, 0, 0.08);
+            --border-strong: rgba(0, 0, 0, 0.15);
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --white: #0f172a;
+            --gradient-soft: linear-gradient(120deg, rgba(24, 172, 227, 0.08), rgba(21, 53, 192, 0.08));
+            --gradient-glow: radial-gradient(circle at center, rgba(5, 131, 242, 0.08) 0%, transparent 70%);
+        }
+
+        /* Ambient background glow */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(800px circle at 85% 15%, rgba(24, 172, 227, 0.08), transparent 60%),
+                radial-gradient(600px circle at 15% 85%, rgba(21, 53, 192, 0.06), transparent 50%);
+            pointer-events: none;
+            transition: background var(--t);
+        }
+
+        body.light-theme::before {
+            background:
+                radial-gradient(800px circle at 85% 15%, rgba(24, 172, 227, 0.04), transparent 60%),
+                radial-gradient(600px circle at 15% 85%, rgba(21, 53, 192, 0.03), transparent 50%);
+        }
+
+        /* ==========================================================================
+           Reset & Base
+           ========================================================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow: hidden;
+            -webkit-font-smoothing: antialiased;
+            user-select: none;
+            transition: background-color var(--t), color var(--t);
+        }
+
+        h1, h2, h3, h4 {
+            font-family: var(--font-display);
+            color: var(--white);
+            line-height: 1.15;
+            font-weight: 700;
+        }
+
+        .gradient-text {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+        }
+
+        /* ==========================================================================
+           Slide Container & Layout
+           ========================================================================== */
+        .presentation-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Navigation Header */
+        .navbar-slide {
+            padding: 0.6rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+            background: rgba(var(--bg), 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-family: var(--font-display);
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .logo-img {
+            height: 22px;
+        }
+
+        .logo-text {
+            color: var(--white);
+        }
+
+        .logo-text span {
+            color: var(--brand);
+        }
+
+        .controls-top {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-control {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 0.45rem;
+            border-radius: var(--r-sm);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--t);
+        }
+
+        .btn-control:hover {
+            border-color: var(--border-strong);
+            background: var(--surface-2);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
+           Slides Structure & Transitions
+           ========================================================================== */
+        .slides-wrapper {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.25rem 1.5rem;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.97) translateY(10px);
+            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+            overflow-y: auto;
+        }
+
+        .slide.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+        }
+
+        .slide-content {
+            width: 100%;
+            max-width: 1080px;
+            margin: 0 auto;
+        }
+
+        /* ==========================================================================
+           Animations inside slides
+           ========================================================================== */
+        .animate {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+        }
+
+        .slide.active .animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .delay-1 { transition-delay: 0.15s; }
+        .delay-2 { transition-delay: 0.3s; }
+        .delay-3 { transition-delay: 0.45s; }
+        .delay-4 { transition-delay: 0.6s; }
+
+        /* ==========================================================================
+           Slide Specific Layouts
+           ========================================================================== */
+        
+        /* Capa / Slide 1 */
+        .capa-container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 50vh;
+        }
+
+        .capa-badge {
+            background: var(--gradient-soft);
+            border: 1px solid var(--border-strong);
+            color: var(--brand-teal);
+            padding: 0.4rem 1rem;
+            border-radius: var(--r-full);
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 1.25rem;
+            display: inline-block;
+        }
+
+        .capa-title {
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            letter-spacing: -0.03em;
+            max-width: 900px;
+        }
+
+        .capa-subtitle {
+            font-size: clamp(1rem, 2vw, 1.2rem);
+            color: var(--text-muted);
+            max-width: 650px;
+            margin-bottom: 2rem;
+        }
+
+        /* Grid Layouts */
+        .slide-grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .slide-grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.25rem;
+        }
+
+        .slide-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-top: 1.25rem;
+        }
+
+        /* Slide Titles */
+        .slide-header {
+            margin-bottom: 1.25rem;
+            max-width: 700px;
+        }
+
+        .slide-pre-title {
+            font-size: 0.85rem;
+            color: var(--brand-teal);
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.25rem;
+            display: block;
+        }
+
+        .slide-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-description {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* Cards & UI Blocks */
+        .premium-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-md);
+            padding: 1.25rem 1.5rem;
+            transition: var(--t);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: var(--gradient);
+            opacity: 0;
+            transition: var(--t);
+        }
+
+        .premium-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--border-strong);
+            background: var(--surface-2);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .premium-card:hover::before {
+            opacity: 1;
+        }
+
+        .card-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--gradient-soft);
+            border-radius: var(--r-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--brand-teal);
+            margin-bottom: 0.85rem;
+        }
+
+        .card-title {
+            font-size: 1.15rem;
+            margin-bottom: 0.6rem;
+            color: var(--white);
+        }
+
+        .card-text {
+            color: var(--text-muted);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        /* Large stats */
+        .stat-box {
+            display: flex;
+            align-items: baseline;
+            gap: 0.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-num {
+            font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+            font-weight: 800;
+            color: var(--white);
+            font-family: var(--font-display);
+            line-height: 1;
+        }
+
+        .stat-symbol {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--brand-teal);
+        }
+
+        /* Process Steps */
+        .process-flow {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .process-step {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 0.6rem 1rem;
+            border-radius: 12px;
+            transition: var(--t);
+        }
+
+        .process-step:hover {
+            border-color: var(--border-strong);
+            background: var(--surface-2);
+            transform: translateX(6px);
+        }
+
+        .step-num {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--brand-teal);
+            opacity: 0.7;
+        }
+
+        .step-info {
+            flex: 1;
+        }
+
+        .step-title {
+            font-size: 0.95rem;
+            margin-bottom: 0.15rem;
+            color: var(--white);
+        }
+
+        .step-desc {
+            color: var(--text-muted);
+            font-size: 0.82rem;
+        }
+
+        /* Highlight box for regional content */
+        .highlight-box {
+            background: var(--gradient-soft);
+            border: 1px solid var(--brand-deep);
+            border-radius: var(--r-md);
+            padding: 1rem 1.25rem;
+            position: relative;
+        }
+
+        .highlight-box h3 {
+            margin-bottom: 0.4rem;
+            font-size: 1.1rem;
+        }
+
+        .highlight-box p {
+            color: var(--text);
+            font-size: 0.88rem;
+            line-height: 1.5;
+        }
+
+        /* CTA Section buttons */
+        .cta-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .btn-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: var(--gradient);
+            color: #ffffff;
+            font-family: var(--font-display);
+            font-weight: 600;
+            padding: 0.85rem 1.75rem;
+            border-radius: var(--r-md);
+            text-decoration: none;
+            transition: var(--t);
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(5, 131, 242, 0.3);
+        }
+
+        .btn-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(5, 131, 242, 0.5);
+        }
+
+        .btn-cta.secondary {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--white);
+            box-shadow: none;
+        }
+
+        .btn-cta.secondary:hover {
+            background: var(--surface-2);
+            border-color: var(--border-strong);
+            box-shadow: none;
+        }
+
+        /* ==========================================================================
+           Slide Controls & Footer UI
+           ========================================================================== */
+        .footer-slide {
+            padding: 0.4rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid var(--border);
+            z-index: 100;
+            background: rgba(var(--bg), 0.3);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        .slide-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-bullet-wrapper {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-bullet {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border-strong);
+            cursor: pointer;
+            transition: var(--t);
+        }
+
+        .nav-bullet.active {
+            background: var(--brand);
+            transform: scale(1.3);
+            box-shadow: 0 0 10px var(--brand);
+        }
+
+        .slide-counter {
+            font-family: var(--font-display);
+            font-weight: 600;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .slide-menu-trigger {
+            position: relative;
+        }
+
+        .slide-menu-list {
+            position: absolute;
+            bottom: calc(100% + 1rem);
+            right: 0;
+            background: var(--surface);
+            border: 1px solid var(--border-strong);
+            border-radius: var(--r-md);
+            width: 250px;
+            padding: 0.75rem;
+            display: none;
+            flex-direction: column;
+            gap: 0.25rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+            z-index: 200;
+        }
+
+        .slide-menu-list.active {
+            display: flex;
+        }
+
+        .slide-menu-item {
+            padding: 0.6rem 1rem;
+            border-radius: var(--r-sm);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--t);
+            color: var(--text-muted);
+            text-align: left;
+        }
+
+        .slide-menu-item:hover {
+            background: var(--surface-2);
+            color: var(--white);
+        }
+
+        .slide-menu-item.active {
+            background: var(--gradient-soft);
+            color: var(--brand-teal);
+            font-weight: 600;
+        }
+
+        /* Swipe tips on mobile */
+        .swipe-tip {
+            display: none;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            align-items: center;
+            gap: 0.25rem;
+        }
+
+        /* ==========================================================================
+           Responsive Styles (Mobile First)
+           ========================================================================== */
+        @media (max-width: 992px) {
+            .slide-grid-2 {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            .slide-grid-3 {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .slide-grid-4 {
+                grid-template-columns: 1fr 1fr;
+                gap: 1.25rem;
+            }
+            .slide {
+                padding: 2rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .slide-grid-4 {
+                grid-template-columns: 1fr;
+            }
+            .navbar-slide {
+                padding: 1rem 1.25rem;
+            }
+            .footer-slide {
+                padding: 0.85rem 1.25rem;
+            }
+            .btn-control span {
+                display: none;
+            }
+            .logo-text {
+                font-size: 1.2rem;
+            }
+            .capa-title {
+                font-size: 2.2rem;
+            }
+            .capa-subtitle {
+                font-size: 1rem;
+                margin-bottom: 2rem;
+            }
+            .swipe-tip {
+                display: flex;
+            }
+            .cta-group {
+                flex-direction: column;
+                width: 100%;
+            }
+            .btn-cta {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        /* ==========================================================================
+           Presenter Notes Panel Layout
+           ========================================================================== */
+        .presenter-notes-panel {
+            position: fixed;
+            top: 0;
+            right: -360px;
+            width: 360px;
+            height: 100vh;
+            background: var(--surface);
+            border-left: 1px solid var(--border-strong);
+            z-index: 150;
+            display: flex;
+            flex-direction: column;
+            transition: var(--t);
+            box-shadow: -10px 0 35px rgba(0, 0, 0, 0.45);
+        }
+
+        body.show-notes .presenter-notes-panel {
+            right: 0;
+        }
+
+        body.show-notes .slides-wrapper,
+        body.show-notes .footer-slide,
+        body.show-notes .navbar-slide {
+            margin-right: 360px;
+        }
+
+        @media (min-width: 992px) {
+            .slides-wrapper,
+            .footer-slide,
+            .navbar-slide {
+                transition: margin-right var(--t);
+            }
+        }
+
+        @media (max-width: 992px) {
+            .presenter-notes-panel {
+                width: 300px;
+                right: -300px;
+            }
+            body.show-notes .slides-wrapper,
+            body.show-notes .footer-slide,
+            body.show-notes .navbar-slide {
+                margin-right: 300px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .presenter-notes-panel {
+                width: 100%;
+                right: -100%;
+                z-index: 200;
+            }
+            body.show-notes .presenter-notes-panel {
+                right: 0;
+            }
+            body.show-notes .slides-wrapper,
+            body.show-notes .footer-slide,
+            body.show-notes .navbar-slide {
+                margin-right: 0;
+            }
+        }
+
+        .notes-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notes-header h3 {
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--brand-teal);
+            font-weight: 600;
+        }
+
+        .notes-content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+            font-size: 0.95rem;
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .notes-content p {
+            margin-bottom: 1rem;
+        }
+
+        .notes-content ul {
+            margin-bottom: 1rem;
+            padding-left: 1.25rem;
+            list-style: disc;
+        }
+
+        .notes-content li {
+            margin-bottom: 0.5rem;
+        }
+
+        .notes-tip-box {
+            background: var(--gradient-soft);
+            border: 1px solid var(--border-strong);
+            padding: 1rem;
+            border-radius: var(--r-sm);
+            color: var(--accent);
+            font-size: 0.85rem;
+            font-weight: 500;
+            margin-top: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* ==========================================================================
+           PDF & Print Styles
+           ========================================================================== */
+        @media print {
+            :root {
+                --bg: #ffffff !important;
+                --bg-alt: #f8fafc !important;
+                --surface: #ffffff !important;
+                --surface-2: #f1f5f9 !important;
+                --border: #e2e8f0 !important;
+                --border-strong: #cbd5e1 !important;
+                --text: #1e293b !important;
+                --text-muted: #64748b !important;
+                --white: #0f172a !important;
+            }
+
+            body {
+                background: #ffffff !important;
+                color: #1e293b !important;
+                overflow: visible !important;
+                height: auto !important;
+                width: auto !important;
+            }
+
+            .presentation-container {
+                height: auto !important;
+                width: auto !important;
+                display: block !important;
+                overflow: visible !important;
+            }
+
+            .slides-wrapper {
+                display: block !important;
+                height: auto !important;
+            }
+
+            .slide {
+                position: relative !important;
+                inset: auto !important;
+                opacity: 1 !important;
+                transform: none !important;
+                pointer-events: auto !important;
+                display: block !important;
+                height: auto !important;
+                min-height: 100vh !important;
+                page-break-after: always !important;
+                padding: 3rem 2rem !important;
+                overflow: visible !important;
+            }
+
+            /* Fix layout spacing for printing */
+            .slide-content {
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .slide-grid-2, .slide-grid-3, .slide-grid-4 {
+                display: grid !important;
+                gap: 2rem !important;
+                opacity: 1 !important;
+                transform: none !important;
+            }
+
+            .slide-grid-2 {
+                grid-template-columns: 1fr 1fr !important;
+            }
+
+            .slide-grid-3 {
+                grid-template-columns: 1fr 1fr 1fr !important;
+            }
+
+            .slide-grid-4 {
+                grid-template-columns: 1fr 1fr 1fr 1fr !important;
+            }
+
+            .animate {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
+
+            .premium-card {
+                box-shadow: none !important;
+                border: 1px solid #cbd5e1 !important;
+                background: #f8fafc !important;
+                break-inside: avoid !important;
+            }
+
+            /* Hide interactive UI elements */
+            .navbar-slide, .footer-slide, .slide-controls, .theme-toggle-btn, .btn-control, .presenter-notes-panel {
+                display: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="presentation-container">
+        
+        <!-- Header -->
+        <header class="navbar-slide">
+            <a href="index.html" class="logo">
+                <img src="logo-arke.svg" alt="Arke Estúdio" class="logo-img" onerror="this.style.display='none'; this.nextElementSibling.style.display='inline-block'">
+                <div class="logo-text" style="display:none">ARK<span>E</span></div>
+            </a>
+            
+            <div class="controls-top">
+                <button class="btn-control" id="notes-toggle" title="Notas do Apresentador (N)">
+                    <i data-lucide="sticky-note"></i>
+                </button>
+                <button class="btn-control" id="theme-toggle" title="Alternar tema">
+                    <i data-lucide="sun"></i>
+                </button>
+                <button class="btn-control" id="print-pdf" title="Exportar para PDF / Imprimir" onclick="window.print()">
+                    <i data-lucide="file-down"></i>&nbsp;<span>PDF</span>
+                </button>
+                <button class="btn-control" id="fullscreen-toggle" title="Tela Cheia">
+                    <i data-lucide="maximize-2"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Slides Wrapper -->
+        <main class="slides-wrapper" id="slides-wrapper">
+
+            <!-- SLIDE 1: Capa -->
+            <section class="slide active" id="slide-1">
+                <div class="slide-content">
+                    <div class="capa-container">
+                        <span class="capa-badge animate">Apresentação de Marca</span>
+                        <h1 class="capa-title animate delay-1">SEJA A MARCA QUE O SEU CLIENTE <span class="gradient-text">ESCOLHE.</span></h1>
+                        <p class="capa-subtitle animate delay-2">ARKE Estúdio — Design Inteligente, Marketing Estratégico e Resultados Reais para Negócios Locais.</p>
+                        
+                        <div class="cta-group animate delay-3">
+                            <button class="btn-cta" onclick="nextSlide()">Iniciar Apresentação &nbsp;<i data-lucide="arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 2: Posicionamento (Quem Somos) -->
+            <section class="slide" id="slide-2">
+                <div class="slide-content">
+                    <div class="slide-grid-2">
+                        <div>
+                            <span class="slide-pre-title animate">Quem Somos</span>
+                            <h2 class="slide-title animate delay-1">Sua agência de crescimento, sem <span class="gradient-text">burocracia</span>.</h2>
+                            <p class="slide-description animate delay-2">Nascemos para entregar a qualidade técnica e estratégica de grandes agências, mas com a agilidade e proximidade de um time parceiro.</p>
+                            
+                            <div class="highlight-box animate delay-3" style="margin-top: 2rem;">
+                                <h3><i data-lucide="zap" style="color: var(--accent); vertical-align: middle;"></i> Estrutura Enxuta</h3>
+                                <p>Aqui você não fala com "gerentes de conta" ou intermediários. Você fala diretamente com quem planeja e executa o seu projeto. Mais rapidez, menos ruído.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="animate delay-2">
+                            <div class="premium-card">
+                                <div class="stat-box">
+                                    <span class="stat-num">100</span>
+                                    <span class="stat-symbol">%</span>
+                                </div>
+                                <h4 class="card-title">Foco Local</h4>
+                                <p class="card-text" style="margin-bottom: 2rem;">Estratégias sob medida voltadas para captar clientes na sua região geográfica.</p>
+                                
+                                <div class="stat-box">
+                                    <span class="stat-num">+35</span>
+                                    <span class="stat-symbol">%</span>
+                                </div>
+                                <h4 class="card-title">Aumento em Conversão</h4>
+                                <p class="card-text">Clientes que reposicionaram sua marca conosco sentiram aumento direto na percepção de valor.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 3: O Cenário Local de Fortaleza -->
+            <section class="slide" id="slide-3">
+                <div class="slide-content">
+                    <span class="slide-pre-title animate">Mercado Regional</span>
+                    <h2 class="slide-title animate delay-1">O Desafio do Negócio Local em <span class="gradient-text">Fortaleza</span></h2>
+                    <p class="slide-description animate delay-1" style="max-width: 800px; margin-bottom: 2rem;">Vender na nossa capital exige compreender hábitos locais. Não basta apenas postar; é preciso ter relevância geográfica e operacional.</p>
+                    
+                    <div class="slide-grid-3">
+                        <div class="premium-card animate delay-2">
+                            <div class="card-icon"><i data-lucide="smartphone"></i></div>
+                            <h3 class="card-title">Cultura de Instagram & WhatsApp</h3>
+                            <p class="card-text">O público de Fortaleza compra se relacionando. O Instagram é a vitrine e o WhatsApp é o caixa. Criamos funis diretos que encurtam essa jornada.</p>
+                        </div>
+                        
+                        <div class="premium-card animate delay-3">
+                            <div class="card-icon"><i data-lucide="map-pin"></i></div>
+                            <h3 class="card-title">Segmentação por Bairros</h3>
+                            <p class="card-text">Aldeota, Meireles, Cocó, Eusébio ou Sul. Cada região tem seu perfil de consumo. Otimizamos sua verba de tráfego focado exatamente no raio onde seus clientes estão.</p>
+                        </div>
+                        
+                        <div class="premium-card animate delay-4">
+                            <div class="card-icon"><i data-lucide="trending-up"></i></div>
+                            <h3 class="card-title">Competição por Atenção</h3>
+                            <p class="card-text">A concorrência local cresce diariamente. Ter uma identidade visual amadora ou posts genéricos drena seu orçamento de anúncios sem gerar vendas reais.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 4: Pilares de Atuação -->
+            <section class="slide" id="slide-4">
+                <div class="slide-content">
+                    <span class="slide-pre-title animate">O Que Fazemos</span>
+                    <h2 class="slide-title animate delay-1">Nossos 4 Pilares de <span class="gradient-text">Crescimento</span></h2>
+                    
+                    <div class="slide-grid-4">
+                        <div class="premium-card animate delay-2">
+                            <div class="card-icon"><i data-lucide="palette"></i></div>
+                            <h3 class="card-title">01. Identidade Visual</h3>
+                            <p class="card-text">Construção de marcas memoráveis: logotipos, paletas de cores estratégicas, tipografia e manuais para se destacar na mente do consumidor.</p>
+                        </div>
+                        
+                        <div class="premium-card animate delay-3">
+                            <div class="card-icon"><i data-lucide="instagram"></i></div>
+                            <h3 class="card-title">02. Social Media</h3>
+                            <p class="card-text">Gestão completa de redes sociais. Planejamos o conteúdo, criamos o design visual profissional, redigimos as legendas e agendamos.</p>
+                        </div>
+                        
+                        <div class="premium-card animate delay-4">
+                            <div class="card-icon"><i data-lucide="trending-up"></i></div>
+                            <h3 class="card-title">03. Tráfego Pago</h3>
+                            <p class="card-text">Meta Ads (Instagram/Facebook) e Google Ads estratégicos. Foco em gerar leads qualificados e novos contatos no WhatsApp todos os dias.</p>
+                        </div>
+                        
+                        <div class="premium-card animate delay-5">
+                            <div class="card-icon"><i data-lucide="layout"></i></div>
+                            <h3 class="card-title">04. Sites & Landing Pages</h3>
+                            <p class="card-text">Páginas de alta performance e ultra rápidas. Criadas para transformar visitantes em compradores, com design impecável e boa usabilidade.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 5: Metodologia e Processo -->
+            <section class="slide" id="slide-5">
+                <div class="slide-content">
+                    <div class="slide-grid-2">
+                        <div>
+                            <span class="slide-pre-title animate">Como Trabalhamos</span>
+                            <h2 class="slide-title animate delay-1">Um processo simples, transparente e <span class="gradient-text">organizado</span>.</h2>
+                            <p class="slide-description animate delay-2">Acreditamos que o sucesso vem do alinhamento. Nosso fluxo garante que você acompanhe cada fase da evolução do seu marketing.</p>
+                            
+                            <div class="premium-card animate delay-3" style="margin-top: 2rem;">
+                                <h4 class="card-title" style="display:flex; align-items:center; gap:0.5rem; color: var(--accent);">
+                                    <i data-lucide="check-circle-2"></i> Sem Surpresas
+                                </h4>
+                                <p class="card-text">Todas as etapas contam com aprovação prévia do cliente. Você sempre sabe exatamente o que vai ao ar e quando.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="process-flow animate delay-2">
+                            <div class="process-step">
+                                <div class="step-num">01</div>
+                                <div class="step-info">
+                                    <h4 class="step-title">Briefing & Alinhamento</h4>
+                                    <p class="step-desc">Reunião para entender seus objetivos, dores e público-alvo local.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step">
+                                <div class="step-num">02</div>
+                                <div class="step-info">
+                                    <h4 class="step-title">Estratégia & Planejamento</h4>
+                                    <p class="step-desc">Definição dos canais, linguagem visual, temas de post e público de tráfego.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step">
+                                <div class="step-num">03</div>
+                                <div class="step-info">
+                                    <h4 class="step-title">Desenvolvimento & Criação</h4>
+                                    <p class="step-desc">Nosso time cria os layouts, escreve as copys e estrutura as campanhas.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step">
+                                <div class="step-num">04</div>
+                                <div class="step-info">
+                                    <h4 class="step-title">Revisão & Ajustes</h4>
+                                    <p class="step-desc">Você revisa os materiais criados e fazemos as iterações necessárias.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="process-step">
+                                <div class="step-num">05</div>
+                                <div class="step-info">
+                                    <h4 class="step-title">Lançamento & Otimização</h4>
+                                    <p class="step-desc">Colocamos as campanhas no ar e acompanhamos para otimizar os custos.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 6: Orçamento & Simulador -->
+            <section class="slide" id="slide-6">
+                <div class="slide-content">
+                    <span class="slide-pre-title animate">Investimento Inteligente</span>
+                    <h2 class="slide-title animate delay-1">Investimento flexível adaptado ao seu <span class="gradient-text">momento</span></h2>
+                    <p class="slide-description animate delay-2" style="max-width: 800px; margin-bottom: 2rem;">Não impomos contratos gigantescos ou engessados. Acreditamos que a parceria cresce à medida que o resultado aparece.</p>
+                    
+                    <div class="slide-grid-3">
+                        <div class="premium-card animate delay-2">
+                            <h3 class="card-title">Soluções Pontuais</h3>
+                            <p class="card-text" style="margin-bottom: 1.5rem;">Perfeito para quem precisa de uma entrega cirúrgica para começar.</p>
+                            <ul style="color: var(--text-muted); font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.5rem; list-style: none;">
+                                <li><i data-lucide="check" style="color: var(--brand-teal); width: 14px; height: 14px; vertical-align: middle;"></i> Identidade Visual Completa</li>
+                                <li><i data-lucide="check" style="color: var(--brand-teal); width: 14px; height: 14px; vertical-align: middle;"></i> Landing Pages de Alta Conversão</li>
+                                <li><i data-lucide="check" style="color: var(--brand-teal); width: 14px; height: 14px; vertical-align: middle;"></i> Site Institucional do Zero</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="premium-card animate delay-3">
+                            <h3 class="card-title">Planos Mensais</h3>
+                            <p class="card-text" style="margin-bottom: 1.5rem;">Gestão contínua das suas redes e campanhas para tráfego constante.</p>
+                            <ul style="color: var(--text-muted); font-size: 0.9rem; display: flex; flex-direction: column; gap: 0.5rem; list-style: none;">
+                                <li><i data-lucide="check" style="color: var(--brand-teal); width: 14px; height: 14px; vertical-align: middle;"></i> Gestão de Redes Sociais (Instagram)</li>
+                                <li><i data-lucide="check" style="color: var(--brand-teal); width: 14px; height: 14px; vertical-align: middle;"></i> Criação de Criativos de Conversão</li>
+                                <li><i data-lucide="check" style="color: var(--brand-teal); width: 14px; height: 14px; vertical-align: middle;"></i> Gestão Semanal de Tráfego Pago</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="premium-card animate delay-4">
+                            <h3 class="card-title">Simule na Hora</h3>
+                            <p class="card-text" style="margin-bottom: 1.5rem;">Você tem total transparência. Criamos um simulador no nosso site para você calcular o investimento ideal.</p>
+                            <div style="margin-top: auto;">
+                                <a href="index.html#simulator" class="btn-cta secondary" style="width:100%; justify-content:center; padding: 0.8rem;" target="_blank">
+                                    Simulador de Orçamento &nbsp;<i data-lucide="external-link"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 7: CTA / Fechamento -->
+            <section class="slide" id="slide-7">
+                <div class="slide-content">
+                    <div class="capa-container">
+                        <span class="capa-badge animate">Vamos Começar?</span>
+                        <h2 class="capa-title animate delay-1">PRONTO PARA CONSTRUIR O PRÓXIMO <span class="gradient-text">CAPÍTULO?</span></h2>
+                        <p class="capa-subtitle animate delay-2" style="max-width: 650px;">Bora bater um papo sem compromisso, tomar um café (físico ou virtual) e planejar como destacar a sua marca.</p>
+                        
+                        <div class="cta-group animate delay-3">
+                            <a href="https://wa.me/5585992629819?text=Ol%C3%A1,%20vi%20a%20apresenta%C3%A7%C3%A3o%20da%20ARKE%20Est%C3%BAdio%20e%20gostaria%20de%20conversar%20sobre%20meu%20projeto!" class="btn-cta" target="_blank">
+                                <i data-lucide="message-circle"></i> Falar com um Especialista no WhatsApp
+                            </a>
+                            <a href="index.html" class="btn-cta secondary">
+                                <i data-lucide="globe"></i> Acessar Site Principal
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SLIDE 8: Estrutura para Cases de Sucesso (Opcional) -->
+            <section class="slide" id="slide-8">
+                <div class="slide-content">
+                    <span class="slide-pre-title animate">Resultados</span>
+                    <h2 class="slide-title animate delay-1">Nossos <span class="gradient-text">Casos de Sucesso</span></h2>
+                    <p class="slide-description animate delay-2" style="max-width: 750px; margin-bottom: 3rem;">Espaço reservado para inserção de campanhas, peças e resultados adicionais. Em breve novos templates estarão disponíveis aqui.</p>
+                    
+                    <div class="slide-grid-3 animate delay-3">
+                        <div class="premium-card">
+                            <div style="background: rgba(255,255,255,0.05); height: 180px; border-radius: var(--r-sm); margin-bottom: 1.5rem; display:flex; align-items:center; justify-content:center; color: var(--text-muted);">
+                                <i data-lucide="image" style="width: 48px; height: 48px;"></i>
+                            </div>
+                            <h3 class="card-title">Case 01</h3>
+                            <p class="card-text">Aguardando inserção de template...</p>
+                        </div>
+                        <div class="premium-card">
+                            <div style="background: rgba(255,255,255,0.05); height: 180px; border-radius: var(--r-sm); margin-bottom: 1.5rem; display:flex; align-items:center; justify-content:center; color: var(--text-muted);">
+                                <i data-lucide="image" style="width: 48px; height: 48px;"></i>
+                            </div>
+                            <h3 class="card-title">Case 02</h3>
+                            <p class="card-text">Aguardando inserção de template...</p>
+                        </div>
+                        <div class="premium-card">
+                            <div style="background: rgba(255,255,255,0.05); height: 180px; border-radius: var(--r-sm); margin-bottom: 1.5rem; display:flex; align-items:center; justify-content:center; color: var(--text-muted);">
+                                <i data-lucide="image" style="width: 48px; height: 48px;"></i>
+                            </div>
+                            <h3 class="card-title">Case 03</h3>
+                            <p class="card-text">Aguardando inserção de template...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Presenter Notes Panel -->
+        <aside class="presenter-notes-panel" id="presenter-notes-panel">
+            <div class="notes-header">
+                <h3><i data-lucide="sticky-note"></i> Notas do Apresentador</h3>
+                <button class="btn-control" id="close-notes-btn" title="Fechar Notas"><i data-lucide="x"></i></button>
+            </div>
+            <div class="notes-content" id="notes-content">
+                <!-- Loaded dynamically -->
+            </div>
+        </aside>
+
+        <!-- Footer / Navigation -->
+        <footer class="footer-slide">
+            <div class="slide-controls">
+                <button class="btn-control" id="prev-btn" onclick="prevSlide()" title="Slide Anterior (Seta Esquerda)">
+                    <i data-lucide="chevron-left"></i>
+                </button>
+                <div class="nav-bullet-wrapper" id="nav-bullets">
+                    <!-- Populated dynamically -->
+                </div>
+                <button class="btn-control" id="next-btn" onclick="nextSlide()" title="Próximo Slide (Seta Direita / Espaço)">
+                    <i data-lucide="chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="swipe-tip">
+                <i data-lucide="smartphone"></i><span>Deslize para navegar</span>
+            </div>
+
+            <div class="slide-controls">
+                <span class="slide-counter" id="slide-counter">1 / 8</span>
+                <div class="slide-menu-trigger">
+                    <button class="btn-control" id="menu-trigger" title="Navegação Rápida">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div class="slide-menu-list" id="slide-menu-list">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+            </div>
+        </footer>
+
+    </div>
+
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Slide State
+        let currentSlideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+        const totalSlides = slides.length;
+        
+        // DOM Elements
+        const counterEl = document.getElementById('slide-counter');
+        const bulletsContainer = document.getElementById('nav-bullets');
+        const menuListContainer = document.getElementById('slide-menu-list');
+        const menuTrigger = document.getElementById('menu-trigger');
+        const themeToggle = document.getElementById('theme-toggle');
+        const fullscreenToggle = document.getElementById('fullscreen-toggle');
+        const notesToggle = document.getElementById('notes-toggle');
+        const closeNotesBtn = document.getElementById('close-notes-btn');
+        const notesContent = document.getElementById('notes-content');
+
+        // Presenter Notes Content corresponding to each slide
+        const presenterNotes = [
+            "<p><strong>Capa / Abertura:</strong></p><p>• Apresente-se brevemente e cumprimente o cliente.</p><p>• Defina o tom da reunião: 'Nosso objetivo hoje é mostrar como a ARKE une design de alto impacto e marketing inteligente para gerar vendas reais para o seu negócio'.</p><div class='notes-tip-box'>💡 Fale com energia. Transmita credibilidade e foco em RESULTADOS desde o primeiro segundo.</div>",
+            
+            "<p><strong>Quem Somos / Posicionamento:</strong></p><p>• Destaque o diferencial do modelo boutique: 'Aqui você não fala com intermediários. Fala direto com quem cria e executa'.</p><p>• Explique que isso traz agilidade e reduz ruídos de comunicação comuns em agências tradicionais de Fortaleza.</p><p>• Mencione que geramos qualidade técnica de multinacional com atenção dedicada.</p><div class='notes-tip-box'>💡 Clientes locais valorizam muito a proximidade e o contato direto via WhatsApp sem burocracia.</div>",
+            
+            "<p><strong>O Cenário Local em Fortaleza:</strong></p><p>• Comente que o fortalezense tem comportamento imediatista (quer respostas rápidas no Instagram e WhatsApp).</p><p>• Destaque a importância da <strong>segmentação regional</strong>: concentrar investimentos de anúncios em bairros chaves (ex: Aldeota, Meireles, Eusébio, Cocó) para economizar verba e otimizar entrega/serviço.</p><div class='notes-tip-box'>💡 Fale sobre a realidade do comércio de Fortaleza para demonstrar que você realmente entende o mercado local.</div>",
+            
+            "<p><strong>Os 4 Pilares de Crescimento:</strong></p><p>• Apresente os pilares como uma engrenagem:</p><ul><li><strong>Identidade Visual</strong>: Gera valor e confiança na vitrine.</li><li><strong>Social Media</strong>: Constrói audiência e autoridade diária.</li><li><strong>Tráfego Pago</strong>: Atrai o público certo todos os dias.</li><li><strong>Sites/Landing Pages</strong>: Recebe os cliques e converte em vendas.</li></ul><div class='notes-tip-box'>💡 Adapte: se o cliente for de serviços (ex: dentista), dê foco em Landing Pages + Tráfego. Se for e-commerce, dê foco em Social Media + Tráfego.</div>",
+            
+            "<p><strong>Nosso Processo (Metodologia):</strong></p><p>• Demonstre organização e processos estruturados.</p><p>• Explique as 5 fases (Briefing, Estratégia, Criação, Revisão, Lançamento).</p><p>• Destaque a transparência: <strong>'Nenhuma peça vai ao ar sem a sua aprovação explícita'.</strong> Isso tira o medo do cliente.</p><div class='notes-tip-box'>💡 Isso prova que a agência é séria, cumpre prazos e valoriza a opinião do cliente.</div>",
+            
+            "<p><strong>Orçamento & Simulador:</strong></p><p>• Explique as duas formas de atuar:</p><ul><li><strong>Entregas Pontuais</strong>: Projetos com início, meio e fim (Identidade Visual, Criação de Sites).</li><li><strong>Planos Recorrentes</strong>: Gestão mensal (Tráfego Pago e Social Media).</li></ul><p>• Apresente a transparência comercial e comente que o simulador no site ajuda a ter uma estimativa precisa e justa.</p><div class='notes-tip-box'>💡 Convide o cliente a fazer uma simulação rápida de escopo ideal na tela.</div>",
+            
+            "<p><strong>Contato & Próximo Passo:</strong></p><p>• Parta para o fechamento.</p><p>• Proponha o próximo passo óbvio: 'Vamos agendar a nossa reunião de briefing para montarmos uma proposta oficial para o seu negócio?'.</p><div class='notes-tip-box'>💡 Defina uma data e hora para o briefing antes de encerrar o pitch comercial.</div>",
+            
+            "<p><strong>Cases de Sucesso:</strong></p><p>• Espaço reservado para mostrar métricas e artes de campanhas que realizamos.</p><p>• Mostre o ROI (retorno sobre o investimento) gerado.</p><div class='notes-tip-box'>💡 Quando carregar os templates, comente os números reais de faturamento obtidos pelos clientes.</div>"
+        ];
+        
+        // Define Slide Names for the Quick Menu
+        const slideNames = [
+            "01. Capa",
+            "02. Quem Somos",
+            "03. Cenário de Fortaleza",
+            "04. Nossos Pilares",
+            "05. Nosso Processo",
+            "06. Orçamento",
+            "07. Contato",
+            "08. Cases de Sucesso"
+        ];
+
+        // 1. Build Navigation Bullets & Quick Menu
+        function buildNavigation() {
+            bulletsContainer.innerHTML = '';
+            menuListContainer.innerHTML = '';
+            
+            for (let i = 0; i < totalSlides; i++) {
+                // Bullets
+                const bullet = document.createElement('div');
+                bullet.className = `nav-bullet ${i === currentSlideIndex ? 'active' : ''}`;
+                bullet.addEventListener('click', () => goToSlide(i));
+                bulletsContainer.appendChild(bullet);
+                
+                // Menu Items
+                const menuItem = document.createElement('div');
+                menuItem.className = `slide-menu-item ${i === currentSlideIndex ? 'active' : ''}`;
+                menuItem.textContent = slideNames[i] || `Slide ${i + 1}`;
+                menuItem.addEventListener('click', () => {
+                    goToSlide(i);
+                    menuListContainer.classList.remove('active');
+                });
+                menuListContainer.appendChild(menuItem);
+            }
+        }
+
+        // 2. Change Slides
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                if (index === currentSlideIndex) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            
+            // Update counter
+            counterEl.textContent = `${currentSlideIndex + 1} / ${totalSlides}`;
+            
+            // Update navigation elements active state
+            const bullets = document.querySelectorAll('.nav-bullet');
+            const menuItems = document.querySelectorAll('.slide-menu-item');
+            
+            bullets.forEach((b, idx) => {
+                if (idx === currentSlideIndex) b.classList.add('active');
+                else b.classList.remove('active');
+            });
+            
+            menuItems.forEach((m, idx) => {
+                if (idx === currentSlideIndex) m.classList.add('active');
+                else m.classList.remove('active');
+            });
+
+            // Update presenter notes
+            if (notesContent) {
+                notesContent.innerHTML = presenterNotes[currentSlideIndex] || '<p>Sem notas.</p>';
+            }
+
+            // Re-render Lucide icons if any dynamically updated
+            lucide.createIcons();
+        }
+
+        function nextSlide() {
+            if (currentSlideIndex < totalSlides - 1) {
+                currentSlideIndex++;
+                updateSlides();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlideIndex > 0) {
+                currentSlideIndex--;
+                updateSlides();
+            }
+        }
+
+        function goToSlide(index) {
+            if (index >= 0 && index < totalSlides) {
+                currentSlideIndex = index;
+                updateSlides();
+            }
+        }
+
+        // 3. Keyboard Navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                e.preventDefault();
+                nextSlide();
+            } else if (e.key === 'ArrowLeft' || e.key === 'Backspace' || e.key === 'PageUp') {
+                e.preventDefault();
+                prevSlide();
+            } else if (e.key === 'Home') {
+                e.preventDefault();
+                goToSlide(0);
+            } else if (e.key.toLowerCase() === 'n') {
+                e.preventDefault();
+                document.body.classList.toggle('show-notes');
+            }
+        });
+
+        // 4. Touch Navigation (Swipe)
+        let touchStartX = 0;
+        let touchEndX = 0;
+        
+        const wrapper = document.getElementById('slides-wrapper');
+        
+        wrapper.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+        
+        wrapper.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+        
+        function handleSwipe() {
+            const threshold = 50; // pixels
+            if (touchStartX - touchEndX > threshold) {
+                // Swiped left -> next
+                nextSlide();
+            } else if (touchEndX - touchStartX > threshold) {
+                // Swiped right -> prev
+                prevSlide();
+            }
+        }
+
+        // 5. Menu Toggle
+        menuTrigger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            menuListContainer.classList.toggle('active');
+        });
+
+        document.addEventListener('click', () => {
+            menuListContainer.classList.remove('active');
+        });
+
+        // Presenter Notes Toggles
+        notesToggle.addEventListener('click', () => {
+            document.body.classList.toggle('show-notes');
+        });
+
+        closeNotesBtn.addEventListener('click', () => {
+            document.body.classList.remove('show-notes');
+        });
+
+        // 6. Theme Toggle (Sun/Moon icon change)
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('light-theme');
+            const isLight = document.body.classList.contains('light-theme');
+            themeToggle.innerHTML = `<i data-lucide="${isLight ? 'moon' : 'sun'}"></i>`;
+            lucide.createIcons();
+        });
+
+        // 7. Fullscreen Toggle
+        fullscreenToggle.addEventListener('click', () => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log(`Erro ao ativar Tela Cheia: ${err.message}`);
+                });
+                fullscreenToggle.innerHTML = `<i data-lucide="minimize-2"></i>`;
+            } else {
+                document.exitFullscreen();
+                fullscreenToggle.innerHTML = `<i data-lucide="maximize-2"></i>`;
+            }
+            lucide.createIcons();
+        });
+
+        // Update Fullscreen icon on escape or change
+        document.addEventListener('fullscreenchange', () => {
+            const isFullscreen = !!document.fullscreenElement;
+            fullscreenToggle.innerHTML = `<i data-lucide="${isFullscreen ? 'minimize-2' : 'maximize-2'}"></i>`;
+            lucide.createIcons();
+        });
+
+        // Initialize UI
+        buildNavigation();
+        updateSlides();
+    </script>
+</body>
+</html>

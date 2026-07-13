@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Playbook de Processos & Controle | ARKE Estúdio</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.453.0/dist/umd/lucide.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        :root {
+            --accent-glow: radial-gradient(circle, rgba(24, 172, 227, 0.15) 0%, rgba(5, 131, 242, 0.05) 100%);
+            --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Layout Grid */
+        .dashboard-container {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+        }
+
+        /* Sidebar Customizada */
+        .sidebar {
+            background: var(--bg-alt);
+            border-right: 1px solid var(--border);
+            padding: 2.5rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .brand-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .brand-logo-container img {
+            height: 32px;
+        }
+
+        .brand-name {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--white);
+            letter-spacing: -0.03em;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            color: var(--text-muted);
+            border-radius: var(--r-sm);
+            font-weight: 500;
+            font-size: 0.95rem;
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .sidebar-link:hover {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--white);
+        }
+
+        .sidebar-link.active {
+            background: var(--gradient-soft);
+            color: var(--brand-teal);
+            border-color: rgba(24, 172, 227, 0.2);
+        }
+
+        .sidebar-footer {
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 3rem 4rem;
+            max-width: var(--maxw);
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .dashboard-header {
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .gradient-title {
+            font-size: 2.8rem;
+            font-weight: 800;
+            font-family: var(--font-display);
+            letter-spacing: -0.04em;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+        }
+
+        /* Content Sections */
+        .content-section {
+            display: none;
+            animation: fadeIn 0.4s ease-out forwards;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Card styles */
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--r-md);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-premium);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient);
+            opacity: 0.8;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* Cliente Tracker App styling */
+        .project-tracker-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 2fr;
+            gap: 2rem;
+        }
+
+        .client-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+            background: var(--surface-2);
+            padding: 1.5rem;
+            border-radius: var(--r-sm);
+            border: 1px solid var(--border);
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-control {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 12px;
+            border-radius: var(--r-sm);
+            color: var(--text);
+            font-family: var(--font-body);
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--brand-teal);
+            box-shadow: 0 0 0 3px rgba(24, 172, 227, 0.15);
+        }
+
+        .btn {
+            background: var(--gradient);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: var(--r-sm);
+            font-weight: 600;
+            font-family: var(--font-display);
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -6px rgba(5, 131, 242, 0.4);
+        }
+
+        .btn-secondary {
+            background: var(--surface-2);
+            border: 1px solid var(--border-strong);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: none;
+        }
+
+        .btn-sm {
+            padding: 8px 12px;
+            font-size: 0.85rem;
+        }
+
+        /* Client List */
+        .client-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            max-height: 480px;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+
+        .client-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .client-list::-webkit-scrollbar-thumb {
+            background: var(--border-strong);
+            border-radius: 4px;
+        }
+
+        .client-item {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            padding: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .client-item:hover {
+            border-color: var(--border-strong);
+            transform: translateX(4px);
+        }
+
+        .client-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .client-name-tag {
+            font-weight: 700;
+            font-family: var(--font-display);
+            color: var(--white);
+            font-size: 1.1rem;
+        }
+
+        .client-service-tag {
+            font-size: 0.75rem;
+            background: rgba(5, 131, 242, 0.15);
+            color: var(--brand-teal);
+            padding: 4px 10px;
+            border-radius: var(--r-full);
+            font-weight: 600;
+        }
+
+        .client-progress-bar {
+            height: 6px;
+            background: var(--bg);
+            border-radius: var(--r-full);
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+
+        .client-progress-fill {
+            height: 100%;
+            background: var(--gradient);
+            width: 0%;
+            transition: width 0.5s ease-in-out;
+        }
+
+        .client-steps-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 6px;
+            margin-bottom: 15px;
+        }
+
+        .step-checkbox-btn {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 6px 4px;
+            font-size: 0.75rem;
+            text-align: center;
+            border-radius: 4px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+            user-select: none;
+        }
+
+        .step-checkbox-btn:hover {
+            border-color: var(--brand-teal);
+            color: var(--white);
+        }
+
+        .step-checkbox-btn.completed {
+            background: rgba(24, 172, 227, 0.1);
+            color: var(--brand-teal);
+            border-color: var(--brand-teal);
+            font-weight: 600;
+        }
+
+        .client-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-text {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .btn-delete {
+            color: #ff4a4a;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: var(--transition);
+        }
+
+        .btn-delete:hover {
+            color: #ff7d7d;
+            text-decoration: underline;
+        }
+
+        /* Timeline Interactive Playbook */
+        .playbook-timeline {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            position: relative;
+        }
+
+        .timeline-node {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timeline-node::after {
+            content: '';
+            position: absolute;
+            top: 18px;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: var(--border);
+            z-index: -1;
+        }
+
+        .timeline-node:last-child::after {
+            display: none;
+        }
+
+        .node-dot {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--surface-2);
+            border: 2px solid var(--border-strong);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-weight: 700;
+            transition: var(--transition);
+        }
+
+        .timeline-node:hover .node-dot {
+            border-color: var(--brand-teal);
+            color: var(--white);
+            transform: scale(1.1);
+        }
+
+        .timeline-node.active .node-dot {
+            background: var(--brand-teal);
+            border-color: var(--brand);
+            color: var(--bg);
+            box-shadow: 0 0 15px rgba(24, 172, 227, 0.4);
+        }
+
+        .node-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: var(--transition);
+        }
+
+        .timeline-node.active .node-label {
+            color: var(--white);
+        }
+
+        /* Playbook Content Wrapper */
+        .playbook-pane {
+            display: none;
+        }
+
+        .playbook-pane.active {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 2.5rem;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .pane-details h3 {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .pane-details .badge {
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            background: rgba(255, 194, 51, 0.15);
+            color: var(--accent);
+            border-radius: var(--r-full);
+            font-weight: 600;
+        }
+
+        .playbook-description {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .playbook-checklist-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 1rem;
+            padding: 12px;
+            background: var(--surface-2);
+            border-radius: var(--r-sm);
+            border: 1px solid var(--border);
+        }
+
+        .playbook-checklist-item i {
+            color: var(--brand-teal);
+            margin-top: 3px;
+        }
+
+        .playbook-checklist-text strong {
+            display: block;
+            color: var(--white);
+            font-size: 0.95rem;
+            margin-bottom: 2px;
+        }
+
+        .playbook-checklist-text span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Sidebar Tools inside Playbook (Templates & Tips) */
+        .pane-sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .tool-box {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: var(--r-md);
+            padding: 1.5rem;
+        }
+
+        .tool-box-title {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            color: var(--white);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 8px;
+        }
+
+        .script-template {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: var(--r-sm);
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            white-space: pre-wrap;
+            position: relative;
+            max-height: 250px;
+            overflow-y: auto;
+            font-family: 'Inter', sans-serif;
+            margin-bottom: 12px;
+        }
+
+        /* Calculator Styling */
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .calc-inputs {
+            background: var(--surface-2);
+            padding: 1.8rem;
+            border-radius: var(--r-md);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .calc-results {
+            background: linear-gradient(135deg, rgba(20, 22, 31, 0.95) 0%, rgba(9, 10, 15, 0.95) 100%);
+            border: 1px solid var(--brand-teal);
+            padding: 2rem;
+            border-radius: var(--r-md);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(5, 131, 242, 0.15);
+        }
+
+        .calc-result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+        }
+
+        .calc-result-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .calc-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .calc-value {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .calc-value.positive {
+            color: #00e5ff;
+        }
+
+        .calc-value.highlight {
+            font-size: 1.8rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Tips page styling */
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .tip-card {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: var(--r-md);
+            padding: 1.5rem;
+            transition: var(--transition);
+        }
+
+        .tip-card:hover {
+            border-color: var(--brand-teal);
+            transform: translateY(-2px);
+        }
+
+        .tip-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 8px;
+            background: rgba(24, 172, 227, 0.1);
+            color: var(--brand-teal);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .tip-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--white);
+            margin-bottom: 8px;
+        }
+
+        .tip-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sidebar">
+            <a href="/" class="brand-logo-container">
+                <img src="logo-arke.svg" alt="ARKE Logo" onerror="this.src='logo.png'">
+                <span class="brand-name">ARKE Estúdio</span>
+            </a>
+            
+            <nav class="sidebar-menu">
+                <div class="sidebar-link active" onclick="switchTab('tracker', this)">
+                    <i data-lucide="layout-dashboard"></i>
+                    Controle de Clientes
+                </div>
+                <div class="sidebar-link" onclick="switchTab('playbook', this)">
+                    <i data-lucide="book-open"></i>
+                    Playbook de Processos
+                </div>
+                <div class="sidebar-link" onclick="switchTab('calculator', this)">
+                    <i data-lucide="calculator"></i>
+                    Simulador de ROI
+                </div>
+                <div class="sidebar-link" onclick="switchTab('guidelines', this)">
+                    <i data-lucide="shield-alert"></i>
+                    Diretrizes de Sucesso
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span>Versão 1.2 — Interna</span>
+                <span>Foco em Entrega & Métricas</span>
+                <span>© ARKE Estúdio</span>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="dashboard-header">
+                <h1 class="gradient-title" id="page-title">Controle de Projetos Ativos</h1>
+                <p class="subtitle" id="page-desc">Monitore o status e a evolução de cada cliente nas 6 fases operacionais da agência.</p>
+            </header>
+
+            <!-- SECTION 1: CLIENT PROJECT TRACKER -->
+            <section id="tab-tracker" class="content-section active">
+                <div class="project-tracker-grid">
+                    <!-- Add Client Form -->
+                    <div>
+                        <div class="card" style="margin-bottom: 0;">
+                            <h2 class="card-title" style="margin-bottom: 1.2rem;">
+                                <i data-lucide="user-plus"></i> Novo Cliente
+                            </h2>
+                            <form id="add-client-form" class="client-form" onsubmit="addClient(event)">
+                                <div class="form-group">
+                                    <label for="client-name">Nome da Empresa / Cliente</label>
+                                    <input type="text" id="client-name" class="form-control" placeholder="Ex: Clínica Sorria Mais" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="client-service">Tipo de Serviço</label>
+                                    <select id="client-service" class="form-control">
+                                        <option value="Branding & Visual ID">Branding & ID Visual</option>
+                                        <option value="Social Media Mensal">Social Media Mensal</option>
+                                        <option value="Tráfego Pago & Ads">Tráfego Pago & Ads</option>
+                                        <option value="Desenvolvimento Web">Desenvolvimento Web</option>
+                                        <option value="Consultoria Sênior">Consultoria Sênior</option>
+                                        <option value="Campanha Completa">Campanha Completa (Full)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="client-obs">Observação Inicial</label>
+                                    <input type="text" id="client-obs" class="form-control" placeholder="Ex: Início em 15/07, foco em leads">
+                                </div>
+                                <button type="submit" class="btn">
+                                    <i data-lucide="plus-circle"></i> Iniciar Projeto
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Active Clients List -->
+                    <div>
+                        <div class="card" style="margin-bottom: 0;">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    <i data-lucide="users"></i> Clientes em Acompanhamento
+                                </h2>
+                                <span class="progress-text" id="clients-count">0 Clientes</span>
+                            </div>
+                            <div id="clients-list" class="client-list">
+                                <!-- Dynamic Client Items go here -->
+                                <div class="tip-card" style="border-style: dashed; opacity: 0.7; text-align: center; padding: 3rem 1.5rem;">
+                                    <i data-lucide="inbox" style="margin: 0 auto 1rem auto; width: 48px; height: 48px; color: var(--text-muted);"></i>
+                                    <p class="tip-title">Nenhum cliente ativo no momento</p>
+                                    <p class="tip-desc">Cadastre um cliente ao lado para começar a controlar o processo operacional de entrega.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 2: INTERACTIVE PLAYBOOK -->
+            <section id="tab-playbook" class="content-section">
+                <div class="card">
+                    <!-- Timeline Nodes -->
+                    <div class="playbook-timeline">
+                        <div class="timeline-node active" onclick="activateStage(1)">
+                            <div class="node-dot">1</div>
+                            <span class="node-label">Briefing</span>
+                        </div>
+                        <div class="timeline-node" onclick="activateStage(2)">
+                            <div class="node-dot">2</div>
+                            <span class="node-label">Onboarding</span>
+                        </div>
+                        <div class="timeline-node" onclick="activateStage(3)">
+                            <div class="node-dot">3</div>
+                            <span class="node-label">Estratégia</span>
+                        </div>
+                        <div class="timeline-node" onclick="activateStage(4)">
+                            <div class="node-dot">4</div>
+                            <span class="node-label">Criação</span>
+                        </div>
+                        <div class="timeline-node" onclick="activateStage(5)">
+                            <div class="node-dot">5</div>
+                            <span class="node-label">Revisão</span>
+                        </div>
+                        <div class="timeline-node" onclick="activateStage(6)">
+                            <div class="node-dot">6</div>
+                            <span class="node-label">Resultados</span>
+                        </div>
+                    </div>
+
+                    <!-- Stage 1 Pane -->
+                    <div id="stage-pane-1" class="playbook-pane active">
+                        <div class="pane-details">
+                            <h3>01. Prospecção & Briefing <span class="badge">SLA: 2 Horas</span></h3>
+                            <p class="playbook-description">
+                                O primeiro contato define o tom de autoridade da agência. Qualifique o lead rapidamente, entenda o orçamento disponível e marque um alinhamento rápido antes de formular a proposta comercial.
+                            </p>
+                            <h4 style="margin-bottom: 12px; color: var(--white);">Tarefas Obrigatórias</h4>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Primeira resposta em menos de 2h</strong>
+                                    <span>Manter o lead aquecido no WhatsApp comercial com a nossa apresentação em anexo.</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Triagem de qualificação (Orçamento e Escopo)</strong>
+                                    <span>Perguntar sutilmente sobre a verba mensal de investimento em anúncios e objetivos comerciais.</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Apresentação Comercial & Envio de Proposta</strong>
+                                    <span>Customizar proposta com cronograma bem definido e enviar em formato PDF.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pane-sidebar">
+                            <div class="tool-box">
+                                <span class="tool-box-title"><i data-lucide="message-square"></i> WhatsApp Script</span>
+                                <div class="script-template" id="script-stage-1">Olá! Tudo bem? Sou o [Seu Nome], gestor de contas da ARKE. 🚀
+
+Fiquei muito feliz com o interesse na ARKE! Para eu entender a sua necessidade e mandar a proposta ideal, me conte: qual é o principal objetivo da sua empresa hoje (ex: identidade visual nova, redes sociais ou anúncios para atrair clientes)?</div>
+                                <button class="btn btn-secondary btn-sm" onclick="copyText('script-stage-1')">
+                                    <i data-lucide="copy"></i> Copiar Texto
+                                </button>
+                            </div>
+                            <div class="tool-box">
+                                <span class="tool-box-title"><i data-lucide="lightbulb"></i> Dica do Gestor</span>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin: 0;">"Leads frios demoram para fechar. Responda rápido e faça perguntas fechadas para forçar o agendamento de uma call."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 2 Pane -->
+                    <div id="stage-pane-2" class="playbook-pane">
+                        <div class="pane-details">
+                            <h3>02. Onboarding & Alinhamento <span class="badge">SLA: 24 Horas</span></h3>
+                            <p class="playbook-description">
+                                Garanta a segurança jurídica e financeira da ARKE. Configure as pastas e ative os canais oficiais de comunicação para que o cliente se sinta bem recebido e integrado.
+                            </p>
+                            <h4 style="margin-bottom: 12px; color: var(--white);">Tarefas Obrigatórias</h4>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Confirmação de Faturamento & Contrato</strong>
+                                    <span>Verificar assinatura digital e garantir que o pix ou sinal de entrada foi efetuado.</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Criação da Pasta do Google Drive</strong>
+                                    <span>Estruturar as subpastas (/Criativos, /Marca, /Documentos, /Resultados).</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Briefing Aprofundado Respondido</strong>
+                                    <span>Coletar referências de tom de voz, cores, concorrentes e materiais preferidos.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pane-sidebar">
+                            <div class="tool-box">
+                                <span class="tool-box-title"><i data-lucide="message-square"></i> WhatsApp Script</span>
+                                <div class="script-template" id="script-stage-2">Seja muito bem-vindo à ARKE! 🚀
+
+Já preparamos a sua pasta no Drive e confirmamos o seu contrato. Para darmos o próximo passo, preencha este formulário de briefing com as referências visuais da sua marca: [LINK]
+
+Assim que preencher, agendamos nossa call rápida de Kickoff!</div>
+                                <button class="btn btn-secondary btn-sm" onclick="copyText('script-stage-2')">
+                                    <i data-lucide="copy"></i> Copiar Texto
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 3 Pane -->
+                    <div id="stage-pane-3" class="playbook-pane">
+                        <div class="pane-details">
+                            <h3>03. Planejamento Estratégico <span class="badge">SLA: 4 Dias</span></h3>
+                            <p class="playbook-description">
+                                A fase onde o cérebro sênior de marketing atua. Analise concorrentes, monte o moodboard de estilo e faça o planejamento de canais e públicos de tráfego antes de encostar no design.
+                            </p>
+                            <h4 style="margin-bottom: 12px; color: var(--white);">Tarefas Obrigatórias</h4>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Benchmarking Concorrencial</strong>
+                                    <span>Listar pelo menos 3 concorrentes diretos locais do cliente e estudar seus pontos fracos.</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Definição de Moodboard & Conceito</strong>
+                                    <span>Compilar imagens de referência, tipografias e paletas preliminares.</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-circle-2"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Aprovação Estratégica do Moodboard</strong>
+                                    <span>Obter o aval do cliente para a linha estratégica de comunicação visual para evitar retrabalhos na criação final.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pane-sidebar">
+                            <div class="tool-box">
+                                <span class="tool-box-title"><i data-lucide="message-square"></i> WhatsApp Script</span>
+                                <div class="script-template" id="script-stage-3">Olá! Montamos o planejamento estratégico inicial para a sua marca, contendo o estudo de concorrentes e o direcionamento visual do design (Moodboard).
+
+Dê uma olhada no link abaixo e nos diga se estamos no caminho certo antes de iniciarmos a produção das peças: [LINK]</div>
+                                <button class="btn btn-secondary btn-sm" onclick="copyText('script-stage-3')">
+                                    <i data-lucide="copy"></i> Copiar Texto
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 4 Pane -->
+                    <div id="stage-pane-4" class="playbook-pane">
+                        <div class="pane-details">
+                            <h3>04. Criação & Execução <span class="badge">SLA: Variável</span></h3>
+                            <p class="playbook-description">
+                                Mão na massa. Produção com alto nível de design e copywriting estratégico. Garanta a conformidade com as regras da marca e do grid.
+                            </p>
+                            <h4 style="margin-bottom: 12px; color: var(--white);">Checklist de Controle de Qualidade Interno (Garantia ARKE)</h4>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-square"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Revisão Ortográfica e Gramática (Critério Crítico)</strong>
+                                    <span>Não envie peças com pequenos erros de digitação ou pontuação.</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-square"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Contraste, Grid e Alinhamento</strong>
+                                    <span>A leitura está confortável tanto em mobile quanto desktop? O design está harmonioso?</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="check-square"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Adequação às Diretrizes da Marca</strong>
+                                    <span>O logo está com aplicação e área de respiro corretas? A paleta está no tom exato?</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pane-sidebar">
+                            <div class="tool-box">
+                                <span class="tool-box-title"><i data-lucide="lightbulb"></i> Apresentação Premium</span>
+                                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 10px;">Nunca envie designs de identidade visual soltos. Grave um vídeo rápido de 3 min no <strong>Loom</strong> explicando o conceito por trás do logo.</p>
+                                <span class="progress-text" style="color: var(--accent); font-weight: 600;">Gera +80% de aprovação de primeira.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 5 Pane -->
+                    <div id="stage-pane-5" class="playbook-pane">
+                        <div class="pane-details">
+                            <h3>05. Feedback & Ajustes <span class="badge">SLA: 48 Horas</span></h3>
+                            <p class="playbook-description">
+                                Gerencie os pedidos de alteração para evitar o retrabalho infinito. Eduque o cliente a enviar um feedback unificado e consolidado.
+                            </p>
+                            <h4 style="margin-bottom: 12px; color: var(--white);">Regras de Gestão de Retrabalho</h4>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="alert-triangle"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Limite de 2 rodadas inclusas no contrato</strong>
+                                    <span>Após a segunda rodada completa de ajustes, aplicar taxa de 15% sobre o valor total do escopo por rodada extra.</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="alert-triangle"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Ajustes consolidados em texto único</strong>
+                                    <span>Exigir que o cliente consolide todos os comentários e ajustes por e-mail ou documento do Docs (não em mensagens soltas).</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pane-sidebar">
+                            <div class="tool-box">
+                                <span class="tool-box-title"><i data-lucide="message-square"></i> WhatsApp Script</span>
+                                <div class="script-template" id="script-stage-5">Apresentamos a primeira versão do seu projeto! 🎨
+
+Para mantermos o cronograma alinhado e processar suas sugestões de forma rápida e completa, liste todos os ajustes em uma única mensagem consolidada. Faremos as correções completas em até 48h!</div>
+                                <button class="btn btn-secondary btn-sm" onclick="copyText('script-stage-5')">
+                                    <i data-lucide="copy"></i> Copiar Texto
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Stage 6 Pane -->
+                    <div id="stage-pane-6" class="playbook-pane">
+                        <div class="pane-details">
+                            <h3>06. Entrega & Apresentação de Resultados <span class="badge">SLA: Conclusão</span></h3>
+                            <p class="playbook-description">
+                                A fase que diferencia uma agência júnior de uma sênior. Mostre os dados de retorno sobre o investimento (ROI), organize os arquivos de forma impecável e feche a reunião com foco em renovação (Upsell).
+                            </p>
+                            <h4 style="margin-bottom: 12px; color: var(--white);">Tarefas Obrigatórias</h4>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="award"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Arquivos organizados no Drive</strong>
+                                    <span>Pastas nomeadas (/Editaveis, /Imagens_Prontas, /Vetores, /PDF_Impressao).</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="award"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Emissão e Call de Relatório de Resultados</strong>
+                                    <span>Focar nos KPIs principais: Leads Gerados, ROI das campanhas, Cliques e Conversões.</span>
+                                </div>
+                            </div>
+                            <div class="playbook-checklist-item">
+                                <i data-lucide="award"></i>
+                                <div class="playbook-checklist-text">
+                                    <strong>Oferta de Upsell / Renovação de Ciclo</strong>
+                                    <span>Apresentar propostas para o próximo mês ou serviços adicionais de tráfego/redes sociais.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pane-sidebar">
+                            <div class="tool-box">
+                                <span class="tool-box-title"><i data-lucide="message-square"></i> WhatsApp Script</span>
+                                <div class="script-template" id="script-stage-6">Olá, [Nome]! 🚀
+
+Tudo pronto com o seu projeto! Todos os arquivos finais estão organizados e prontos para download na nossa pasta compartilhada do Google Drive: [LINK]
+
+Gostaria de marcar uma conversa rápida de 15 minutos nesta semana para apresentar o nosso relatório de métricas e traçar as ações do próximo mês?</div>
+                                <button class="btn btn-secondary btn-sm" onclick="copyText('script-stage-6')">
+                                    <i data-lucide="copy"></i> Copiar Texto
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 3: ROI CALCULATOR -->
+            <section id="tab-calculator" class="content-section">
+                <div class="card">
+                    <h2 class="card-title" style="margin-bottom: 1.5rem;">
+                        <i data-lucide="calculator"></i> Calculadora de ROI de Campanha de Tráfego
+                    </h2>
+                    <p class="playbook-description">Use esta simulação técnica durante reuniões de alinhamento estratégico ou apresentação de resultados para demonstrar a rentabilidade dos anúncios ao cliente.</p>
+                    
+                    <div class="calc-grid">
+                        <div class="calc-inputs">
+                            <div class="form-group">
+                                <label for="roi-budget">Investimento Total em Tráfego (R$)</label>
+                                <input type="number" id="roi-budget" class="form-control" value="2000" oninput="calculateROI()">
+                            </div>
+                            <div class="form-group">
+                                <label for="roi-cpc">Custo por Clique Médio Estimado - CPC (R$)</label>
+                                <input type="number" id="roi-cpc" class="form-control" value="1.20" step="0.10" oninput="calculateROI()">
+                            </div>
+                            <div class="form-group">
+                                <label for="roi-conv">Taxa de Conversão da Landing Page (%)</label>
+                                <input type="number" id="roi-conv" class="form-control" value="15" step="1" oninput="calculateROI()">
+                            </div>
+                            <div class="form-group">
+                                <label for="roi-close">Taxa de Fechamento de Vendas do Comercial (%)</label>
+                                <input type="number" id="roi-close" class="form-control" value="10" step="1" oninput="calculateROI()">
+                            </div>
+                            <div class="form-group">
+                                <label for="roi-ticket">Ticket Médio do Produto/Serviço (R$)</label>
+                                <input type="number" id="roi-ticket" class="form-control" value="450" oninput="calculateROI()">
+                            </div>
+                        </div>
+
+                        <div class="calc-results">
+                            <div class="calc-result-row">
+                                <span class="calc-label">Total de Cliques Estimados</span>
+                                <span class="calc-value" id="res-clicks">1.667</span>
+                            </div>
+                            <div class="calc-result-row">
+                                <span class="calc-label">Leads Gerados (Oportunidades)</span>
+                                <span class="calc-value" id="res-leads">250</span>
+                            </div>
+                            <div class="calc-result-row">
+                                <span class="calc-label">Custo Médio por Lead (CPL)</span>
+                                <span class="calc-value" id="res-cpl">R$ 8,00</span>
+                            </div>
+                            <div class="calc-result-row">
+                                <span class="calc-label">Total de Vendas Estimadas</span>
+                                <span class="calc-value" id="res-sales">25</span>
+                            </div>
+                            <div class="calc-result-row">
+                                <span class="calc-label">Faturamento Total Projetado</span>
+                                <span class="calc-value positive" id="res-revenue">R$ 11.250,00</span>
+                            </div>
+                            <div class="calc-result-row" style="margin-top: 15px; border-top: 2px solid rgba(255,255,255,0.1); padding-top: 15px;">
+                                <span class="calc-label" style="font-weight: 700; color: var(--white);">Retorno sobre Anúncios (ROAS)</span>
+                                <span class="calc-value highlight" id="res-roas">5.6x</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION 4: GUIDELINES -->
+            <section id="tab-guidelines" class="content-section">
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-icon"><i data-lucide="shield-check"></i></div>
+                        <h3 class="tip-title">Contratos & Aditivos de Escopo</h3>
+                        <p class="tip-desc">Nunca comece a fazer uma arte promocional física ou site se o contrato diz "Gestão de Redes Sociais". Proteja as margens de lucro enviando propostas de aditivo de escopo para qualquer pedido fora do combinado.</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon"><i data-lucide="refresh-cw"></i></div>
+                        <h3 class="tip-title">Controle do Retrabalho</h3>
+                        <p class="tip-desc">Seja firme nas 2 rodadas inclusas. O retrabalho infinito é o maior vilão da produtividade da agência. Caso o cliente peça a 3ª alteração, mande uma notificação de cobrança conforme contrato.</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon"><i data-lucide="video"></i></div>
+                        <h3 class="tip-title">Defesa de Design no Loom</h3>
+                        <p class="tip-desc">Evite enviar arquivos PDF sem explicação. Um vídeo curto no Loom detalhando as referências do briefing, por que a cor tal foi escolhida e o significado das formas blinda o projeto contra o gosto pessoal subjetivo do cliente.</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon"><i data-lucide="trending-up"></i></div>
+                        <h3 class="tip-title">Reunião Mensal de ROI</h3>
+                        <p class="tip-desc">Falar sobre curtidas e impressões cansa o cliente. Fale sobre quantos leads entraram e calcule o faturamento gerado pelas campanhas. Clientes que enxergam dinheiro no bolso nunca cancelam o contrato mensal.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Tab switching logic
+        function switchTab(tabId, element) {
+            // Update page header texts
+            const titles = {
+                'tracker': 'Controle de Projetos Ativos',
+                'playbook': 'Playbook Operacional',
+                'calculator': 'Simulador de Rentabilidade (ROI)',
+                'guidelines': 'Diretrizes de Sucesso do Gestor'
+            };
+            const descs = {
+                'tracker': 'Monitore o status e a evolução de cada cliente nas 6 fases operacionais da agência.',
+                'playbook': 'Veja o passo a passo de tarefas obrigatórias, SLAs e use templates prontos para cada etapa.',
+                'calculator': 'Use esta simulação técnica durante reuniões de alinhamento estratégico ou apresentação de resultados para demonstrar a rentabilidade dos anúncios ao cliente.',
+                'guidelines': 'Princípios comerciais e operacionais sênior para garantir lucratividade e organização da ARKE.'
+            };
+
+            document.getElementById('page-title').innerText = titles[tabId];
+            document.getElementById('page-desc').innerText = descs[tabId];
+
+            // Toggle links active class
+            document.querySelectorAll('.sidebar-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            element.classList.add('active');
+
+            // Hide/Show sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById('tab-' + tabId).classList.add('active');
+        }
+
+        // Timeline Stage switching
+        function activateStage(stageIndex) {
+            document.querySelectorAll('.timeline-node').forEach((node, idx) => {
+                if (idx < stageIndex) {
+                    node.classList.add('active');
+                } else {
+                    node.classList.remove('active');
+                }
+            });
+            
+            // Show correct stage pane
+            document.querySelectorAll('.playbook-pane').forEach((pane, idx) => {
+                if (idx === (stageIndex - 1)) {
+                    pane.classList.add('active');
+                } else {
+                    pane.classList.remove('active');
+                }
+            });
+        }
+
+        // Copy text helper
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Template de mensagem copiado com sucesso! 🚀');
+            }).catch(err => {
+                console.error('Erro ao copiar texto: ', err);
+            });
+        }
+
+        // ROI Calculator Logic
+        function calculateROI() {
+            const budget = parseFloat(document.getElementById('roi-budget').value) || 0;
+            const cpc = parseFloat(document.getElementById('roi-cpc').value) || 0.1;
+            const conv = parseFloat(document.getElementById('roi-conv').value) || 0;
+            const close = parseFloat(document.getElementById('roi-close').value) || 0;
+            const ticket = parseFloat(document.getElementById('roi-ticket').value) || 0;
+
+            const clicks = Math.round(budget / cpc);
+            const leads = Math.round(clicks * (conv / 100));
+            const cpl = leads > 0 ? (budget / leads) : 0;
+            const sales = Math.round(leads * (close / 100));
+            const revenue = sales * ticket;
+            const roas = budget > 0 ? (revenue / budget) : 0;
+
+            document.getElementById('res-clicks').innerText = clicks.toLocaleString('pt-BR');
+            document.getElementById('res-leads').innerText = leads.toLocaleString('pt-BR');
+            document.getElementById('res-cpl').innerText = 'R$ ' + cpl.toFixed(2).replace('.', ',');
+            document.getElementById('res-sales').innerText = sales.toLocaleString('pt-BR');
+            document.getElementById('res-revenue').innerText = 'R$ ' + revenue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('res-roas').innerText = roas.toFixed(1) + 'x';
+        }
+
+        // Active Clients Tracker Code (localStorage)
+        let activeClients = JSON.parse(localStorage.getItem('arke_clients')) || [];
+
+        function addClient(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('client-name');
+            const serviceInput = document.getElementById('client-service');
+            const obsInput = document.getElementById('client-obs');
+
+            const newClient = {
+                id: Date.now(),
+                name: nameInput.value,
+                service: serviceInput.value,
+                obs: obsInput.value || '',
+                steps: [false, false, false, false, false, false] // 6 steps false initially
+            };
+
+            activeClients.push(newClient);
+            saveClients();
+            renderClients();
+
+            // Clear inputs
+            nameInput.value = '';
+            obsInput.value = '';
+        }
+
+        function toggleClientStep(clientId, stepIndex) {
+            const client = activeClients.find(c => c.id === clientId);
+            if (client) {
+                client.steps[stepIndex] = !client.steps[stepIndex];
+                saveClients();
+                renderClients();
+            }
+        }
+
+        // Keep checkbox in correct visual state when clicked
+        function triggerCheckbox(element, clientId, stepIndex) {
+            toggleClientStep(clientId, stepIndex);
+        }
+
+        function deleteClient(clientId) {
+            if (confirm('Deseja realmente arquivar este cliente?')) {
+                activeClients = activeClients.filter(c => c.id !== clientId);
+                saveClients();
+                renderClients();
+            }
+        }
+
+        function saveClients() {
+            localStorage.setItem('arke_clients', JSON.stringify(activeClients));
+        }
+
+        function renderClients() {
+            const listContainer = document.getElementById('clients-list');
+            const counter = document.getElementById('clients-count');
+
+            counter.innerText = activeClients.length + (activeClients.length === 1 ? ' Cliente Ativo' : ' Clientes Ativos');
+
+            if (activeClients.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="tip-card" style="border-style: dashed; opacity: 0.7; text-align: center; padding: 3rem 1.5rem;">
+                        <i data-lucide="inbox" style="margin: 0 auto 1rem auto; width: 48px; height: 48px; color: var(--text-muted);"></i>
+                        <p class="tip-title">Nenhum cliente ativo no momento</p>
+                        <p class="tip-desc">Cadastre um cliente ao lado para começar a controlar o processo operacional de entrega.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            listContainer.innerHTML = '';
+            activeClients.forEach(client => {
+                // Calculate progress %
+                const completedStepsCount = client.steps.filter(s => s).length;
+                const progressPct = Math.round((completedStepsCount / 6) * 100);
+
+                const item = document.createElement('div');
+                item.className = 'client-item';
+                
+                // Create checkboxes HTML
+                let checkboxesHtml = '';
+                const stepNames = ['Briefing', 'Onboarding', 'Estratégia', 'Criação', 'Revisão', 'Resultados'];
+                for(let i=0; i<6; i++) {
+                    const activeClass = client.steps[i] ? 'completed' : '';
+                    checkboxesHtml += `
+                        <div class="step-checkbox-btn ${activeClass}" onclick="toggleClientStep(${client.id}, ${i})">
+                            ${i+1}. ${stepNames[i]}
+                        </div>
+                    `;
+                }
+
+                item.innerHTML = `
+                    <div class="client-meta">
+                        <div>
+                            <span class="client-name-tag">${client.name}</span>
+                            <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 2px;">${client.obs}</div>
+                        </div>
+                        <span class="client-service-tag">${client.service}</span>
+                    </div>
+
+                    <div class="client-progress-bar">
+                        <div class="client-progress-fill" style="width: ${progressPct}%"></div>
+                    </div>
+
+                    <div class="client-steps-grid">
+                        ${checkboxesHtml}
+                    </div>
+
+                    <div class="client-actions">
+                        <span class="progress-text">${progressPct}% concluído (${completedStepsCount}/6)</span>
+                        <button class="btn-delete" onclick="deleteClient(${client.id})">
+                            <i data-lucide="archive" style="width: 14px; height: 14px;"></i> Arquivar
+                        </button>
+                    </div>
+                `;
+
+                listContainer.appendChild(item);
+            });
+
+            // Re-render lucide icons for newly created items
+            lucide.createIcons();
+        }
+
+        // Initialize lucide icons and clients list on load
+        window.onload = function() {
+            lucide.createIcons();
+            renderClients();
+            calculateROI();
+        };
+    </script>
+</body>
+</html>

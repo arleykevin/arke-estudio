@@ -842,9 +842,10 @@ footer {
 .post-card-noimg {
     width: 100%; height: 100%;
     display: flex; align-items: center; justify-content: center;
-    color: rgba(255, 255, 255, 0.12);
+    background: radial-gradient(circle at center, rgba(5, 131, 242, 0.12) 0%, rgba(20, 22, 31, 0.6) 100%);
+    color: var(--brand);
 }
-.post-card-noimg i { width: 46px; height: 46px; }
+.post-card-noimg i { width: 42px; height: 42px; filter: drop-shadow(0 0 8px rgba(5, 131, 242, 0.5)); }
 .post-card-body { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
 .post-card-date {
     font-size: 0.8rem; color: var(--brand-teal); font-weight: 600;
@@ -903,7 +904,7 @@ footer {
    ========================================================================== */
 .portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 2rem;
     margin-top: 1rem;
 }
@@ -1077,6 +1078,18 @@ footer {
     transform: scale(1.08) translateY(-3px);
     box-shadow: 0 12px 32px rgba(37, 211, 102, 0.65);
 }
+/* WhatsApp SVG Icon Helper (using mask for dynamic coloring) */
+.icon-wa {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: currentColor;
+    mask: url(/whatsapp.svg) no-repeat center / contain;
+    -webkit-mask: url(/whatsapp.svg) no-repeat center / contain;
+    vertical-align: middle;
+}
+
+.floating-whatsapp .icon-wa,
 .floating-whatsapp i {
     width: 28px;
     height: 28px;

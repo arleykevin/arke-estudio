@@ -28,7 +28,11 @@ const allowedStaticFiles = [
     '/blusa.png',
     '/caneca.png',
     '/sacola.png',
-    '/favicon.ico'
+    '/favicon.ico',
+    '/whatsapp.svg',
+    '/whatsapp2.svg',
+    '/tiktok.svg',
+    '/processos.html'
 ];
 
 app.use((req, res, next) => {
@@ -40,9 +44,21 @@ app.use((req, res, next) => {
     if (req.path === '/admin' || req.path === '/admin.html') {
         return res.sendFile(path.join(__dirname, 'admin.html'));
     }
+    // Rota da apresentacao comercial
+    if (req.path === '/apresentacao' || req.path === '/apresentacao.html') {
+        return res.sendFile(path.join(__dirname, 'apresentacao.html'));
+    }
+    // Rota do manual de processos internos
+    if (req.path === '/processos' || req.path === '/processos.html') {
+        return res.sendFile(path.join(__dirname, 'processos.html'));
+    }
     // Servir apenas se o arquivo solicitado estiver explicitamente na whitelist
     if (allowedStaticFiles.includes(req.path)) {
-        return res.sendFile(path.join(__dirname, req.path));
+        return res.sendFile(path.join(__dirname, req.path), (err) => {
+            if (err && !res.headersSent) {
+                res.status(404).end();
+            }
+        });
     }
     next();
 });
@@ -79,6 +95,8 @@ app.post('/api/data', async (req, res) => {
 app.get('/blog', (req, res) => res.sendFile(path.join(__dirname, 'blog.html')));
 app.get('/blog/:slug', (req, res) => res.sendFile(path.join(__dirname, 'post.html')));
 app.get('/portfolio', (req, res) => res.sendFile(path.join(__dirname, 'portfolio.html')));
+app.get('/apresentacao', (req, res) => res.sendFile(path.join(__dirname, 'apresentacao.html')));
+app.get('/processos', (req, res) => res.sendFile(path.join(__dirname, 'processos.html')));
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "1",
+    "slug": "hiperpersonalizacao-ia",
+    "title": "Hiperpersonalização com IA no Marketing",
+    "excerpt": "Como a Inteligência Artificial está transformando a experiência do cliente através de campanhas hiperpersonalizadas em tempo real.",
+    "cover_url": "",
+    "content": "# Hiperpersonalização com IA no Marketing\n\nA Inteligência Artificial está revolucionando a maneira como as marcas se conectam com seus clientes. Através da análise de grandes volumes de dados em tempo real, as campanhas agora podem ser adaptadas às preferências específicas de cada consumidor.\n\n## Por que adotar a IA?\n\n1. **Engajamento Elevado**: Mensagens relevantes no momento certo.\n2. **Melhoria no ROI**: Menos desperdício de verba publicitária.\n3. **Fidelização**: Experiências únicas geram conexões duradouras.",
+    "category": "Marketing Digital",
+    "status": "published",
+    "published_at": "2026-06-25T12:00:00Z"
+  },
+  {
+    "id": "2",
+    "slug": "design-minimalista-conversao",
+    "title": "Design Minimalista: Menos é Mais Conversão",
+    "excerpt": "Descubra como layouts limpos e focados no usuário reduzem a fricção de compra e aumentam expressivamente a conversão.",
+    "cover_url": "",
+    "content": "# Design Minimalista: Menos é Mais Conversão\n\nNo ambiente digital saturado de hoje, a simplicidade se destaca. O design minimalista não é apenas uma escolha estética; é uma estratégia de negócios voltada para a usabilidade e conversão.\n\n## Pilares do Design Minimalista\n\n* **Espaço em Branco**: Dá respiro aos elementos visuais.\n* **Hierarquia Clara**: Facilita a leitura do usuário.\n* **CTA em Destaque**: Direciona o foco para a ação desejada.",
+    "category": "Design Gráfico",
+    "status": "published",
+    "published_at": "2026-06-20T10:00:00Z"
+  }
+]

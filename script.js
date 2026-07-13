@@ -406,7 +406,7 @@ window.openProjectModal = function(idx) {
             </div>
             <div style="text-align: center; margin-top: 2rem;">
                 <a href="https://wa.me/${window.whatsappNumber || '5585992629819'}?text=Ol%C3%A1%2C%20gostaria%20de%20um%20projeto%20semelhante%20ao%3A%20${encodeURIComponent(p.title)}" target="_blank" class="btn btn-primary" style="display:inline-flex; align-items:center; gap:0.5rem; justify-content:center;">
-                    <i data-lucide="message-circle"></i> Quero um Projeto Semelhante
+                    <span class="icon-wa"></span> Quero um Projeto Semelhante
                 </a>
             </div>
         `;
