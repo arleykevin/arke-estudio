@@ -1687,4 +1687,400 @@ input[type="range"]::-webkit-slider-thumb:hover {
     }
 }
 
+/* ==========================================================================
+   Modern Clean Grid Styles (Process & Portfolio Filters)
+   ========================================================================== */
+
+/* Process Grid (Modern Cards without dated vertical lines) */
+.process-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1.25rem;
+    margin-top: 2rem;
+}
+
+@media (max-width: 1024px) {
+    .process-grid {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+.process-step-card {
+    background: rgba(20, 22, 31, 0.45);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 2.2rem 1.4rem;
+    position: relative;
+    transition: var(--t);
+}
+
+.process-step-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(24, 172, 227, 0.35);
+    background: rgba(20, 22, 31, 0.7);
+    box-shadow: 0 16px 36px -12px rgba(5, 131, 242, 0.15);
+}
+
+.process-step-card .step-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background: rgba(5, 131, 242, 0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--brand-teal);
+    margin-bottom: 1.2rem;
+}
+
+.process-step-card h3 {
+    font-size: 1.18rem;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+}
+
+.process-step-card p {
+    font-size: 0.92rem;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* Portfolio Filters */
+.portfolio-filters {
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-bottom: 2.5rem;
+    flex-wrap: wrap;
+}
+
+.filter-btn {
+    padding: 0.55rem 1.35rem;
+    border-radius: var(--r-full);
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--t);
+}
+
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--gradient);
+    border-color: transparent;
+    color: var(--white);
+    box-shadow: 0 4px 20px rgba(5, 131, 242, 0.4);
+}
+
+/* ==========================================================================
+   Elaborate Lead Diagnostic Questionnaire Styles
+   ========================================================================== */
+.quiz-card {
+    background: rgba(20, 22, 31, 0.65);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-lg);
+    padding: clamp(2rem, 4vw, 3.2rem);
+    max-width: 960px;
+    margin: 0 auto;
+    box-shadow: 0 24px 56px -12px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Stepper Header & Progress Line */
+.quiz-stepper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    margin-bottom: 2.8rem;
+    padding-bottom: 1.5rem;
+}
+
+.quiz-progress-line-track {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.07);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.quiz-progress-line-fill {
+    height: 100%;
+    background: var(--gradient);
+    border-radius: 4px;
+    transition: width 0.4s var(--ease);
+    box-shadow: 0 0 12px rgba(5, 131, 242, 0.6);
+}
+
+.quiz-step-indicator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: var(--t);
+}
+
+.quiz-step-indicator span {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.88rem;
+    font-family: var(--font-display);
+    font-weight: 700;
+    transition: var(--t);
+}
+
+.quiz-step-indicator.active {
+    color: var(--white);
+}
+
+.quiz-step-indicator.active span {
+    background: var(--gradient);
+    border-color: transparent;
+    color: var(--white);
+    box-shadow: 0 0 18px rgba(5, 131, 242, 0.55);
+}
+
+.quiz-question-title {
+    font-size: 1.45rem;
+    color: var(--white);
+    margin-bottom: 2rem;
+    text-align: center;
+    font-weight: 700;
+}
+
+.quiz-options-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2.2rem;
+}
+
+.quiz-option-card {
+    background: rgba(255, 255, 255, 0.025);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    padding: 1.6rem 1.4rem;
+    cursor: pointer;
+    transition: var(--t);
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.quiz-option-card:hover {
+    border-color: rgba(24, 172, 227, 0.4);
+    transform: translateY(-4px);
+    background: rgba(24, 172, 227, 0.05);
+    box-shadow: 0 12px 28px rgba(5, 131, 242, 0.12);
+}
+
+.quiz-option-card.selected {
+    border-color: var(--brand-teal);
+    background: rgba(5, 131, 242, 0.14);
+    box-shadow: 0 0 24px rgba(5, 131, 242, 0.25);
+}
+
+.quiz-option-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(5, 131, 242, 0.12);
+    color: var(--brand-teal);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.1rem;
+}
+
+.quiz-option-card h4 {
+    font-size: 1.08rem;
+    color: var(--white);
+    margin-bottom: 0.35rem;
+    font-weight: 600;
+}
+
+.quiz-option-card p {
+    font-size: 0.88rem;
+    color: var(--text-muted);
+    line-height: 1.45;
+}
+
+.quiz-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* Step 5 Layout (Form + Realtime Briefing Summary) */
+.quiz-final-layout {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 2rem;
+    align-items: start;
+}
+
+.quiz-form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.quiz-briefing-summary {
+    background: rgba(14, 15, 22, 0.65);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-md);
+    padding: 1.8rem;
+    text-align: left;
+}
+
+.quiz-briefing-summary h4 {
+    font-size: 1.1rem;
+    color: var(--white);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.quiz-briefing-summary h4 i {
+    color: var(--brand-teal);
+    width: 20px;
+    height: 20px;
+}
+
+.summary-item {
+    margin-bottom: 1rem;
+}
+
+.summary-item span {
+    display: block;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.2rem;
+}
+
+.summary-item strong {
+    font-size: 0.95rem;
+    color: var(--white);
+}
+
+.summary-solutions-list {
+    padding-left: 0;
+    list-style: none;
+    margin-top: 0.4rem;
+}
+
+.summary-solutions-list li {
+    font-size: 0.88rem;
+    color: var(--brand-teal);
+    margin-bottom: 0.35rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.summary-solutions-list li::before {
+    content: '•';
+    color: var(--brand-teal);
+}
+
+.summary-solutions-list li.empty-list {
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+.summary-solutions-list li.empty-list::before {
+    display: none;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+    text-align: left;
+}
+
+.form-group label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 0.85rem 1.1rem;
+    background: rgba(14, 15, 22, 0.8);
+    border: 1px solid var(--border-strong);
+    border-radius: var(--r-sm);
+    color: var(--white);
+    font-family: var(--font-body);
+    font-size: 0.95rem;
+    outline: none;
+    transition: var(--t);
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--brand-teal);
+    box-shadow: 0 0 18px rgba(24, 172, 227, 0.25);
+}
+
+.success-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 1.2rem;
+    background: rgba(24, 172, 227, 0.12);
+    color: var(--brand-teal);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.success-icon i {
+    width: 40px;
+    height: 40px;
+}
+
+@media (max-width: 868px) {
+    .quiz-final-layout {
+        grid-template-columns: 1fr;
+    }
+    .quiz-stepper small {
+        display: none;
+    }
+}
+
+
+
+
+
 

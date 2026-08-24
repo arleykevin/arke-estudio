@@ -694,6 +694,85 @@
             font-size: 0.9rem;
             color: var(--text-muted);
         }
+
+        /* Pricing Tab Styles */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 2.5rem;
+        }
+
+        .proposal-builder {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .service-select-card {
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: var(--r-sm);
+            padding: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .service-select-card:hover {
+            border-color: var(--border-strong);
+        }
+
+        .service-select-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .service-select-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            color: var(--white);
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .proposal-preview-card {
+            background: linear-gradient(135deg, rgba(20, 22, 31, 0.95) 0%, rgba(9, 10, 15, 0.95) 100%);
+            border: 1px solid var(--brand-teal);
+            padding: 2rem;
+            border-radius: var(--r-md);
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: 0 10px 30px rgba(5, 131, 242, 0.15);
+            position: sticky;
+            top: 3rem;
+        }
+
+        .proposal-preview-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 10px;
+            font-family: var(--font-display);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--white);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .proposal-item-line {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .proposal-item-line span.val {
+            color: var(--text);
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -717,6 +796,10 @@
                 <div class="sidebar-link" onclick="switchTab('calculator', this)">
                     <i data-lucide="calculator"></i>
                     Simulador de ROI
+                </div>
+                <div class="sidebar-link" onclick="switchTab('pricing', this)">
+                    <i data-lucide="tag"></i>
+                    Serviços & Preços
                 </div>
                 <div class="sidebar-link" onclick="switchTab('guidelines', this)">
                     <i data-lucide="shield-alert"></i>
@@ -1147,6 +1230,147 @@ Gostaria de marcar uma conversa rápida de 15 minutos nesta semana para apresent
                 </div>
             </section>
 
+            <!-- SECTION 3.5: PRICING & PROPOSAL BUILDER -->
+            <section id="tab-pricing" class="content-section">
+                <div class="card">
+                    <h2 class="card-title" style="margin-bottom: 1.5rem;">
+                        <i data-lucide="tag"></i> Simulador de Precificação & Montador de Propostas
+                    </h2>
+                    <p class="playbook-description">Mapeie o escopo comercial e gere uma proposta organizada pronta para enviar ao cliente no WhatsApp.</p>
+                    
+                    <div class="pricing-grid">
+                        <!-- Left Panel: Builder Options -->
+                        <div class="proposal-builder">
+                            <!-- Branding -->
+                            <div class="service-select-card">
+                                <div class="service-select-header">
+                                    <span class="service-select-title"><i data-lucide="palette"></i> Design & Identidade Visual</span>
+                                </div>
+                                <select id="prop-branding" class="form-control" onchange="calculateProposal()">
+                                    <option value="0">Nenhum</option>
+                                    <option value="1800">Bronze - ID Visual Simplificada (R$ 1.800)</option>
+                                    <option value="3300" selected>Prata - Branding Completo (R$ 3.300)</option>
+                                    <option value="6200">Ouro - Identidade Visual + Naming Premium (R$ 6.200)</option>
+                                </select>
+                            </div>
+
+                            <!-- Social Media -->
+                            <div class="service-select-card">
+                                <div class="service-select-header">
+                                    <span class="service-select-title"><i data-lucide="instagram"></i> Social Media (Recorrência)</span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 2.5fr 1fr; gap: 10px;">
+                                    <select id="prop-social" class="form-control" onchange="calculateProposal()">
+                                        <option value="0" selected>Nenhum</option>
+                                        <option value="1200">Bronze - 8 posts/mês (R$ 1.200/mês)</option>
+                                        <option value="1800">Prata - 12 posts/mês c/ 4 Reels (R$ 1.800/mês)</option>
+                                        <option value="2800">Ouro - 16 posts/mês c/ 8 Reels (R$ 2.800/mês)</option>
+                                    </select>
+                                    <input type="number" id="prop-social-months" class="form-control" value="3" min="1" placeholder="Meses" oninput="calculateProposal()">
+                                </div>
+                            </div>
+
+                            <!-- Traffic -->
+                            <div class="service-select-card">
+                                <div class="service-select-header">
+                                    <span class="service-select-title"><i data-lucide="trending-up"></i> Tráfego Pago & Ads (Recorrência)</span>
+                                </div>
+                                <div style="display: grid; grid-template-columns: 2.5fr 1fr; gap: 10px;">
+                                    <select id="prop-traffic" class="form-control" onchange="calculateProposal()">
+                                        <option value="0" selected>Nenhum</option>
+                                        <option value="800">Start - Verba até R$3k (R$ 800/mês)</option>
+                                        <option value="1500">Pro - Verba R$3k a R$10k (R$ 1.500/mês)</option>
+                                        <option value="2500">Scale - Verba > R$10k (R$ 2.500/mês)</option>
+                                    </select>
+                                    <input type="number" id="prop-traffic-months" class="form-control" value="3" min="1" placeholder="Meses" oninput="calculateProposal()">
+                                </div>
+                            </div>
+
+                            <!-- Web Projects -->
+                            <div class="service-select-card">
+                                <div class="service-select-header">
+                                    <span class="service-select-title"><i data-lucide="globe"></i> Sites & Web (Pontual)</span>
+                                </div>
+                                <div style="display: flex; gap: 20px; align-items: center;">
+                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                                        <input type="checkbox" id="prop-lp" value="2000" onchange="calculateProposal()"> Landing Page (R$ 2.000)
+                                    </label>
+                                    <label style="display: flex; align-items: center; gap: 8px; font-size: 0.9rem; cursor: pointer;">
+                                        <input type="checkbox" id="prop-site" value="4500" onchange="calculateProposal()"> Site Institucional (R$ 4.500)
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Global settings -->
+                            <div class="service-select-card">
+                                <div class="service-select-header">
+                                    <span class="service-select-title"><i data-lucide="settings"></i> Ajustes de Proposta & Desconto</span>
+                                </div>
+                                <div class="form-group" style="margin-bottom: 12px;">
+                                    <label for="prop-discount">Desconto Combo (%)</label>
+                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                        <input type="range" id="prop-discount" min="0" max="30" step="5" value="0" style="flex: 1;" oninput="updateDiscountVal(this.value)">
+                                        <span id="discount-val-text" style="font-weight: 700; width: 45px;">0%</span>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="prop-payment">Condição de Pagamento</label>
+                                    <select id="prop-payment" class="form-control" onchange="calculateProposal()">
+                                        <option value="pix">Pix à Vista (5% Desconto Extra)</option>
+                                        <option value="sinal" selected>50% Entrada + 50% Entrega</option>
+                                        <option value="parcelado">Parcelado em 3x s/ juros no Cartão</option>
+                                        <option value="boleto">Boleto Recorrente (Mensal)</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Panel: Proposal Preview -->
+                        <div>
+                            <div class="proposal-preview-card">
+                                <div class="proposal-preview-header">
+                                    <i data-lucide="file-text" style="color: var(--brand-teal);"></i> Resumo da Proposta
+                                </div>
+                                <div id="proposal-breakdown" style="display: flex; flex-direction: column; gap: 10px;">
+                                    <!-- Dynamic lines go here -->
+                                </div>
+
+                                <div style="border-top: 1px solid var(--border); padding-top: 15px; display: flex; flex-direction: column; gap: 8px;">
+                                    <div class="proposal-item-line">
+                                        <span>Valor Total Bruto:</span>
+                                        <span id="prop-val-raw">R$ 0,00</span>
+                                    </div>
+                                    <div class="proposal-item-line">
+                                        <span>Desconto Combo:</span>
+                                        <span id="prop-val-desc">-R$ 0,00</span>
+                                    </div>
+                                    <div class="proposal-item-line" id="prop-payment-desc-row" style="display: none;">
+                                        <span>Desconto Pix (5%):</span>
+                                        <span id="prop-val-payment-desc">-R$ 0,00</span>
+                                    </div>
+                                    <div class="proposal-item-line" style="margin-top: 10px;">
+                                        <span style="font-weight: 700; color: var(--white); font-size: 1rem;">Valor Final da Proposta:</span>
+                                        <span class="calc-value highlight" id="prop-val-final">R$ 0,00</span>
+                                    </div>
+                                    <div class="proposal-item-line">
+                                        <span>Condições:</span>
+                                        <span id="prop-val-condition" style="font-weight: 600; color: var(--accent);">50% Entrada / 50% Entrega</span>
+                                    </div>
+                                </div>
+
+                                <div style="margin-top: 10px;">
+                                    <span class="calc-label" style="display: block; margin-bottom: 6px;">Cópia Pronta para WhatsApp:</span>
+                                    <div id="prop-script-text" class="script-template" style="max-height: 180px; font-size: 0.8rem; background: var(--bg);">Aguardando seleção...</div>
+                                    <button class="btn" style="width: 100%; margin-top: 10px;" onclick="copyProposalText()">
+                                        <i data-lucide="copy"></i> Copiar Proposta Formatada
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
             <!-- SECTION 4: GUIDELINES -->
             <section id="tab-guidelines" class="content-section">
                 <div class="tips-grid">
@@ -1183,12 +1407,14 @@ Gostaria de marcar uma conversa rápida de 15 minutos nesta semana para apresent
                 'tracker': 'Controle de Projetos Ativos',
                 'playbook': 'Playbook Operacional',
                 'calculator': 'Simulador de Rentabilidade (ROI)',
+                'pricing': 'Tabela de Serviços & Precificação',
                 'guidelines': 'Diretrizes de Sucesso do Gestor'
             };
             const descs = {
                 'tracker': 'Monitore o status e a evolução de cada cliente nas 6 fases operacionais da agência.',
                 'playbook': 'Veja o passo a passo de tarefas obrigatórias, SLAs e use templates prontos para cada etapa.',
                 'calculator': 'Use esta simulação técnica durante reuniões de alinhamento estratégico ou apresentação de resultados para demonstrar a rentabilidade dos anúncios ao cliente.',
+                'pricing': 'Consulte os escopos oficiais da ARKE Estúdio e simule orçamentos com formatação pronta para envio.',
                 'guidelines': 'Princípios comerciais e operacionais sênior para garantir lucratividade e organização da ARKE.'
             };
 
@@ -1384,11 +1610,152 @@ Gostaria de marcar uma conversa rápida de 15 minutos nesta semana para apresent
             lucide.createIcons();
         }
 
+        // Proposal Builder Logic
+        function updateDiscountVal(val) {
+            document.getElementById('discount-val-text').innerText = val + '%';
+            calculateProposal();
+        }
+
+        function calculateProposal() {
+            const propBranding = document.getElementById('prop-branding');
+            const propSocial = document.getElementById('prop-social');
+            const propSocialMonths = document.getElementById('prop-social-months');
+            const propTraffic = document.getElementById('prop-traffic');
+            const propTrafficMonths = document.getElementById('prop-traffic-months');
+            const propLP = document.getElementById('prop-lp');
+            const propSite = document.getElementById('prop-site');
+            const propDiscount = document.getElementById('prop-discount');
+            const propPayment = document.getElementById('prop-payment');
+
+            let subtotal = 0;
+            let whatsappItems = [];
+            let breakdownHtml = '';
+
+            // 1. Branding
+            const brandingVal = parseFloat(propBranding.value) || 0;
+            if (brandingVal > 0) {
+                subtotal += brandingVal;
+                const brandingName = propBranding.options[propBranding.selectedIndex].text.split(' - ')[0];
+                whatsappItems.push(`- *Branding/Design (${brandingName})*: R$ ${brandingVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`);
+                breakdownHtml += `<div class="proposal-item-line"><span>Branding (${brandingName})</span><span class="val">R$ ${brandingVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></div>`;
+            }
+
+            // 2. Social Media
+            const socialVal = parseFloat(propSocial.value) || 0;
+            const socialMonths = parseInt(propSocialMonths.value) || 1;
+            if (socialVal > 0) {
+                const totalSocial = socialVal * socialMonths;
+                subtotal += totalSocial;
+                const socialName = propSocial.options[propSocial.selectedIndex].text.split(' - ')[0];
+                whatsappItems.push(`- *Social Media (${socialName} - ${socialMonths} meses)*: R$ ${totalSocial.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (R$ ${socialVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}/mês)`);
+                breakdownHtml += `<div class="proposal-item-line"><span>Social Media (${socialMonths}m)</span><span class="val">R$ ${totalSocial.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></div>`;
+            }
+
+            // 3. Traffic Ads
+            const trafficVal = parseFloat(propTraffic.value) || 0;
+            const trafficMonths = parseInt(propTrafficMonths.value) || 1;
+            if (trafficVal > 0) {
+                const totalTraffic = trafficVal * trafficMonths;
+                subtotal += totalTraffic;
+                const trafficName = propTraffic.options[propTraffic.selectedIndex].text.split(' - ')[0];
+                whatsappItems.push(`- *Tráfego Pago (${trafficName} - ${trafficMonths} meses)*: R$ ${totalTraffic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })} (R$ ${trafficVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}/mês)`);
+                breakdownHtml += `<div class="proposal-item-line"><span>Tráfego Pago (${trafficMonths}m)</span><span class="val">R$ ${totalTraffic.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></div>`;
+            }
+
+            // 4. Web LP
+            if (propLP.checked) {
+                const lpVal = parseFloat(propLP.value) || 0;
+                subtotal += lpVal;
+                whatsappItems.push(`- *Landing Page de Alta Conversão*: R$ ${lpVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`);
+                breakdownHtml += `<div class="proposal-item-line"><span>Landing Page</span><span class="val">R$ ${lpVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></div>`;
+            }
+
+            // 5. Web Site
+            if (propSite.checked) {
+                const siteVal = parseFloat(propSite.value) || 0;
+                subtotal += siteVal;
+                whatsappItems.push(`- *Site Institucional Completo*: R$ ${siteVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}`);
+                breakdownHtml += `<div class="proposal-item-line"><span>Site Institucional</span><span class="val">R$ ${siteVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span></div>`;
+            }
+
+            // Base rendering
+            document.getElementById('prop-val-raw').innerText = 'R$ ' + subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+            // Discounts
+            const discountPct = parseFloat(propDiscount.value) || 0;
+            const discountVal = subtotal * (discountPct / 100);
+            document.getElementById('prop-val-desc').innerText = '-R$ ' + discountVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+
+            const totalAfterCombo = subtotal - discountVal;
+
+            // Payment discount
+            const paymentMethod = propPayment.value;
+            let paymentDesc = '';
+            let paymentDiscountVal = 0;
+
+            if (paymentMethod === 'pix') {
+                paymentDiscountVal = totalAfterCombo * 0.05;
+                document.getElementById('prop-payment-desc-row').style.display = 'flex';
+                document.getElementById('prop-val-payment-desc').innerText = '-R$ ' + paymentDiscountVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                paymentDesc = 'Pix à Vista (5% de desconto extra)';
+            } else {
+                document.getElementById('prop-payment-desc-row').style.display = 'none';
+                if (paymentMethod === 'sinal') {
+                    paymentDesc = '50% Entrada / 50% na Entrega';
+                } else if (paymentMethod === 'parcelado') {
+                    paymentDesc = '3x sem juros no Cartão de Crédito';
+                } else if (paymentMethod === 'boleto') {
+                    paymentDesc = 'Boleto Recorrente (faturamento mensal)';
+                }
+            }
+
+            const finalTotal = totalAfterCombo - paymentDiscountVal;
+            document.getElementById('prop-val-final').innerText = 'R$ ' + finalTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+            document.getElementById('prop-val-condition').innerText = paymentDesc;
+
+            if (subtotal === 0) {
+                document.getElementById('proposal-breakdown').innerHTML = '<div style="color: var(--text-muted); font-size: 0.9rem; text-align: center; padding: 10px 0;">Nenhum serviço selecionado</div>';
+                document.getElementById('prop-script-text').innerText = 'Selecione pelo menos um serviço para gerar o texto da proposta.';
+            } else {
+                document.getElementById('proposal-breakdown').innerHTML = breakdownHtml;
+
+                // Formulate WhatsApp message text
+                let msg = "*Proposta Comercial — ARKE Estúdio* 🚀\n\n";
+                msg += "Olá! Segue o detalhamento dos serviços selecionados para o seu projeto:\n\n";
+                msg += whatsappItems.join("\n") + "\n\n";
+                msg += `*Subtotal Bruto:* R$ ${subtotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}\n`;
+                if (discountPct > 0) {
+                    msg += `*Desconto de Combo:* ${discountPct}% (-R$ ${discountVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })})\n`;
+                }
+                if (paymentMethod === 'pix') {
+                    msg += `*Desconto Pix (5%):* -R$ ${paymentDiscountVal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}\n`;
+                }
+                msg += `*Valor Total Final:* R$ ${finalTotal.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}\n\n`;
+                msg += `*Condição de Pagamento:* ${paymentDesc}\n\n`;
+                msg += "Qualquer dúvida sobre os escopos, estamos à inteira disposição! Vamos fechar? 🚀";
+                document.getElementById('prop-script-text').innerText = msg;
+            }
+        }
+
+        function copyProposalText() {
+            const text = document.getElementById('prop-script-text').innerText;
+            if (text === 'Selecione pelo menos um serviço para gerar o texto da proposta.' || text === 'Aguardando seleção...') {
+                alert('Selecione serviços primeiro para gerar a proposta!');
+                return;
+            }
+            navigator.clipboard.writeText(text).then(() => {
+                alert('Proposta comercial copiada com sucesso para a área de transferência! 🚀');
+            }).catch(err => {
+                console.error('Erro ao copiar proposta: ', err);
+            });
+        }
+
         // Initialize lucide icons and clients list on load
         window.onload = function() {
             lucide.createIcons();
             renderClients();
             calculateROI();
+            calculateProposal();
         };
     </script>
 </body>

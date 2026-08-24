@@ -25,8 +25,8 @@
     },
     "description": "A ARKE Estúdio é uma agência criativa especializada em design gráfico, marketing digital e estratégias de crescimento online.",
     "secondaryBtn": {
-      "link": "#contact",
-      "text": "Fale Conosco"
+      "link": "#simulator",
+      "text": "Simular Orçamento"
     }
   },
   "about": {
@@ -57,32 +57,32 @@
     "steps": [
       {
         "icon": "message-square",
-        "title": "01. Briefing",
-        "description": "Entendemos o negócio, os objetivos e o público do cliente."
+        "title": "Briefing",
+        "description": "Entendemos a essência do seu negócio, os objetivos e o público-alvo."
       },
       {
         "icon": "target",
-        "title": "02. Estratégia",
-        "description": "Definimos o melhor caminho criativo e estratégico para o projeto."
+        "title": "Estratégia",
+        "description": "Definimos o posicionamento visual e o plano de ação ideal."
       },
       {
         "icon": "pen-tool",
-        "title": "03. Criação",
-        "description": "Desenvolvemos as peças, campanhas ou materiais com atenção aos detalhes."
+        "title": "Criação",
+        "description": "Desenvolvemos as peças, marca ou campanhas com máxima precisão."
       },
       {
         "icon": "check-circle",
-        "title": "04. Revisão",
-        "description": "O cliente avalia, sugere ajustes e aprovamos juntos."
+        "title": "Aprovação",
+        "description": "Ajustamos os detalhes em conjunto até a validação final."
       },
       {
         "icon": "rocket",
-        "title": "05. Entrega",
-        "description": "Finalizamos e entregamos no prazo, com suporte pós-entrega."
+        "title": "Entrega",
+        "description": "Finalização dos arquivos e acompanhamento dos resultados."
       }
     ],
     "title": "Como <span class=\"gradient-text\">Trabalhamos</span>",
-    "description": "Nosso processo é simples, objetivo e colaborativo."
+    "description": "Processo claro, direto e sem burocracia."
   },
   "audience": {
     "items": [
@@ -184,58 +184,53 @@
   },
   "portfolio": {
     "title": "Nosso <span class=\"gradient-text\">Portfólio</span>",
-    "description": "Alguns dos projetos recentes que desenvolvemos para nossos clientes.",
+    "description": "Projetos de design, branding e estratégias digitais desenvolvidos para nossos clientes.",
+    "categories": [
+      { "id": "all", "label": "Todos os Projetos" },
+      { "id": "branding", "label": "Branding & Marca" },
+      { "id": "design", "label": "Design & Redes Sociais" },
+      { "id": "marketing", "label": "Tráfego & Mídia" }
+    ],
     "items": [
       {
-        "title": "Identidade Visual — Arke Vestuário",
+        "title": "Identidade Visual & Branding Corporal",
         "category": "Branding",
-        "image": "blusa.png",
-        "description": "Redesenho completo da identidade visual e material promocional corporativo.",
-        "challenge": "A marca precisava unificar sua identidade visual para atrair clientes corporativos de maior poder aquisitivo.",
-        "solution": "Criamos uma identidade minimalista com paleta de cores sóbrias e um enxoval completo de papelaria corporativa.",
-        "results": "Aumento de 35% no fechamento de contratos corporativos no primeiro trimestre pós-lançamento."
+        "categoryKey": "branding",
+        "image": "portfolio_branding.png",
+        "description": "Redesenho de marca, manual de identidade visual, tipografia e enxoval gráfico completo.",
+        "challenge": "Construir uma identidade forte e autêntica que comunique autoridade e atraia novos clientes.",
+        "solution": "Criação de logotipo minimalista com paleta sóbria e aplicação integrada em todos os pontos de contato.",
+        "results": "Posicionamento institucional consistente e maior percepção de valor no mercado."
       },
       {
-        "title": "Criação de Canecas Personalizadas",
+        "title": "Design para Redes Sociais & Conteúdo",
         "category": "Design Gráfico",
-        "image": "caneca.png",
-        "description": "Design de produto e embalagem com foco na marca e experiência.",
-        "challenge": "Desenvolver uma linha de produtos promocionais que gerasse conexão emocional com a comunidade de desenvolvedores.",
-        "solution": "Design gráfico conceitual impresso em canecas premium, destacando piadas internas de código e tipografia moderna.",
-        "results": "Estoque inicial esgotado em menos de 48 horas de divulgação orgânica."
+        "categoryKey": "design",
+        "image": "portfolio_social.png",
+        "description": "Direção de arte para Instagram, carrosséis estratégicos, capas e peças institucionais.",
+        "challenge": "Padronizar a comunicação visual nas redes sociais e elevar o nível de engajamento do público.",
+        "solution": "Desenvolvimento de templates exclusivos e identidade visual marcante para publicações diárias.",
+        "results": "Identidade visual reconhecível e aumento do interesse do público em serviços da empresa."
       },
       {
-        "title": "Campanha de Tráfego — Sacolas de Compra",
+        "title": "Landing Page & UI/UX Design",
+        "category": "Web Design",
+        "categoryKey": "design",
+        "image": "portfolio_web.png",
+        "description": "Criação de site institucional e páginas de conversão otimizadas para captura de contatos.",
+        "challenge": "Criar uma experiência web fluida, rápida e atraente para transformar visitantes em oportunidades.",
+        "solution": "Layout moderno em dark mode com chamadas para ação diretas ao WhatsApp do cliente.",
+        "results": "Site de alta performance e aumento no volume de contatos qualificados recebidos."
+      },
+      {
+        "title": "Campanhas de Tráfego Pago & Meta Ads",
         "category": "Marketing Digital",
-        "image": "sacola.png",
-        "description": "Estratégia de tráfego pago e produção de criativos de alta conversão.",
-        "challenge": "Aumentar as vendas de embalagens personalizadas de papel craft por meio de canais digitais de atacado.",
-        "solution": "Criação de anúncios em formato reels demonstrando a resistência do material combinados com tráfego focado em WhatsApp.",
-        "results": "Redução de 40% no custo por lead qualificado (CPL) e 180 novos clientes recorrentes conquistados."
-      }
-    ]
-  },
-  "testimonials": {
-    "title": "O que dizem nossos <span class=\"gradient-text\">Clientes</span>",
-    "description": "A satisfação de quem trabalha conosco é nosso maior combustível.",
-    "items": [
-      {
-        "name": "Mariana Souza",
-        "role": "CEO, E-commerce X",
-        "content": "A ARKE Estúdio transformou nossa presença online. O aumento no tráfego pago e as vendas foram imediatos após as novas campanhas.",
-        "avatar": ""
-      },
-      {
-        "name": "Roberto Costa",
-        "role": "Fundador, Costa Advocacia",
-        "content": "Excelente atendimento e profissionalismo. A nova identidade visual corporativa transmite exatamente a seriedade que precisávamos.",
-        "avatar": ""
-      },
-      {
-        "name": "Aline Mendes",
-        "role": "Diretora de Marketing, TechStart",
-        "content": "Entrega rápida, design de alto nível e total flexibilidade. Um parceiro indispensável para o nosso de marketing.",
-        "avatar": ""
+        "categoryKey": "marketing",
+        "image": "portfolio_traffic.png",
+        "description": "Estratégia de mídia paga, anúncios em vídeo e imagem e otimização contínua de campanhas.",
+        "challenge": "Gerar demandas constantes de novos clientes através de anúncios no Meta Ads e Google.",
+        "solution": "Produção de criativos de alta conversão direcionados para o público comprador ideal da empresa.",
+        "results": "Geração diária de leads e escala nas oportunidades de vendas."
       }
     ]
   },

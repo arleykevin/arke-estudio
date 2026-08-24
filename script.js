@@ -4,33 +4,41 @@ document.addEventListener('DOMContentLoaded', () => {
     const navLinks = document.getElementById('nav-links');
     const navLinksItems = document.querySelectorAll('.nav-link');
 
-    mobileBtn.addEventListener('click', () => {
-        navLinks.classList.toggle('active');
-        const icon = mobileBtn.querySelector('i');
-        if (navLinks.classList.contains('active')) {
-            icon.setAttribute('data-lucide', 'x');
-        } else {
-            icon.setAttribute('data-lucide', 'menu');
-        }
-        lucide.createIcons();
-    });
-
-    navLinksItems.forEach(link => {
-        link.addEventListener('click', () => {
-            navLinks.classList.remove('active');
+    if (mobileBtn && navLinks) {
+        mobileBtn.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
             const icon = mobileBtn.querySelector('i');
-            icon.setAttribute('data-lucide', 'menu');
-            lucide.createIcons();
+            if (icon) {
+                if (navLinks.classList.contains('active')) {
+                    icon.setAttribute('data-lucide', 'x');
+                } else {
+                    icon.setAttribute('data-lucide', 'menu');
+                }
+                lucide.createIcons();
+            }
         });
-    });
+
+        navLinksItems.forEach(link => {
+            link.addEventListener('click', () => {
+                navLinks.classList.remove('active');
+                const icon = mobileBtn.querySelector('i');
+                if (icon) {
+                    icon.setAttribute('data-lucide', 'menu');
+                    lucide.createIcons();
+                }
+            });
+        });
+    }
 
     // 2. Navbar Scroll Effect
     const navbar = document.getElementById('navbar');
     window.addEventListener('scroll', () => {
-        if (window.scrollY > 50) {
-            navbar.classList.add('scrolled');
-        } else {
-            navbar.classList.remove('scrolled');
+        if (navbar) {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
         }
     });
 
@@ -50,25 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // 4. Hero 3D Cube Interaction
-    const heroSection = document.getElementById('hero');
-    const cubeElement = document.getElementById('cube-element');
-    if (heroSection && cubeElement) {
-        heroSection.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-            cubeElement.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-        });
-        heroSection.addEventListener('mouseleave', () => {
-            cubeElement.style.transform = `rotateX(-15deg) rotateY(25deg)`;
-            cubeElement.style.transition = 'transform 0.5s ease';
-        });
-        heroSection.addEventListener('mouseenter', () => {
-            cubeElement.style.transition = 'transform 0.1s ease-out';
-        });
-    }
-
-    // 5. Dynamic Data Loading and Rendering
+    // 4. Dynamic Data Loading and Rendering
     async function loadAndRenderData() {
         try {
             let data;
@@ -93,15 +83,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Hero
             if (data.hero) {
-                document.getElementById('hero-title').innerHTML = data.hero.title;
-                document.getElementById('hero-description').textContent = data.hero.description;
+                const hTitle = document.getElementById('hero-title');
+                if (hTitle) hTitle.innerHTML = data.hero.title;
+                const hDesc = document.getElementById('hero-description');
+                if (hDesc) hDesc.textContent = data.hero.description;
+                
                 const btnPrimary = document.getElementById('hero-btn-primary');
-                if(btnPrimary) {
+                if (btnPrimary && data.hero.primaryBtn) {
                     btnPrimary.textContent = data.hero.primaryBtn.text;
                     btnPrimary.href = data.hero.primaryBtn.link;
                 }
                 const btnSec = document.getElementById('hero-btn-secondary');
-                if(btnSec) {
+                if (btnSec && data.hero.secondaryBtn) {
                     btnSec.textContent = data.hero.secondaryBtn.text;
                     btnSec.href = data.hero.secondaryBtn.link;
                 }
@@ -109,173 +102,161 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // About
             if (data.about) {
-                document.getElementById('about-title').innerHTML = data.about.title;
-                document.getElementById('about-description').textContent = data.about.description;
+                const aTitle = document.getElementById('about-title');
+                if (aTitle) aTitle.innerHTML = data.about.title;
+                const aDesc = document.getElementById('about-description');
+                if (aDesc) aDesc.textContent = data.about.description;
+                
                 const aboutGrid = document.getElementById('about-features');
-                aboutGrid.innerHTML = data.about.features.map(f => `
-                    <div class="about-feature reveal">
-                        <i data-lucide="${f.icon}"></i>
-                        <h3>${f.title}</h3>
-                        <p class="text-muted">${f.description}</p>
-                    </div>
-                `).join('');
+                if (aboutGrid && data.about.features) {
+                    aboutGrid.innerHTML = data.about.features.map(f => `
+                        <div class="about-feature reveal">
+                            <i data-lucide="${f.icon}"></i>
+                            <h3>${f.title}</h3>
+                            <p class="text-muted">${f.description}</p>
+                        </div>
+                    `).join('');
+                }
             }
 
             // Services
             if (data.services) {
-                document.getElementById('services-title').innerHTML = data.services.title;
-                document.getElementById('services-description').textContent = data.services.description;
+                const sTitle = document.getElementById('services-title');
+                if (sTitle) sTitle.innerHTML = data.services.title;
+                const sDesc = document.getElementById('services-description');
+                if (sDesc) sDesc.textContent = data.services.description;
+                
                 const svGrid = document.getElementById('services-grid');
-                svGrid.innerHTML = data.services.items.map((s, idx) => `
-                    <div class="service-card reveal delay-${idx % 3}">
-                        <div class="service-icon"><i data-lucide="${s.icon}"></i></div>
-                        <h3>${s.title}</h3>
-                        <p>${s.description}</p>
-                    </div>
-                `).join('');
+                if (svGrid && data.services.items) {
+                    svGrid.innerHTML = data.services.items.map((s, idx) => `
+                        <div class="service-card reveal delay-${idx % 3}">
+                            <div class="service-icon"><i data-lucide="${s.icon}"></i></div>
+                            <h3>${s.title}</h3>
+                            <p>${s.description}</p>
+                        </div>
+                    `).join('');
+                }
             }
 
-            // Process (Interactive tabs)
+            // Process (Clean Horizontal Step Grid without duplicate numbers)
             if (data.process && data.process.steps) {
-                document.getElementById('process-title').innerHTML = data.process.title;
-                document.getElementById('process-description').textContent = data.process.description;
+                const pTitle = document.getElementById('process-title');
+                if (pTitle) pTitle.innerHTML = data.process.title;
+                const pDesc = document.getElementById('process-description');
+                if (pDesc) pDesc.textContent = data.process.description;
                 
-                const tabsContainer = document.getElementById('process-tabs');
-                const cardContainer = document.getElementById('process-card-container');
-                
-                if (tabsContainer && cardContainer) {
-                    tabsContainer.innerHTML = data.process.steps.map((s, idx) => `
-                        <button class="process-tab-btn ${idx === 0 ? 'active' : ''}" onclick="selectProcessStep(${idx})">
-                            <span>0${idx + 1}</span> ${s.title.split('. ')[1] || s.title}
-                        </button>
-                    `).join('');
-                    
-                    window.processSteps = data.process.steps;
-                    selectProcessStep(0);
-                }
-            }
-
-            // Differentials
-            if (data.differentials) {
-                document.getElementById('differentials-title').innerHTML = data.differentials.title;
-                document.getElementById('differentials-description').textContent = data.differentials.description;
-                const dfGrid = document.getElementById('differentials-grid');
-                dfGrid.innerHTML = data.differentials.items.map((d, idx) => `
-                    <div class="differential-card reveal delay-${idx % 3}">
-                        <div class="diff-icon"><i data-lucide="${d.icon}"></i></div>
-                        <h3>${d.title}</h3>
-                        <p class="text-muted">${d.description}</p>
-                    </div>
-                `).join('');
-            }
-
-            // Audience
-            if (data.audience) {
-                document.getElementById('audience-title').innerHTML = data.audience.title;
-                document.getElementById('audience-description').textContent = data.audience.description;
-                const adList = document.getElementById('audience-list');
-                adList.innerHTML = data.audience.items.map(a => `
-                    <li><i data-lucide="check" class="text-brand"></i> <span><strong>${a.title}:</strong> ${a.description}</span></li>
-                `).join('');
-            }
-
-            // Culture
-            if (data.culture) {
-                document.getElementById('culture-title').innerHTML = data.culture.title;
-                document.getElementById('culture-description').textContent = data.culture.description;
-            }
-
-            // FAQ
-            if (data.faq) {
-                const fGrid = document.getElementById('faq-container');
-                fGrid.innerHTML = data.faq.map(f => `
-                    <details class="faq-item">
-                        <summary>${f.question}</summary>
-                        <div class="faq-content">
-                            <p>${f.answer}</p>
-                        </div>
-                    </details>
-                `).join('');
-                
-                // Re-attach accordion logic
-                const faqItems = document.querySelectorAll('.faq-item');
-                faqItems.forEach(item => {
-                    item.addEventListener('click', (e) => {
-                        if (e.target.tagName.toLowerCase() === 'summary' || e.target.parentElement.tagName.toLowerCase() === 'summary') {
-                            faqItems.forEach(otherItem => {
-                                if (otherItem !== item && otherItem.hasAttribute('open')) {
-                                    otherItem.removeAttribute('open');
-                                }
-                            });
-                        }
-                    });
-                });
-            }
-
-            // Portfolio (with click modal)
-            if (data.portfolio) {
-                const pTitle = document.getElementById('portfolio-title');
-                if (pTitle) pTitle.innerHTML = data.portfolio.title;
-                const pDesc = document.getElementById('portfolio-description');
-                if (pDesc) pDesc.textContent = data.portfolio.description;
-                const pGrid = document.getElementById('portfolio-grid');
-                if (pGrid) {
-                    window.portfolioItems = data.portfolio.items || [];
-                    pGrid.innerHTML = data.portfolio.items.slice(0, 3).map((p, idx) => `
-                        <div class="portfolio-card reveal delay-${idx % 3}" onclick="openProjectModal(${idx})" style="cursor:pointer;">
-                            <div class="portfolio-img-wrap">
-                                <img src="${p.image}" alt="${p.title}" loading="lazy">
-                            </div>
-                            <div class="portfolio-body">
-                                <span class="portfolio-tag">${p.category}</span>
-                                <h3>${p.title}</h3>
-                                <p>${p.description}</p>
-                            </div>
-                        </div>
-                    `).join('');
-                }
-            }
-
-            // Testimonials
-            if (data.testimonials) {
-                const tTitle = document.getElementById('testimonials-title');
-                if (tTitle) tTitle.innerHTML = data.testimonials.title;
-                const tDesc = document.getElementById('testimonials-description');
-                if (tDesc) tDesc.textContent = data.testimonials.description;
-                const tGrid = document.getElementById('testimonials-grid');
-                if (tGrid) {
-                    tGrid.innerHTML = data.testimonials.items.map((t, idx) => {
-                        const initial = t.name ? t.name.charAt(0) : 'U';
+                const processGrid = document.getElementById('process-grid');
+                if (processGrid) {
+                    processGrid.innerHTML = data.process.steps.map((s, idx) => {
+                        const cleanTitle = s.title.replace(/^\d+\.\s*/, '');
                         return `
-                        <div class="testimonial-card reveal delay-${idx % 3}">
-                            <i data-lucide="quote" class="testimonial-quote-icon" size="48"></i>
-                            <p>"${t.content}"</p>
-                            <div class="testimonial-author">
-                                <div class="testimonial-avatar">${initial}</div>
-                                <div class="testimonial-meta">
-                                    <h4>${t.name}</h4>
-                                    <span>${t.role}</span>
-                                </div>
-                            </div>
+                        <div class="process-step-card reveal delay-${idx % 3}">
+                            <div class="step-icon"><i data-lucide="${s.icon}"></i></div>
+                            <h3>${cleanTitle}</h3>
+                            <p>${s.description}</p>
                         </div>
                     `}).join('');
                 }
             }
 
+            // Differentials
+            if (data.differentials) {
+                const dTitle = document.getElementById('differentials-title');
+                if (dTitle) dTitle.innerHTML = data.differentials.title;
+                const dDesc = document.getElementById('differentials-description');
+                if (dDesc) dDesc.textContent = data.differentials.description;
+                
+                const dfGrid = document.getElementById('differentials-grid');
+                if (dfGrid && data.differentials.items) {
+                    dfGrid.innerHTML = data.differentials.items.map((d, idx) => `
+                        <div class="differential-card reveal delay-${idx % 3}">
+                            <div class="diff-icon"><i data-lucide="${d.icon}"></i></div>
+                            <h3>${d.title}</h3>
+                            <p class="text-muted">${d.description}</p>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            // Audience
+            if (data.audience) {
+                const auTitle = document.getElementById('audience-title');
+                if (auTitle) auTitle.innerHTML = data.audience.title;
+                const auDesc = document.getElementById('audience-description');
+                if (auDesc) auDesc.textContent = data.audience.description;
+                
+                const adList = document.getElementById('audience-list');
+                if (adList && data.audience.items) {
+                    adList.innerHTML = data.audience.items.map(a => `
+                        <li><i data-lucide="check" class="text-brand"></i> <span><strong>${a.title}:</strong> ${a.description}</span></li>
+                    `).join('');
+                }
+            }
+
+            // Culture
+            if (data.culture) {
+                const cTitle = document.getElementById('culture-title');
+                if (cTitle) cTitle.innerHTML = data.culture.title;
+                const cDesc = document.getElementById('culture-description');
+                if (cDesc) cDesc.textContent = data.culture.description;
+            }
+
+            // FAQ
+            if (data.faq) {
+                const fGrid = document.getElementById('faq-container');
+                if (fGrid) {
+                    fGrid.innerHTML = data.faq.map(f => `
+                        <details class="faq-item">
+                            <summary>${f.question}</summary>
+                            <div class="faq-content">
+                                <p>${f.answer}</p>
+                            </div>
+                        </details>
+                    `).join('');
+                    
+                    const faqItems = document.querySelectorAll('.faq-item');
+                    faqItems.forEach(item => {
+                        item.addEventListener('click', (e) => {
+                            if (e.target.tagName.toLowerCase() === 'summary' || e.target.parentElement.tagName.toLowerCase() === 'summary') {
+                                faqItems.forEach(otherItem => {
+                                    if (otherItem !== item && otherItem.hasAttribute('open')) {
+                                        otherItem.removeAttribute('open');
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
+            }
+
+            // Portfolio (Clean Filter Tabs & Cards)
+            if (data.portfolio) {
+                const poTitle = document.getElementById('portfolio-title');
+                if (poTitle) poTitle.innerHTML = data.portfolio.title;
+                const poDesc = document.getElementById('portfolio-description');
+                if (poDesc) poDesc.textContent = data.portfolio.description;
+
+                const pFilters = document.getElementById('portfolio-filters');
+                if (pFilters && data.portfolio.categories) {
+                    pFilters.innerHTML = data.portfolio.categories.map(c => `
+                        <button class="filter-btn ${c.id === 'all' ? 'active' : ''}" onclick="filterPortfolio('${c.id}', this)">
+                            ${c.label}
+                        </button>
+                    `).join('');
+                }
+                
+                window.allPortfolioItems = data.portfolio.items || [];
+                renderFilteredPortfolio('all');
+            }
+
             // Contact
             if (data.contact) {
                 const wBtn = document.getElementById('whatsapp-btn');
-                if(wBtn) {
-                    wBtn.href = `https://wa.me/${data.contact.whatsappNumber}`;
-                }
+                if (wBtn) wBtn.href = `https://wa.me/${data.contact.whatsappNumber}`;
                 const floatWa = document.getElementById('floating-whatsapp');
-                if(floatWa) {
-                    floatWa.href = `https://wa.me/${data.contact.whatsappNumber}`;
-                }
+                if (floatWa) floatWa.href = `https://wa.me/${data.contact.whatsappNumber}`;
                 const igBtn = document.getElementById('footer-ig-link');
-                if(igBtn && data.contact.instagram) {
-                    igBtn.href = data.contact.instagram;
-                }
+                if (igBtn && data.contact.instagram) igBtn.href = data.contact.instagram;
             }
 
             // Budget Simulator
@@ -333,45 +314,222 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Initialize
+    // Initialize Data
     loadAndRenderData();
 });
 
-// Global Helpers
+// Lead Diagnostic Questionnaire State & Global Actions
+window.elaborateQuizData = {
+    goal: '',
+    segment: '',
+    solutions: new Set(),
+    timeline: '',
+    name: '',
+    phone: '',
+    email: '',
+    company: '',
+    notes: ''
+};
+
+window.selectQuizGoal = function(goalVal, cardEl) {
+    window.elaborateQuizData.goal = goalVal;
+    document.querySelectorAll('#quiz-step-1 .quiz-option-card').forEach(c => c.classList.remove('selected'));
+    if (cardEl) cardEl.classList.add('selected');
+    updateBriefingSummary();
+};
+
+window.selectQuizSegment = function(segmentVal, cardEl) {
+    window.elaborateQuizData.segment = segmentVal;
+    document.querySelectorAll('#quiz-step-2 .quiz-option-card').forEach(c => c.classList.remove('selected'));
+    if (cardEl) cardEl.classList.add('selected');
+    updateBriefingSummary();
+};
+
+window.toggleQuizSolution = function(solutionVal, cardEl) {
+    if (window.elaborateQuizData.solutions.has(solutionVal)) {
+        window.elaborateQuizData.solutions.delete(solutionVal);
+        if (cardEl) cardEl.classList.remove('selected');
+    } else {
+        window.elaborateQuizData.solutions.add(solutionVal);
+        if (cardEl) cardEl.classList.add('selected');
+    }
+    updateBriefingSummary();
+};
+
+window.selectQuizTimeline = function(timelineVal, cardEl) {
+    window.elaborateQuizData.timeline = timelineVal;
+    document.querySelectorAll('#quiz-step-4 .quiz-option-card').forEach(c => c.classList.remove('selected'));
+    if (cardEl) cardEl.classList.add('selected');
+    updateBriefingSummary();
+};
+
+function updateBriefingSummary() {
+    const sumGoal = document.getElementById('sum-goal');
+    if (sumGoal) sumGoal.textContent = window.elaborateQuizData.goal || 'Não selecionado';
+
+    const sumSegment = document.getElementById('sum-segment');
+    if (sumSegment) sumSegment.textContent = window.elaborateQuizData.segment || 'Não selecionado';
+
+    const sumTimeline = document.getElementById('sum-timeline');
+    if (sumTimeline) sumTimeline.textContent = window.elaborateQuizData.timeline || 'Não selecionado';
+
+    const sumSolutions = document.getElementById('sum-solutions');
+    if (sumSolutions) {
+        if (window.elaborateQuizData.solutions.size === 0) {
+            sumSolutions.innerHTML = '<li class="empty-list">Nenhuma selecionada</li>';
+        } else {
+            sumSolutions.innerHTML = Array.from(window.elaborateQuizData.solutions).map(s => `<li>${s}</li>`).join('');
+        }
+    }
+}
+
+window.nextQuizStep = function(targetStep) {
+    if (targetStep === 2 && !window.elaborateQuizData.goal) {
+        alert('Por favor, selecione o objetivo principal do seu projeto.');
+        return;
+    }
+    if (targetStep === 3 && !window.elaborateQuizData.segment) {
+        alert('Por favor, selecione o segmento da sua empresa.');
+        return;
+    }
+    if (targetStep === 4 && window.elaborateQuizData.solutions.size === 0) {
+        alert('Por favor, selecione pelo menos uma solução de seu interesse.');
+        return;
+    }
+    if (targetStep === 5 && !window.elaborateQuizData.timeline) {
+        alert('Por favor, selecione a expectativa de prazo.');
+        return;
+    }
+
+    [1, 2, 3, 4, 5].forEach(step => {
+        const stepContent = document.getElementById(`quiz-step-${step}`);
+        const indicator = document.getElementById(`quiz-ind-${step}`);
+        if (stepContent) stepContent.style.display = step === targetStep ? 'block' : 'none';
+        if (indicator) {
+            if (step <= targetStep) indicator.classList.add('active');
+            else indicator.classList.remove('active');
+        }
+    });
+
+    const progressFill = document.getElementById('quiz-progress-fill');
+    if (progressFill) {
+        const pct = (targetStep / 5) * 100;
+        progressFill.style.width = `${pct}%`;
+    }
+
+    updateBriefingSummary();
+    lucide.createIcons();
+};
+
+window.prevQuizStep = function(targetStep) {
+    window.nextQuizStep(targetStep);
+};
+
+window.jumpQuizStep = function(stepNum) {
+    if (stepNum > 1 && !window.elaborateQuizData.goal) return;
+    if (stepNum > 2 && !window.elaborateQuizData.segment) return;
+    if (stepNum > 3 && window.elaborateQuizData.solutions.size === 0) return;
+    if (stepNum > 4 && !window.elaborateQuizData.timeline) return;
+    window.nextQuizStep(stepNum);
+};
+
+window.submitElaborateLeadQuiz = function(event) {
+    if (event) event.preventDefault();
+    
+    const name = document.getElementById('lead-name')?.value.trim();
+    const phone = document.getElementById('lead-phone')?.value.trim();
+    const email = document.getElementById('lead-email')?.value.trim();
+    const company = document.getElementById('lead-company')?.value.trim();
+    const notes = document.getElementById('lead-notes')?.value.trim() || 'Nenhuma observação adicional';
+
+    if (!name || !phone || !email || !company) {
+        alert('Por favor, preencha todos os campos obrigatórios (*).');
+        return;
+    }
+
+    window.elaborateQuizData.name = name;
+    window.elaborateQuizData.phone = phone;
+    window.elaborateQuizData.email = email;
+    window.elaborateQuizData.company = company;
+    window.elaborateQuizData.notes = notes;
+
+    // Build complete briefing WhatsApp message
+    let msg = `Olá, ARKE Estúdio! Preenchi o Diagnóstico de Projeto Completo no site:\n\n`;
+    msg += `👤 *Nome:* ${name}\n`;
+    msg += `📱 *WhatsApp:* ${phone}\n`;
+    msg += `📧 *E-mail:* ${email}\n`;
+    msg += `🏢 *Empresa / Insta:* ${company}\n\n`;
+    msg += `🎯 *Objetivo Principal:* ${window.elaborateQuizData.goal}\n`;
+    msg += `🏬 *Segmento:* ${window.elaborateQuizData.segment}\n`;
+    msg += `⏳ *Expectativa de Prazo:* ${window.elaborateQuizData.timeline}\n\n`;
+    msg += `💡 *Soluções Desejadas:*\n`;
+    Array.from(window.elaborateQuizData.solutions).forEach(s => {
+        msg += `- ${s}\n`;
+    });
+    msg += `\n📝 *Detalhes:* ${notes}\n\nGostaria de agendar uma reunião ou receber um diagnóstico detalhado!`;
+
+    const waNumber = window.whatsappNumber || '5585992629819';
+    const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`;
+
+    const waDirectBtn = document.getElementById('quiz-whatsapp-direct');
+    if (waDirectBtn) {
+        waDirectBtn.href = waUrl;
+    }
+
+    // Hide steps, show success
+    [1, 2, 3, 4, 5].forEach(s => {
+        const el = document.getElementById(`quiz-step-${s}`);
+        if (el) el.style.display = 'none';
+    });
+    const successEl = document.getElementById('quiz-step-success');
+    if (successEl) successEl.style.display = 'block';
+
+    const progressFill = document.getElementById('quiz-progress-fill');
+    if (progressFill) progressFill.style.width = '100%';
+
+    // Automatically open WhatsApp direct with formatted briefing
+    window.open(waUrl, '_blank');
+};
+
+// Helper Functions & Global Window Bindings
+window.filterPortfolio = function(catId, btnEl) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    if (btnEl) btnEl.classList.add('active');
+    renderFilteredPortfolio(catId);
+};
+
+function renderFilteredPortfolio(catId) {
+    const pGrid = document.getElementById('portfolio-grid');
+    if (!pGrid || !window.allPortfolioItems) return;
+    
+    let filtered = window.allPortfolioItems;
+    if (catId !== 'all') {
+        filtered = window.allPortfolioItems.filter(item => item.categoryKey === catId);
+    }
+    
+    pGrid.innerHTML = filtered.map((p, idx) => `
+        <div class="portfolio-card reveal active" onclick="openProjectModal(${window.allPortfolioItems.indexOf(p)})" style="cursor:pointer;">
+            <div class="portfolio-img-wrap">
+                <img src="${p.image}" alt="${p.title}" loading="lazy">
+            </div>
+            <div class="portfolio-body">
+                <span class="portfolio-tag">${p.category}</span>
+                <h3>${p.title}</h3>
+                <p>${p.description}</p>
+            </div>
+        </div>
+    `).join('');
+    lucide.createIcons();
+}
+
 function escapeHtml(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, (c) => (
         { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]
     ));
 }
 
-window.selectProcessStep = function(idx) {
-    const steps = window.processSteps;
-    if (!steps || !steps[idx]) return;
-    
-    const btns = document.querySelectorAll('.process-tab-btn');
-    btns.forEach((btn, i) => {
-        if (i === idx) btn.classList.add('active');
-        else btn.classList.remove('active');
-    });
-    
-    const s = steps[idx];
-    const cardContainer = document.getElementById('process-card-container');
-    if (cardContainer) {
-        cardContainer.innerHTML = `
-            <div class="process-card">
-                <div class="step-icon"><i data-lucide="${s.icon}"></i></div>
-                <div class="process-card-content">
-                    <h3>${s.title}</h3>
-                    <p>${s.description}</p>
-                </div>
-            </div>
-        `;
-        lucide.createIcons();
-    }
-};
-
 window.openProjectModal = function(idx) {
-    const items = window.portfolioItems;
+    const items = window.allPortfolioItems || window.portfolioItems;
     if (!items || !items[idx]) return;
     
     const p = items[idx];
@@ -425,114 +583,3 @@ window.closeProjectModal = function() {
     }
 };
 
-window.toggleSimulatorItem = function(idx) {
-    const card = document.querySelector(`.simulator-item-card[data-index="${idx}"]`);
-    if (!card) return;
-    
-    if (window.selectedSimulatorItems.has(idx)) {
-        window.selectedSimulatorItems.delete(idx);
-        card.classList.remove('selected');
-    } else {
-        window.selectedSimulatorItems.add(idx);
-        card.classList.add('selected');
-    }
-    
-    const items = window.simulatorItems;
-    let hasTraffic = false;
-    window.selectedSimulatorItems.forEach(i => {
-        if (items[i] && (items[i].name.toLowerCase().includes('tráfego') || items[i].icon === 'trending-up')) {
-            hasTraffic = true;
-        }
-    });
-    
-    const mediaGroup = document.getElementById('media-budget-group');
-    const mediaLine = document.getElementById('summary-media-line');
-    if (mediaGroup) mediaGroup.style.display = hasTraffic ? 'block' : 'none';
-    if (mediaLine) mediaLine.style.display = hasTraffic ? 'flex' : 'none';
-    
-    calculateBudget();
-};
-
-window.calculateBudget = function() {
-    const items = window.simulatorItems;
-    if (!items) return;
-    
-    let onceTotal = 0;
-    let monthlyTotal = 0;
-    
-    window.selectedSimulatorItems.forEach(idx => {
-        const item = items[idx];
-        if (!item) return;
-        if (item.type === 'monthly') {
-            monthlyTotal += item.price;
-        } else {
-            onceTotal += item.price;
-        }
-    });
-    
-    const mediaGroup = document.getElementById('media-budget-group');
-    let mediaVal = 0;
-    if (mediaGroup && mediaGroup.style.display !== 'none') {
-        const slider = document.getElementById('media-budget-slider');
-        if (slider) {
-            mediaVal = parseInt(slider.value);
-        }
-    }
-    
-    document.getElementById('val-once').textContent = `R$ ${onceTotal.toLocaleString('pt-BR')}`;
-    document.getElementById('val-monthly').textContent = `R$ ${monthlyTotal.toLocaleString('pt-BR')}`;
-    document.getElementById('val-media').textContent = `R$ ${mediaVal.toLocaleString('pt-BR')}`;
-    
-    document.getElementById('total-once').textContent = `R$ ${onceTotal.toLocaleString('pt-BR')}`;
-    document.getElementById('total-monthly').textContent = `R$ ${(monthlyTotal + mediaVal).toLocaleString('pt-BR')}`;
-};
-
-window.sendSimulatorWhatsApp = function() {
-    const items = window.simulatorItems;
-    if (!items || window.selectedSimulatorItems.size === 0) {
-        alert('Por favor, selecione pelo menos um serviço para simular o orçamento.');
-        return;
-    }
-    
-    let selectedNames = [];
-    let onceTotal = 0;
-    let monthlyTotal = 0;
-    
-    window.selectedSimulatorItems.forEach(idx => {
-        const item = items[idx];
-        if (item) {
-            selectedNames.push(item.name);
-            if (item.type === 'monthly') monthlyTotal += item.price;
-            else onceTotal += item.price;
-        }
-    });
-    
-    const mediaGroup = document.getElementById('media-budget-group');
-    let mediaVal = 0;
-    if (mediaGroup && mediaGroup.style.display !== 'none') {
-        const slider = document.getElementById('media-budget-slider');
-        if (slider) {
-            mediaVal = parseInt(slider.value);
-        }
-    }
-    
-    let message = `Olá, ARKE Estúdio! Montei uma simulação de orçamento personalizada no site para o meu negócio:\n\n`;
-    message += `📋 *Serviços Selecionados:*\n`;
-    selectedNames.forEach(name => {
-        message += `- ${name}\n`;
-    });
-    
-    if (mediaVal > 0) {
-        message += `- Verba Mensal de Anúncios: R$ ${mediaVal.toLocaleString('pt-BR')}\n`;
-    }
-    
-    message += `\n💰 *Estimativa de Investimento:*\n`;
-    if (onceTotal > 0) message += `- Investimento Único: R$ ${onceTotal.toLocaleString('pt-BR')}\n`;
-    if (monthlyTotal > 0 || mediaVal > 0) {
-        message += `- Mensalidade Total (Agência + Anúncios): R$ ${(monthlyTotal + mediaVal).toLocaleString('pt-BR')}/mês\n`;
-    }
-    message += `\nGostaria de conversar para detalhar o projeto!`;
-    
-    const waNumber = window.whatsappNumber || '5585992629819';
-    window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`, '_blank');
-};
