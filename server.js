@@ -58,7 +58,10 @@ app.use((req, res, next) => {
     }
     if (req.path.startsWith('/painel/')) {
         const painelFile = req.path.replace('/painel/', '');
-        const allowedPainelFiles = ['manifest.json', 'sw.js', 'icon-192.png', 'icon-512.png'];
+        const allowedPainelFiles = [
+            'manifest.json', 'sw.js', 'icon-192.png', 'icon-512.png',
+            'LOGO-ARKE.png', 'logo-conddiz.jpg', 'logo-proposi7al.jpg'
+        ];
         if (allowedPainelFiles.includes(painelFile)) {
             return res.sendFile(path.join(__dirname, 'painel', painelFile));
         }

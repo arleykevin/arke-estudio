@@ -213,6 +213,13 @@ input,textarea,select{font:inherit}
 
 .badge-lixeira{display:inline-flex;align-items:center;justify-content:center;background:var(--alert);color:#ffffff;font-size:10.5px;font-weight:700;border-radius:99px;min-width:18px;height:18px;padding:0 5px;margin-left:4px}
 
+.logo-empresa-img{width:18px;height:18px;border-radius:50%;object-fit:cover;flex-shrink:0;background:#ffffff;border:1px solid rgba(255,255,255,0.4);box-shadow:0 1px 3px rgba(0,0,0,0.2)}
+.logo-empresa-lg{width:24px;height:24px;border-radius:6px;object-fit:contain;background:#ffffff;padding:1.5px;box-shadow:0 2px 6px rgba(0,0,0,0.15);vertical-align:middle}
+.logo-stack{display:inline-flex;align-items:center;margin-right:4px}
+.logo-stack img{width:26px;height:26px;border-radius:50%;object-fit:cover;border:2px solid var(--surface);background:#ffffff;margin-left:-8px;box-shadow:0 2px 6px rgba(0,0,0,0.25);transition:transform 0.2s}
+.logo-stack img:first-child{margin-left:0}
+.logo-stack img:hover{transform:scale(1.15) translateY(-2px);z-index:2}
+
 @media(prefers-reduced-motion:reduce){*{transition:none !important}}
 
 /* Modo Claro Opicional (sem alterar o tema padrão escuro original) */
@@ -234,10 +241,17 @@ input,textarea,select{font:inherit}
 <body>
 <div class="wrap">
   <div class="topo">
-    <div>
-      <span class="rot" id="data-hoje"></span>
-      <h1 id="marca"></h1>
-      <div class="sub">Ecossistema Cinthia França</div>
+    <div style="display:flex;align-items:center;gap:14px;">
+      <div class="logo-stack" title="Ecossistema Cinthia França (ARKE · Condizz · Proposi7al)">
+        <img src="/painel/LOGO-ARKE.png" alt="ARKE" title="ARKE">
+        <img src="/painel/logo-conddiz.jpg" alt="Condizz" title="Condizz">
+        <img src="/painel/logo-proposi7al.jpg" alt="Proposi7al" title="Proposi7al">
+      </div>
+      <div>
+        <span class="rot" id="data-hoje"></span>
+        <h1 id="marca" style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;"></h1>
+        <div class="sub" style="font-weight:600;letter-spacing:0.04em;">Ecossistema Cinthia França</div>
+      </div>
     </div>
     <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
       <button class="btn btn-vazio" id="btn-tema" title="Alternar Modo Claro / Escuro" style="cursor:pointer;border:1px solid var(--line);border-radius:var(--pill);padding:8px 14px;background:var(--surface);color:var(--ink);">
@@ -337,9 +351,27 @@ input,textarea,select{font:inherit}
    1. DADOS FIXOS
    ============================================================ */
 const EMPRESAS = [
-  { id:"arke",       nome:"ARKE",       cor:"#F24182", atende:"ETCF" },
-  { id:"condizz",    nome:"Condizz",    cor:"#04BFAD", atende:null   },
-  { id:"proposital", nome:"Proposi7al", cor:"#F2784B", atende:"ICF"  }
+  { 
+    id: "arke",       
+    nome: "ARKE",       
+    cor: "#F24182", 
+    atende: "ETCF",
+    logoImg: "/painel/LOGO-ARKE.png"
+  },
+  { 
+    id: "condizz",    
+    nome: "Condizz",    
+    cor: "#04BFAD", 
+    atende: null,
+    logoImg: "/painel/logo-conddiz.jpg"
+  },
+  { 
+    id: "proposital", 
+    nome: "Proposi7al", 
+    cor: "#F2784B", 
+    atende: "ICF",
+    logoImg: "/painel/logo-proposi7al.jpg"
+  }
 ];
 const AMBIENTES  = ["ETCF","ICF","ARKE","Proposi7al","Todos os ambientes"];
 const COLUNAS    = [
@@ -513,10 +545,10 @@ function desenharFiltros(){
   const resp = [...new Set(itens.map(i => i.responsavel).filter(Boolean))].sort();
 
   $("#filtros").innerHTML =
-    lista.map(e => '<button class="chip'+(filtroEmpresa === e.id ? " on" : "")+'" data-empresa="'+e.id+'">'+
-      (e.cor ? '<span class="pt" style="background:'+e.cor+'"></span>' : "")+
+    lista.map(e => '<button class="chip'+(filtroEmpresa === e.id ? " on" : "")+'" data-empresa="'+e.id+'" style="display:inline-flex;align-items:center;gap:6px;">'+
+      (e.logoImg ? '<img src="'+e.logoImg+'" class="logo-empresa-img" alt="'+esc(e.nome)+'">' : (e.cor ? '<span class="pt" style="background:'+e.cor+'"></span>' : ''))+
       esc(e.nome)+'<span class="c">'+conta(e.id)+'</span></button>').join("")+
-    (resp.length ? '<select class="select-resp" id="sel-resp"><option value="todos">Todos os respons\u00e1veis</option>'+
+    (resp.length ? '<select class="select-resp" id="sel-resp"><option value="todos">Todos os responsáveis</option>'+
       resp.map(r => '<option'+(filtroResp === r ? " selected" : "")+'>'+esc(r)+'</option>').join("")+'</select>' : "");
 }
 
@@ -556,8 +588,8 @@ function htmlCard(it){
   return '<div class="card'+(atrasado ? " atrasado" : "")+(feito ? " feito" : "")+
     '" draggable="true" tabindex="0" role="button" data-id="'+it.id+'">'+
     '<div class="card-topo">'+
-      '<span class="selo" style="background:'+tint(emp.cor,.13)+'">'+
-        '<span class="pt" style="width:7px;height:7px;background:'+emp.cor+'"></span>'+
+      '<span class="selo" style="background:'+tint(emp.cor,.13)+';display:inline-flex;align-items:center;gap:5px;">'+
+        (emp.logoImg ? '<img src="'+emp.logoImg+'" class="logo-empresa-img" alt="'+esc(emp.nome)+'">' : '<span class="pt" style="width:7px;height:7px;background:'+emp.cor+'"></span>')+
         '<span class="rot ink" style="font-size:10px">'+esc(emp.nome)+'</span>'+
         (escopo ? '<span class="seta">\u203a</span><span class="rot" style="font-size:10px;color:'+
           tint("#2E1B22",.62)+'">'+esc(escopo)+'</span>' : "")+
@@ -903,9 +935,13 @@ quadro.addEventListener("drop", e => {
    8. PARTIDA
    ============================================================ */
 (async function(){
-  $("#data-hoje").textContent = "Painel de pend\u00eancias \u00b7 " + fmtCurta(hojeISO());
+  $("#data-hoje").textContent = "Painel de pendências · " + fmtCurta(hojeISO());
   $("#marca").innerHTML = EMPRESAS.map(e =>
-    '<span style="color:'+e.cor+'">'+esc(e.nome)+'</span>').join('<span class="sep">/</span>');
+    '<span style="color:'+e.cor+';display:inline-flex;align-items:center;gap:6px;">'+
+      (e.logoImg ? '<img src="'+e.logoImg+'" class="logo-empresa-lg" alt="'+esc(e.nome)+'">' : '')+
+      '<span>'+esc(e.nome)+'</span>'+
+    '</span>'
+  ).join('<span class="sep" style="color:var(--faded);margin:0 2px;">/</span>');
   $("#rodape").textContent = Base.compartilhada
     ? "Base compartilhada \u00b7 todos que abrirem este painel veem e editam os mesmos itens"
     : "Base local \u00b7 os dados ficam neste navegador, nesta m\u00e1quina";
