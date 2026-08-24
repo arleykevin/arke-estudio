@@ -9,6 +9,7 @@
     { "src": "admin.html", "use": "@vercel/static" },
     { "src": "apresentacao.html", "use": "@vercel/static" },
     { "src": "processos.html", "use": "@vercel/static" },
+    { "src": "painel/index.html", "use": "@vercel/static" },
     { "src": "styles.css", "use": "@vercel/static" },
     { "src": "script.js", "use": "@vercel/static" },
     { "src": "blog.js", "use": "@vercel/static" },
@@ -33,6 +34,7 @@
     { "src": "/admin/?", "dest": "/admin.html" },
     { "src": "/apresentacao/?", "dest": "/apresentacao.html" },
     { "src": "/processos/?", "dest": "/processos.html" },
+    { "src": "/painel/?", "dest": "/painel/index.html" },
     { "handle": "filesystem" },
     { "src": "/", "dest": "/index.html" }
   ]

@@ -52,6 +52,10 @@ app.use((req, res, next) => {
     if (req.path === '/processos' || req.path === '/processos.html') {
         return res.sendFile(path.join(__dirname, 'processos.html'));
     }
+    // Rota do painel de pendências
+    if (req.path === '/painel' || req.path === '/painel/' || req.path === '/painel/index.html') {
+        return res.sendFile(path.join(__dirname, 'painel', 'index.html'));
+    }
     // Servir apenas se o arquivo solicitado estiver explicitamente na whitelist
     if (allowedStaticFiles.includes(req.path)) {
         return res.sendFile(path.join(__dirname, req.path), (err) => {
@@ -97,6 +101,7 @@ app.get('/blog/:slug', (req, res) => res.sendFile(path.join(__dirname, 'post.htm
 app.get('/portfolio', (req, res) => res.sendFile(path.join(__dirname, 'portfolio.html')));
 app.get('/apresentacao', (req, res) => res.sendFile(path.join(__dirname, 'apresentacao.html')));
 app.get('/processos', (req, res) => res.sendFile(path.join(__dirname, 'processos.html')));
+app.get('/painel', (req, res) => res.sendFile(path.join(__dirname, 'painel', 'index.html')));
 
 app.listen(PORT, () => {
     console.log(`Servidor rodando em http://localhost:${PORT}`);
