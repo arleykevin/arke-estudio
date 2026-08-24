@@ -56,6 +56,13 @@ app.use((req, res, next) => {
     if (req.path === '/painel' || req.path === '/painel/' || req.path === '/painel/index.html') {
         return res.sendFile(path.join(__dirname, 'painel', 'index.html'));
     }
+    if (req.path.startsWith('/painel/')) {
+        const painelFile = req.path.replace('/painel/', '');
+        const allowedPainelFiles = ['manifest.json', 'sw.js', 'icon-192.png', 'icon-512.png'];
+        if (allowedPainelFiles.includes(painelFile)) {
+            return res.sendFile(path.join(__dirname, 'painel', painelFile));
+        }
+    }
     // Servir apenas se o arquivo solicitado estiver explicitamente na whitelist
     if (allowedStaticFiles.includes(req.path)) {
         return res.sendFile(path.join(__dirname, req.path), (err) => {

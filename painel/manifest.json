@@ -1,0 +1,25 @@
+{
+  "name": "Painel de Pendências · Arke Estúdio",
+  "short_name": "Painel Arke",
+  "description": "Painel de pendências e gestão do Ecossistema Cinthia França",
+  "start_url": "/painel/",
+  "scope": "/painel/",
+  "display": "standalone",
+  "background_color": "#0d090a",
+  "theme_color": "#0d090a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/painel/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/painel/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
